@@ -7,7 +7,7 @@ This is an web application designed to provide information and an interactive ed
 
 ## Key Features
 
-### Comprehensive Country Search
+###  Country Search
 - Detailed country information 
 
 ### Interactive Quiz Game
@@ -31,7 +31,7 @@ This is an web application designed to provide information and an interactive ed
 - Firebas
 - Node.js
 
-### External API Integration
+### External API
 - Country Information: https://dev.me/products/country 
 
 ## Prerequisites
