@@ -1,6 +1,6 @@
 import "../css/home.css"
 
-function HomeView() {
+function HomeView() { // home view
     return (
        <div>
 
