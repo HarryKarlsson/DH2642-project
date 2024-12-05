@@ -12,6 +12,7 @@
         "vite": "^4.5.5"
     },
     "dependencies": {
+        "dotenv": "^16.4.7",
         "firebase": "^9.17.1",
         "vue": "^3.2.47",
         "vue-router": "^4.1.6"
