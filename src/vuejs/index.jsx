@@ -1,4 +1,7 @@
-import {createApp} from "vue";
-function App(){ return <div>hello world</div>; };
-const app= createApp(App);
+import { createApp } from "vue";
+import VueRoot from "../vuejs/VueRoot"; 
+
+
+const app = createApp(VueRoot);
+
 app.mount("#root");

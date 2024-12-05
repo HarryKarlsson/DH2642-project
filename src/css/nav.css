@@ -1,0 +1,47 @@
+
+/* Ändrar färgen när vi vet vilken som vi ska använda*/
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f8f9fa;
+    /* border-bottom: 1px solid #ddd;  Kanske vill ha runt hela?*/
+}
+
+nav h1 {
+    font-size: 24px;
+    color: green;
+    font-family: Georgia, serif;
+}
+
+.menu {
+    display: flex;
+    gap: 15px;
+}
+
+.menu a {
+    text-decoration: none;
+    color: black;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: Arial, sans-serif;
+    transition: background-color 0.2s, color 0.2s; 
+}
+
+.menu a.quiz {
+    background-color: #2c6e49;
+    color: white;
+    font-weight: bold;
+    border: none;
+}
+
+.menu a:hover {
+    background-color: #ddd;
+}
+
+.menu a.quiz:hover {
+    background-color: #1e4b32;
+}
