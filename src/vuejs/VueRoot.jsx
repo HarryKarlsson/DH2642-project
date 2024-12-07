@@ -1,43 +1,46 @@
-import NavbarPresenter from "../vuejs/navbarPresenter";
-import Welcome from "../vuejs/WelcomePresenter";
+import { RouterView, createRouter, createWebHashHistory } from 'vue-router';
+import Welcome from './WelcomePresenter'; 
+import HomePresenter from './HomePresenter';
+import QuizPresenter from './quizPresenter';
+import NavbarPresenter from './navbarPresenter';
 
-
-/*
-function makeRouter(){
+function makeRouter() {
     return createRouter({
         history: createWebHashHistory(),
-        routes: [{
-            path: "/",
-            component: <Welcome/>,
-        },
-        {
-            path: "welcome",
-            component: <Welcome/>,
-        },
-        {
-            path: "practice",
-            component: <HomePresenter/>,
-        },
-        {
-            path: "quiz",
-            component: <quizPresenter/>,
-        },
-    
+        routes: [
+            {
+                path: "/",
+                component: <Welcome />,
+            },
+            {
+                path: "/welcome",
+                component: <Welcome/>,
+            },
 
+            {
+                path: "/practice",
+                component: <PracticePresenter/>, // Här ska ni lägga till practise presenter
+            },
+            {
+                path: "/quiz",
+                component: <QuizPresenter/>, // Här sla ni lägga till quizpresenter
+            }
         ]
-    })
+    });
 }
-*/
+
+export { makeRouter };
+
 
 
 function VueRoot() {
     return (
         <div>
             <NavbarPresenter/>
-            <div><Welcome/></div>
+            <div><RouterView/></div>
 
         </div>
     );
 }
 
-export default VueRoot;
+export {VueRoot};

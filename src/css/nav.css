@@ -10,10 +10,17 @@ nav {
     /* border-bottom: 1px solid #ddd;  Kanske vill ha runt hela?*/
 }
 
-nav h1 {
+.nav-h1 {
     font-size: 24px;
     color: green;
     font-family: Georgia, serif;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+    
+}
+
+.nav-h1:hover{
+    color: #d3d3d3;
 }
 
 .menu {
@@ -29,19 +36,10 @@ nav h1 {
     border-radius: 5px;
     font-family: Arial, sans-serif;
     transition: background-color 0.2s, color 0.2s; 
+
 }
 
-.menu a.quiz {
-    background-color: #2c6e49;
-    color: white;
-    font-weight: bold;
-    border: none;
-}
-
-.menu a:hover {
-    background-color: #ddd;
-}
-
-.menu a.quiz:hover {
-    background-color: #1e4b32;
+.menu a:hover{
+    background-color: #d3d3d3;
+    cursor: pointer;
 }
