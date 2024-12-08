@@ -1,6 +1,6 @@
 import NavbarView from "../views/navbarView";
 
-function NavbarPresenter() {
+function NavbarPresenter() { // navbar
     return <NavbarView />;
 }
 

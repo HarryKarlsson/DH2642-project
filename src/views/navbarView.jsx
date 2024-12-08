@@ -1,5 +1,5 @@
 import "../css/nav.css"
-function NavbarView() {
+function NavbarView() { // navbar
     return (
         <nav>
             <h1>Name that country!</h1> {/* Man vill nog ha denna text som länk till hem från alla sidor*/}

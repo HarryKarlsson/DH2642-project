@@ -1,6 +1,6 @@
 import HomeView from "../views/homeView";
 
-function HomePresenter() {
+function HomePresenter() { // home presenter
     return <HomeView />;
 
 }
