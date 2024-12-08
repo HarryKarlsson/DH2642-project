@@ -3,6 +3,7 @@ import Welcome from './WelcomePresenter';
 import HomePresenter from './HomePresenter';
 import QuizPresenter from './quizPresenter';
 import NavbarPresenter from './navbarPresenter';
+import ProfilePresenter from './profilePresenter';
 
 function makeRouter() {
     return createRouter({
@@ -24,6 +25,11 @@ function makeRouter() {
             {
                 path: "/quiz",
                 component: <QuizPresenter/>, // Här sla ni lägga till quizpresenter
+            }, 
+
+            {
+                path:"/myProfile",
+                component: <ProfilePresenter/>
             }
         ]
     });
