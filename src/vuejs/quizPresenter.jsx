@@ -2,7 +2,7 @@ import { QuizView } from "../views/quizStartView";
 import { QuizPageView } from "../views/quizPageView";
 
 function QuizPresenter(props) {
-    const currentPage = props.model.currentPage; // Current page state from the model
+    // const currentPage = props.model.currentPage; // Current page state from the model
 
     function handleRegionSelectionACB(region){
         props.model.setSelectedRegion(region);
@@ -47,3 +47,5 @@ function QuizPresenter(props) {
         );
     }
 }
+
+export default QuizPresenter;

@@ -4,7 +4,7 @@ function WelcomeView(){
 
     function practiceButtonACB() {
         console.log("Practice button was clicked");
-        window.location.hash = "#/home"; 
+        window.location.hash = "#/practice"; 
     }
 
     function quizButtonACB() {

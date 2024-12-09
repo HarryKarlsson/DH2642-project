@@ -12,7 +12,7 @@ function NavbarView() { // navbar
     }
     function practiceButtonACB() {
         console.log("Practice button was clicked");
-        window.location.hash = "#/home"; 
+        window.location.hash = "#/practice"; 
     }
     function myProfileButtonACB() {
         console.log("My Profile button was clicked");

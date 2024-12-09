@@ -1,9 +1,10 @@
 import { RouterView, createRouter, createWebHashHistory } from 'vue-router';
 import Welcome from './WelcomePresenter'; 
-import HomePresenter from './HomePresenter';
+import PracticePresenter from './practicePresenter';
 import QuizPresenter from './quizPresenter';
 import NavbarPresenter from './navbarPresenter';
 import ProfilePresenter from './profilePresenter';
+
 
 function makeRouter() {
     return createRouter({
