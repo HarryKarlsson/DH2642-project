@@ -1,0 +1,25 @@
+/* General container */
+.profile {
+    width: 90%;
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+}
+
+/* Section titles */
+h1, h2, h3 {
+    color: #4CAF50;
+    text-align: center;
+}
+
+/* Section spacing */
+.profile-info, .profile-stats {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}

@@ -1,7 +1,12 @@
-import { createApp } from "vue";
-import VueRoot from "../vuejs/VueRoot"; 
+import { createApp, reactive } from 'vue';
+import { VueRoot }from './VueRoot';
+import { makeRouter } from './VueRoot';
 
 
-const app = createApp(VueRoot);
 
-app.mount("#root");
+const router = makeRouter();
+
+
+const app = createApp(<VueRoot/>);
+app.use(router); 
+app.mount('#root'); 
