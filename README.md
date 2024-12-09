@@ -80,3 +80,29 @@ npm run dev
 - **Styling and Design**: Apply CSS and styling across the entire application for a cohesive and visually appealing look.  
 - **Responsiveness**: Optimize the application for different screen sizes to ensure a seamless experience on both desktop and mobile devices.  
 
+
+## File Descriptions
+
+### highscoreView + Presenter
+Displays the high score view, showing either the user's personal best scores or a leaderboard of top players. Useful for tracking quiz results and competition.
+
+### navbarView + Presenter
+A navigation bar component with links and buttons for switching between different views, such as Home, Quiz or Profile.
+
+### practiceView + Presenter
+A practice view where users can train by looking up information of countries before attempting the actual quiz.
+
+### profileView + Presenter
+Displays the user's profile information, such as their name, avatar, (statistics).
+
+### quizPageView + Presenter
+The main quiz view where users answer questions and track their progress through the quiz.
+
+### quizStartView + Presenter
+The starting view for quizzes, allowing users to set up their preferences, such as the region the what to do.
+
+### welcomeView + Presenter
+The welcome screen of the application is the first page the user sees. It will include an introduction to the app and a button to get started.
+
+### homeView + Presenter
+Represents the main homepage of the application. Acts as the main point for users, providing navigation to other sections like quizzes, profiles, or high scores.
