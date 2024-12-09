@@ -61,9 +61,16 @@ This is an web application designed to provide information and an interactive ed
    
 
 5. Set up environment variables
-    - Create a `.env` file in the root directory of the project.
 
-   // här kan vi ändra sedan när vi vet mer hur vi ska sätta upp firebase
+-  **Create a `.env` File**:  
+   Create a file named `.env` in the project's root directory.  
+-  **Add the API Key**:  
+   Add the following line to the `.env` file, replacing `<your-api-key>` with your actual API key from https://countryapi.io/dashboard  
+   ```env
+   VITE_COUNTRY_API_KEY=<your-api-key>
+   ```
+-  **Save the File**:  
+   Save the file after making the changes.
 
 ## Running the Application
 
