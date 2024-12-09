@@ -1,10 +1,10 @@
 import { QuizView } from "../views/quizStartView";
 import { QuizPageView } from "../views/quizPageView";
 
-function QuizPresenter(props) {
+function QuizPresenter() {
     // const currentPage = props.model.currentPage; // Current page state from the model
 
-    function handleRegionSelectionACB(region){
+   /* function handleRegionSelectionACB(region){
         props.model.setSelectedRegion(region);
     }
 
@@ -22,19 +22,16 @@ function QuizPresenter(props) {
 
     function handleSubmitACB(textChange) {
         props.model.submitAnswer(textChange)};
-
+*/
     
-    if (currentPage === "start") {
+  //  if (currentPage === "start") 
         return (
             <QuizView
-                onTypeUpdate={handleRegionSelectionACB}     //handle region selection
-                onClickGoBack={handleGoBackACB}             //when clicked go back button this will navigate to homePage
-                onclickContinue={handleContinueACB}         //go to quizPage
-            />
+                />
         );
-    }
-
-    if (currentPage === "quiz") {
+    
+        }
+   /* if (currentPage === "quiz") {
         return (
             <QuizPageView
                 question="In what country is the capital Kuala Lumpur?" //<---- change!
@@ -47,5 +44,6 @@ function QuizPresenter(props) {
         );
     }
 }
+*/
 
 export default QuizPresenter;

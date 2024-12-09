@@ -1,4 +1,4 @@
-export function QuizView(props){
+export function QuizView(){
 
     const dropdown = (myEvent) => {
         props.onTypeUpdate(myEvent.target.value);
@@ -20,7 +20,7 @@ export function QuizView(props){
         <h2 className="title">Choose region </h2>
         <div className="dropdown-section">
           <p>Which region do you want to choose? </p>  {/*Frågan - vilken region vill du välja*/}
-          <select onChange={dropdown}className="dropdown">
+          <select className="dropdown">
             <option value="all">All regions</option>
             <option value="random">Random</option>
             <option value="europe">Europe</option>
@@ -32,8 +32,8 @@ export function QuizView(props){
           </select>
         </div>
         <div className="buttons">
-          <button onClick={handleGoBack} className="back-btn"> Back </button>
-          <button onClick={handleContinueQuiz} className="continue-btn"> Continue </button>
+          <button  className="back-btn"> Back </button>
+          <button  className="continue-btn"> Continue </button>
         </div>
       </main>
     </div>
