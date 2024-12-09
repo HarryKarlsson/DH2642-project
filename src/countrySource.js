@@ -21,7 +21,6 @@ export function FetchCountryData() {
 }
 
 export function FetchCountryDataByName(name) {
-    
     name = name.toLowerCase();
     const url = `${API_URL}/name/${name}`;
     return fetch(url, {
