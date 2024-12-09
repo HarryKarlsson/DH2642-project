@@ -6,7 +6,7 @@ export function QuizView(props){
     //const [selectedRegion, setSelectedRegion] = useState("all");
   
     const handleGoBack = () => {
-      // Button for navigating back
+      // Button for navigating back to mainpage
       props.onClickGoBack();
     };
   
@@ -19,7 +19,7 @@ export function QuizView(props){
       <main>
         <h2 className="title">Choose region </h2>
         <div className="dropdown-section">
-          <p>Which region do you want to choose?</p>  {/*Frågan - vilken region vill du välja*/}
+          <p>Which region do you want to choose? </p>  {/*Frågan - vilken region vill du välja*/}
           <select onChange={dropdown}className="dropdown">
             <option value="all">All regions</option>
             <option value="random">Random</option>
@@ -32,12 +32,8 @@ export function QuizView(props){
           </select>
         </div>
         <div className="buttons">
-          <button onClick={handleGoBack} className="back-btn">
-            Back
-          </button>
-          <button onClick={handleContinueQuiz} className="continue-btn">
-            Continue
-          </button>
+          <button onClick={handleGoBack} className="back-btn"> Back </button>
+          <button onClick={handleContinueQuiz} className="continue-btn"> Continue </button>
         </div>
       </main>
     </div>

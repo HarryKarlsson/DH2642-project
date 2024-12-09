@@ -18,13 +18,12 @@ export function QuizPageView(props){
     };
 
     return (<main>
-                <p>In what country is the capital Kuala Lumpur?</p> {/* Example question, need to connect to api */}
                 <p>{props.question}</p>  {/* The question, passed from props */}
                 <div className="answer-input">
-                    <label htmlFor="answer">Type answer:</label>
+                    <label htmlFor="User answer">Type answer:</label>
                     <input
                         type="text"
-                        id="answer"
+                        id="User answer"
                         value={props.text}
                         onChange={textChange}
                         placeholder="Your answer: "
@@ -35,7 +34,7 @@ export function QuizPageView(props){
                     <button className="hint-btn" onClick={handleHint}>Hint?</button>
                     <button className="submit-btn" onClick={handleSubmit}>Submit</button>
                 </div>
-            {/*implement the progress bar in the bottom to let the user know quiz status */}
+            {/*TODO implement the progress bar in the bottom to let the user know quiz status */}
             </main>
     )
 }
