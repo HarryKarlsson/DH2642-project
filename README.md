@@ -71,3 +71,12 @@ This is an web application designed to provide information and an interactive ed
 npm run dev
 ```
 
+## What We Still Plan to Do
+ While the foundation of the application is complete, there are several features we still plan to implement and improve:
+
+- **Quiz Implementation**: Finalize the functionality of the interactive quiz to make it fully operational and engaging.  
+- **Profile View**: Enhance the profile view to ensure it is complete and user-friendly.  
+- **Highscore View**: Create a dedicated view to display high scores and encourage competition among users.  
+- **Styling and Design**: Apply CSS and styling across the entire application for a cohesive and visually appealing look.  
+- **Responsiveness**: Optimize the application for different screen sizes to ensure a seamless experience on both desktop and mobile devices.  
+
