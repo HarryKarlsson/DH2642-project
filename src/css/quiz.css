@@ -119,3 +119,15 @@
     padding: 10px 20px;
     cursor: pointer;
 }
+
+.submit-btn:hover {
+    background-color: #b2cba2;
+}
+
+.not-sure-btn:hover {
+    background-color: #d4a8a8; 
+}
+
+.hint-btn:hover {
+    background-color: #d3d3d3;
+}
