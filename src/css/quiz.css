@@ -1,0 +1,28 @@
+.title {
+    font-size: 32px
+}
+
+/* return to quiz/practice page */
+.back-btn {
+    text-align: left;
+    color: Black;
+    font-size: 18px; 
+}
+
+/* Continue button to start the quiz */
+.continue-btn {
+    
+    text-align: right;
+    color: black;
+    font-size: 18px;
+}
+
+
+.back-btn:hover {
+    background-color: #d3d3d3;
+}
+
+.continue-btn:hover {
+    background-color: #d3d3d3; 
+}
+

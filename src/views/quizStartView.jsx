@@ -1,3 +1,5 @@
+import "../css/quiz.css";
+
 export function QuizView(){
 
     const dropdown = (myEvent) => {
