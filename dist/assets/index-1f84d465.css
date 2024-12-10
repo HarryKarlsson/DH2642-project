@@ -1,0 +1,234 @@
+.main-title {
+    text-align: center;
+    font-size: 100px;
+    margin-bottom: 200px;
+    background-color: #f0f0f0;
+    padding: 10px;
+    text-shadow: 2px 2px 5px #c0c0c0;
+}
+
+.globe {
+    font-size: 100px;
+}
+
+.button-container {
+    display: flex;
+    flex-direction: column; 
+    gap: 50px; 
+    align-items: center; 
+}
+
+.practise-btn, .quiz-btn {
+    
+    margin-top: 100px;
+    min-width: 300px; 
+    min-height: 60px; 
+    padding: 10px 20px;
+    font-size: 24px; 
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    background-color: #f0f0f0; 
+    text-shadow: 1px 1px 2px #c0c0c0; 
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.practise-btn:hover, .quiz-btn:hover {
+    background-color: #d3d3d3; 
+}
+.header {
+    margin-top: 200px;
+    margin-bottom: 30px;
+}
+
+.main-title-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.app-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+
+.main-title {
+    font-size: 2.5rem;
+    margin: 0;
+}
+
+.globe {
+    font-size: 1.2em;
+    vertical-align: middle;
+}
+
+.control-buttons button {
+    padding: 8px 16px;
+    margin-left: 10px;
+    cursor: pointer;
+    text-decoration: none;
+    color: black;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: Arial, sans-serif;
+    transition: background-color 0.2s, color 0.2s; 
+}
+
+.btn-default {
+    background-color: #2c614e !important;
+    color: white;
+}
+
+.btn-default:hover {
+    background-color: #3e8e77 !important;
+    color: white;
+}
+
+.search-input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin: 20px 0;
+}
+
+.countries-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.country-box {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    border: 1px solid #eee;
+}
+
+.country-flag {
+    width: 50%;
+    height: auto;
+}
+
+.country-details p {
+    margin: 5px 0;
+    font-size: 1rem;
+}
+
+.section-title {
+    font-style: italic;
+    margin: 20px 0;
+}
+
+.search-section {
+    position: relative;
+    margin-bottom: 20px;
+    max-width: 400px;
+}
+
+.search-container {
+    max-width: 400px;
+    margin-bottom: 20px;
+}
+/*this should be right on w*/ 
+.search-button {
+    padding: 8px 20px;
+    background-color: #ccc;
+    color: black;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    
+}
+
+.search-button:hover:not(.disabled) {
+    background-color: #2c6e49;
+}
+
+.search-button.disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* Ändrar färgen när vi vet vilken som vi ska använda*/
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f8f9fa;
+    /* border-bottom: 1px solid #ddd;  Kanske vill ha runt hela?*/
+}
+
+.nav-h1 {
+    font-size: 24px;
+    color: green;
+    font-family: Georgia, serif;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+    
+}
+
+.nav-h1:hover{
+    color: #d3d3d3;
+}
+
+.menu {
+    display: flex;
+    gap: 15px;
+}
+
+.menu a {
+    text-decoration: none;
+    color: black;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: Arial, sans-serif;
+    transition: background-color 0.2s, color 0.2s; 
+
+}
+
+.menu a:hover{
+    background-color: #d3d3d3;
+    cursor: pointer;
+}
+/* General container */
+.profile {
+    width: 90%;
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+}
+
+/* Section titles */
+h1, h2, h3 {
+    color: #4CAF50;
+    text-align: center;
+}
+
+/* Section spacing */
+.profile-info, .profile-stats {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
