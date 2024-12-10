@@ -5,7 +5,6 @@ export function QuizView(){
     const dropdown = (myEvent) => {
         props.onTypeUpdate(myEvent.target.value);
     }
-    //const [selectedRegion, setSelectedRegion] = useState("all");
   
     const handleGoBackACB = () => {
       // Button for navigating back to mainpage
@@ -21,7 +20,7 @@ export function QuizView(){
       <main>
         <h2 className="title">Choose region <span className="globe">🌍</span></h2>
           <p className="region-qst">Which region do you want to choose? </p>  {/*Frågan - vilken region vill du välja*/}
-          <select className="dropdown">
+          <select className="dropdown" onChange={dropdown}>
             <option value="all">All regions</option>
             <option value="random">Random</option>
             <option value="europe">Europe</option>
