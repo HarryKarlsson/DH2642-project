@@ -17,7 +17,9 @@ export function QuizPageView(props){
         props.onSumbit(props.text);
     };
 
-    return (<main>
+    return (
+        <main>
+          <h2 className="title">Quiz question 1 <span className="globe">🌍</span></h2>
                 <p>{props.question}</p>  {/* The question, passed from props */}
                 <div className="answer-input">
                     <label htmlFor="User answer">Type answer:</label>
@@ -26,7 +28,6 @@ export function QuizPageView(props){
                         id="User answer"
                         value={props.text}
                         onChange={textChange}
-                        placeholder="Your answer: "
                     />
                 </div>
                 <div className="buttons">

@@ -67,3 +67,55 @@
     background-color: #d3d3d3; 
 }
 
+
+.answer-input {
+    display: block;
+    margin: 0 auto;
+    font-size: 16px;
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 50px;
+}
+
+.not-sure-btn {
+    background-color: EEBEBE;
+    border: 0px;
+    border-radius: 10px;
+    color: Black;
+    font-size: 18px;
+    text-align: left;
+    padding: 10px 20px;
+}
+
+.submit-btn {
+    padding: 8px 20px;
+    border-radius: 10px;
+    font-size: 18px;
+    background-color: #D1EEBE;
+    color: black;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.hint-btn {
+    border: 0px;
+    border-radius: 10px;
+    color: black;
+    font-size: 18px;
+    text-align: right;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.answer-input {
+    border: 0px;
+    margin: 0 auto;
+    margin-left: 500px;
+    border-radius: 10px;
+    color: black;
+    font-size: 18px;
+    font-family: Arial;
+    padding: 10px 20px;
+    cursor: pointer;
+}

@@ -1,5 +1,4 @@
 import "../css/quiz.css";
-
 export function QuizView(){
 
     const dropdown = (myEvent) => {
@@ -8,12 +7,12 @@ export function QuizView(){
   
     const handleGoBackACB = () => {
       // Button for navigating back to mainpage
-      props.onClickGoBack();
+      window.location.hash = "#/";
     };
   
     const handleContinueQuizACB = () => {
       // Button for continue the quiz, after selecting region
-      props.onclickContinue();
+      window.location.hash = "#/quiz/page";
     };
   
     return ( <div>
