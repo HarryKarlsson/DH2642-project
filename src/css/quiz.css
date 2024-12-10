@@ -2,19 +2,58 @@
     font-size: 32px
 }
 
+
+/* Styling for the buttons container */
+.buttons {
+    display: flex; /* Use flexbox for alignment */
+    justify-content: space-evenly; /* Space between the back and continue button */
+    align-items: center;
+    margin-top: 40px; /* Add some spacing from the dropdown */
+}
+
+.globe {
+    font-size: 1.2em;
+    vertical-align: middle;
+}
+
+.region-qst {
+    font-family: Arial;
+    
+    text-align: center;
+    margin: 0 auto; 
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 50px;
+}
+
+.dropdown {
+    display: block;
+    margin: 0 auto;
+    font-size: 16px;
+    border-radius: 5px;
+    padding: 4px;
+    margin-top: 50px;
+}
+
 /* return to quiz/practice page */
 .back-btn {
-    text-align: left;
+    border: 0px;
+    border-radius: 10px;
     color: Black;
-    font-size: 18px; 
+    font-size: 18px;
+    text-align: left;
+    padding: 10px 20px;
 }
 
 /* Continue button to start the quiz */
 .continue-btn {
-    
-    text-align: right;
+    border: 0px;
+    border-radius: 10px;
     color: black;
     font-size: 18px;
+    text-align: right;
+    padding: 10px 20px;
+    cursor: pointer;
 }
 
 

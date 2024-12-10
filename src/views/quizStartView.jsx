@@ -7,21 +7,20 @@ export function QuizView(){
     }
     //const [selectedRegion, setSelectedRegion] = useState("all");
   
-    const handleGoBack = () => {
+    const handleGoBackACB = () => {
       // Button for navigating back to mainpage
       props.onClickGoBack();
     };
   
-    const handleContinueQuiz = () => {
+    const handleContinueQuizACB = () => {
       // Button for continue the quiz, after selecting region
       props.onclickContinue();
     };
   
     return ( <div>
       <main>
-        <h2 className="title">Choose region </h2>
-        <div className="dropdown-section">
-          <p>Which region do you want to choose? </p>  {/*Frågan - vilken region vill du välja*/}
+        <h2 className="title">Choose region <span className="globe">🌍</span></h2>
+          <p className="region-qst">Which region do you want to choose? </p>  {/*Frågan - vilken region vill du välja*/}
           <select className="dropdown">
             <option value="all">All regions</option>
             <option value="random">Random</option>
@@ -32,10 +31,9 @@ export function QuizView(){
             <option value="africa">Africa</option>
             <option value="oceania">Oceania</option>
           </select>
-        </div>
         <div className="buttons">
-          <button  className="back-btn"> Back </button>
-          <button  className="continue-btn"> Continue </button>
+          <button  className="back-btn" onClick={handleGoBackACB}> Back </button>
+          <button  className="continue-btn" onClick={handleContinueQuizACB}> Continue </button>
         </div>
       </main>
     </div>
