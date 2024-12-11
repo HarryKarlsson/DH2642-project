@@ -1,0 +1,134 @@
+.title {
+    justify-content: space-between;
+    font-size: 2.5rem;
+    margin: 0;
+}
+
+
+/* Styling for the buttons container */
+.buttons {
+    display: flex; /* Use flexbox for alignment */
+    justify-content: center; /* Space between the back and continue button */
+    align-items: evenly;
+    gap: 40px;
+    margin-top: 80px; /* Add some spacing from the dropdown */
+}
+
+.globe {
+    font-size: 1.2em;
+    vertical-align: middle;
+}
+
+.region-qst {
+    font-family: Arial;
+
+    text-align: center;
+    margin: 0 auto; 
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 50px;
+}
+
+.dropdown {
+    display: block;
+    margin: 0 auto;
+    font-size: 16px;
+    border-radius: 5px;
+    padding: 4px;
+    margin-top: 50px;
+}
+
+/* return to quiz/practice page */
+.back-btn {
+    border: 0px;
+    border-radius: 10px;
+    color: Black;
+    font-size: 18px;
+    text-align: left;
+    padding: 10px 20px;
+}
+
+/* Continue button to start the quiz */
+.continue-btn {
+    border: 0px;
+    border-radius: 10px;
+    color: black;
+    font-size: 18px;
+    text-align: right;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+
+.back-btn:hover {
+    background-color: #d3d3d3;
+}
+
+.continue-btn:hover {
+    background-color: #d3d3d3; 
+}
+
+
+.answer-input {
+    display: block;
+    margin: 0 auto;
+    font-size: 16px;
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 50px;
+}
+
+.not-sure-btn {
+    background-color: EEBEBE;
+    border: 0px;
+    border-radius: 10px;
+    color: Black;
+    font-size: 18px;
+    text-align: left;
+    padding: 10px 20px;
+}
+
+.submit-btn {
+    padding: 8px 20px;
+    border-radius: 10px;
+    font-size: 18px;
+    background-color: #D1EEBE;
+    color: black;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.hint-btn {
+    border: 0px;
+    border-radius: 10px;
+    color: black;
+    font-size: 18px;
+    text-align: right;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.answer-input {
+    border: 0px;
+    margin: 0 auto;
+    margin-left: 500px;
+    border-radius: 10px;
+    color: black;
+    font-size: 18px;
+    font-family: Arial;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.submit-btn:hover {
+    background-color: #b2cba2;
+}
+
+.not-sure-btn:hover {
+    background-color: #d4a8a8; 
+}
+
+.hint-btn:hover {
+    background-color: #d3d3d3;
+}

@@ -4,6 +4,7 @@ import PracticePresenter from './practicePresenter';
 import QuizPresenter from './quizPresenter';
 import NavbarPresenter from './navbarPresenter';
 import ProfilePresenter from './profilePresenter';
+import QuizPagePresenter from './quizPagePresenter';
 
 
 function makeRouter() {
@@ -27,8 +28,11 @@ function makeRouter() {
                 path: "/quiz",
                 component: <QuizPresenter/>, // Här sla ni lägga till quizpresenter
             }, 
-
-            {
+            {   
+                path: "/quiz/page", 
+                component: <QuizPagePresenter/> 
+            },
+            {   
                 path:"/myProfile",
                 component: <ProfilePresenter/>
             }
