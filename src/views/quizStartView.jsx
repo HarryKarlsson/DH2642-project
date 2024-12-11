@@ -1,18 +1,18 @@
 import "../css/quiz.css";
 export function QuizView(){
 
-    const dropdown = (myEvent) => {
+    function dropdown(myEvent) {
         props.onTypeUpdate(myEvent.target.value);
     }
   
-    const handleGoBackACB = () => {
-      // Button for navigating back to mainpage
-      window.location.hash = "#/";
+    function handleGoBackACB() {
+        // Button for navigating back to mainpage
+        window.location.hash = "#/";
     };
   
-    const handleContinueQuizACB = () => {
+    function handleContinueQuizACB() {
       // Button for continue the quiz, after selecting region
-      window.location.hash = "#/quiz/page";
+        window.location.hash = "#/quiz/page";
     };
   
     return ( <div>

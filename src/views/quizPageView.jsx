@@ -1,19 +1,19 @@
 // Quiz page - where the quiz has started
 
 export function QuizPageView(props){
-    const textChange = (event) => {
+    function textChange(event) {
         props.onTextUpdate(event.target.value);
     };
 
-    const handleNotSure = () => {
+    function handleNotSure() {
         props.onNotSure();
     }
 
-    const handleHint = () => {
+    function handleHint() {
         props.onHint();
     };
 
-    const handleSubmit = () => {
+    function handleSubmit() {
         props.onSumbit(props.text);
     };
 
