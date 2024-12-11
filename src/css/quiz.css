@@ -8,9 +8,10 @@
 /* Styling for the buttons container */
 .buttons {
     display: flex; /* Use flexbox for alignment */
-    justify-content: space-evenly; /* Space between the back and continue button */
-    align-items: center;
-    margin-top: 40px; /* Add some spacing from the dropdown */
+    justify-content: center; /* Space between the back and continue button */
+    align-items: evenly;
+    gap: 40px;
+    margin-top: 80px; /* Add some spacing from the dropdown */
 }
 
 .globe {
