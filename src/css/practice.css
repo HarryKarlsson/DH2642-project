@@ -137,3 +137,23 @@
     color: #666;
 }
 
+
+.search-type-dropdown {
+    padding: 8px 12px;
+    margin-right: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: white;
+    cursor: pointer;
+}
+
+.search-container {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    max-width: 600px;
+}
+
+.search-input {
+    flex: 1;
+}

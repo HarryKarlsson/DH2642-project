@@ -84,4 +84,26 @@ export function FetchCountryDataBylaguage(language) {
     .catch((error) => {
         console.error('Error:', error);
     });
+} 
+
+export function FetchCountryDataByRegion(region) {
+    // ignore capital letters make it lowercase
+    region = region.toLowerCase();
+    const url = `${API_URL}/region/${region}`;
+    return fetch(url, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${API_KEY}`
+        }
+    })
+    .then((response) => {
+        return response.json();
+    })
+    .then((data) => {
+        console.log('Data received:', data);
+        return data
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
 }   

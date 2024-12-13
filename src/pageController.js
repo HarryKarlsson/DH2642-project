@@ -1,6 +1,6 @@
 // pageController.js
 import countryModel from '/src/countryModel';
-import { FetchCountryData, FetchCountryDataByName } from '/src/countrySource';
+import { FetchCountryData, FetchCountryDataByName, FetchCountryDataByRegion, FetchCountryDataBycapital, FetchCountryDataBylaguage } from '/src/countrySource';
 
 // Pagination helpers
 export const getPaginatedCountries = (countryData, currentPage, itemsPerPage) => {
@@ -39,12 +39,43 @@ export const handleSearchQuery = (event, viewState) => {
 };
 
 export const handleSearch = async (viewState) => {
+
     if (!viewState.searchQuery) return;
+    let data;
     try {
-        const data = await FetchCountryDataByName(viewState.searchQuery);
-        countryModel.setCountryData(data);
-        Object.assign(viewState.$data, countryModel.data);
-    } catch (error) {console.error('Error:', error);}
+
+        switch (viewState.searchType) {
+            case 'name':
+                data = await FetchCountryDataByName(viewState.searchQuery);
+                break;
+            case 'capital':
+                data = await FetchCountryDataBycapital(viewState.searchQuery);
+                break;
+            case 'language':
+                data = await FetchCountryDataBylaguage(viewState.searchQuery);
+                break;
+            case 'region':
+                data = await FetchCountryDataByRegion(viewState.searchQuery);
+                break;
+            default:
+                data = await FetchCountryDataByName(viewState.searchQuery);
+        }
+
+        // Handle empty results
+        if (!data || Object.keys(data).length === 0) {
+            viewState.loading = false;
+            // You might want to add an error state to your model/view to handle this
+            console.log('No results found');
+            return;
+        }
+    countryModel.setCountryData(data);
+    Object.assign(viewState.$data, countryModel.data);
+    } catch (error) {
+        console.error('Error:', error);
+        // You might want to add an error state to your model/view to handle this
+    } finally {
+        viewState.loading = false;
+    }
 };
 
 // Data manipulation handlers

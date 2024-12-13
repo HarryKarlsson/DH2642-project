@@ -57,6 +57,7 @@ const PracticeView = {
     },
 
     render() {
+
         const paginatedCountries = getPaginatedCountries(
             this.countryData, 
             this.currentPage, 
@@ -84,9 +85,18 @@ const PracticeView = {
                     </div>
                 </div>
                 <div className="search-section">
+
+                    <div className="search-container">
+                        <select value={this.searchType} onChange={(e) => this.searchType = e.target.value} className="search-type-dropdown">
+                            <option value="name">Name</option>
+                            <option value="capital">Capital</option>
+                            <option value="region">Region</option>
+                            <option value="language">Language</option>
+                        </select>
+                    </div>
                     <input
                         type="text"
-                        placeholder="Search eg. by region, country, capital..."
+                        placeholder={`Search by ${this.searchType}...`}
                         className="search-input"
                         value={this.searchQuery}
                         onInput={(e) => handleSearchQuery(e, this)}

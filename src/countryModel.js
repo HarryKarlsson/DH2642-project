@@ -9,6 +9,7 @@ const countryModel = {
         currentPage: 0,
         itemsPerPage: 5,
         currentCountryId: null,
+        searchType: 'name'
     },
 
 
