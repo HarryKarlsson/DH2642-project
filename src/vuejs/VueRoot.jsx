@@ -5,6 +5,7 @@ import QuizPresenter from './quizPresenter';
 import NavbarPresenter from './navbarPresenter';
 import ProfilePresenter from './profilePresenter';
 import QuizPagePresenter from './quizPagePresenter';
+import ProfileResultPresenter from './profileResultPresenter'; 
 
 
 function makeRouter() {
@@ -17,26 +18,29 @@ function makeRouter() {
             },
             {
                 path: "/welcome",
-                component: <Welcome/>,
+                component: <Welcome />,
             },
-
             {
                 path: "/practice",
-                component: <PracticePresenter/>, // Här ska ni lägga till practise presenter
+                component: <PracticePresenter />,
             },
             {
                 path: "/quiz",
-                component: <QuizPresenter/>, // Här sla ni lägga till quizpresenter
-            }, 
-            {   
-                path: "/quiz/page", 
-                component: <QuizPagePresenter/> 
+                component: <QuizPresenter />,
             },
-            {   
-                path:"/myProfile",
-                component: <ProfilePresenter/>
-            }
-        ]
+            {
+                path: "/quiz/page",
+                component: <QuizPagePresenter />,
+            },
+            {
+                path: "/myProfile",
+                component: <ProfilePresenter />,
+            },
+            {
+                path: "/pr",
+                component: <ProfileResultPresenter />, 
+            },
+        ],
     });
 }
 
