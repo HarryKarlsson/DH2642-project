@@ -1,16 +1,22 @@
-import { getDatabase, ref, set } from "firebase/database";
+import { getDatabase, ref, set, get } from "firebase/database";
 import ProfileView from '../views/profileView';
 
+
+//Fixa console.log sen så att dem blir på engelska 
 function ProfilePresenter() {
     async function handleButtonClick() {
         const randomNumber = Math.floor(Math.random() * 10) + 1;
+        const db = getDatabase();
+        const modelRef = ref(db, "model/randomNumber");
 
-        try {
-            const db = getDatabase();
-            await set(ref(db, "model/randomNumber"), randomNumber);
+        const snapshot = await get(modelRef);
+        const currentNumber = snapshot.exists() ? snapshot.val() : null;
+
+        if (currentNumber === null || randomNumber > currentNumber) {
+            await set(modelRef, randomNumber);
             console.log("Nummer sparat till Firebase:", randomNumber);
-        } catch (error) {
-            console.error("Fel vid sparning till Firebase:", error);
+        } else {
+            console.log("Nummer sparades inte, eftersom det var mindre än eller lika med det befintliga:", currentNumber);
         }
     }
 
