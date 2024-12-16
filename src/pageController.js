@@ -71,26 +71,24 @@ export const handleSearch = async (viewState) => {
                 data = await FetchCountryDataByName(viewState.searchQuery);
         }
        
-        if (handleError(data, viewState)) {
+        if (handleError(data, viewState) || !data || Object.keys(data).length === 0) {
+            countryModel.setCountryData({}); 
+            Object.assign(viewState.$data, countryModel.data);
+           // viewState.currentPage = countryModel.data.currentPage;
+            countryModel.setSearchType('name');
+            countryModel.setSearchQuery('');
+
+            viewState.loading = false; 
             return;
         }
-
-        if (!data || Object.keys(data).length === 0) {
-            viewState.searchError = "Make sure the type matches your search or the result was not found! Try again!";
-            return;
-        }
-
 
         countryModel.setCountryData(data);
         Object.assign(viewState.$data, countryModel.data);
-        viewState.searchQuery = '';
-        viewState.searchType = 'name';
+        countryModel.setSearchType('name');
         countryModel.setSearchQuery('');
     
     } catch (error) {
-        
         console.error('Error:', error);
-        viewState.searchError = "Make sure the type matches your search or the result was not found! Try again!";
     } finally {
         viewState.loading = false;
     }
@@ -98,6 +96,8 @@ export const handleSearch = async (viewState) => {
 
 // Data manipulation handlers
 export const sortCountriesAZ = (viewState) => {
+    // reset data first if no data
+    
     const countries = Object.values(viewState.countryData)
         .sort((a, b) => a.name.localeCompare(b.name));
     const sortedCountries = {};

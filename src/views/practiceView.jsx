@@ -17,7 +17,6 @@ import {
     DialogDescription,
     DialogClose
 } from 'radix-vue';
-
 // UI Components
 const CountryCard = ({country, index}) => (
     
@@ -139,6 +138,7 @@ const PracticeView = {
                         </button>
                         <button 
                             className="btn-az"
+                            disabled={!this.countryData || Object.values(this.countryData).length <= 1}
                             onClick={() => sortCountriesAZ(this)}
                         >
                             A-Z
@@ -173,6 +173,7 @@ const PracticeView = {
                     {this.searchError && (
                     <div className="search-error-message">
                         {this.searchError}
+                        
                     </div>
                     )}
                 </div>
@@ -194,7 +195,9 @@ const PracticeView = {
                             ))
                         ) : (
                             !this.loading && !this.searchError && (
-                                <div className="no-results">No countries found.</div>
+                                <div className="no-results">
+                                    Your search for "{this.searchQuery}" may not match "{this.searchType}" or the result was not found! Try again!
+                                    </div>
                             )
                         )}
                         </div>
