@@ -1,19 +1,8 @@
-import "../css/profile.css";
-
-function ProfileView() {
+function ProfileView({ handleButtonClick }) {
     return (
-        <div className="profile">
-            <h1>My Profile</h1>
-            <div className="profile-info">
-                <h2>Player Name</h2>
-                <p>More info</p>
-            </div>
-            <div className="profile-stats">
-                <h3>Stats</h3>
-                <p>Wins: 120</p>
-                <p>Losses: 45</p>
-                <p>Best time</p>
-            </div>
+        <div>
+            <h1>Profil</h1>
+            <button onClick={handleButtonClick}>Generera slumpmässigt nummer</button>
         </div>
     );
 }
