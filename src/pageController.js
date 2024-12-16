@@ -38,10 +38,20 @@ export const handleSearchQuery = (event, viewState) => {
     countryModel.setCurrentPage(0);
 };
 
+const handleError = (data, viewState) => {
+    if (data.error) {
+        viewState.searchError = "Make sure the type matches your search or the result was not found! Try again!";
+        return true;
+    }
+    return false;
+};
 export const handleSearch = async (viewState) => {
 
     if (!viewState.searchQuery) return;
-    let data;
+
+    viewState.loading = true;
+    viewState.searchError = '';
+    let data = null;
     try {
 
         switch (viewState.searchType) {
@@ -60,19 +70,27 @@ export const handleSearch = async (viewState) => {
             default:
                 data = await FetchCountryDataByName(viewState.searchQuery);
         }
-
-        // Handle empty results
-        if (!data || Object.keys(data).length === 0) {
-            viewState.loading = false;
-            // You might want to add an error state to your model/view to handle this
-            console.log('No results found');
+       
+        if (handleError(data, viewState)) {
             return;
         }
-    countryModel.setCountryData(data);
-    Object.assign(viewState.$data, countryModel.data);
+
+        if (!data || Object.keys(data).length === 0) {
+            viewState.searchError = "Make sure the type matches your search or the result was not found! Try again!";
+            return;
+        }
+
+
+        countryModel.setCountryData(data);
+        Object.assign(viewState.$data, countryModel.data);
+        viewState.searchQuery = '';
+        viewState.searchType = 'name';
+        countryModel.setSearchQuery('');
+    
     } catch (error) {
+        
         console.error('Error:', error);
-        // You might want to add an error state to your model/view to handle this
+        viewState.searchError = "Make sure the type matches your search or the result was not found! Try again!";
     } finally {
         viewState.loading = false;
     }

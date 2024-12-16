@@ -9,7 +9,12 @@ const countryModel = {
         currentPage: 0,
         itemsPerPage: 5,
         currentCountryId: null,
-        searchType: 'name'
+        searchType: 'name',
+        searchError : ""
+    },
+
+    setSearchType(type) {
+        this.data.searchType = type;
     },
 
 
@@ -31,6 +36,10 @@ const countryModel = {
         if (id === this.data.currentCountryId) return;
         if(!id) this.data.currentCountryId = null;
         this.data.currentCountryId = id;
+    },
+
+    setErrorMessage(message) {
+        this.data.searchError = message;
     },
 
     

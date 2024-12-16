@@ -157,3 +157,198 @@
 .search-input {
     flex: 1;
 }
+
+
+.dialog-overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    inset: 0;
+}
+
+.dialog-content {
+    background-color: white;
+    border-radius: 8px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 800px;
+    width: 90%;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.dialog-header {
+    padding: 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.dialog-flag {
+    width: 150px;
+    height: auto;
+    border: 1px solid #eee;
+}
+
+.dialog-title-section {
+    flex: 1;
+}
+
+.dialog-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.dialog-description {
+    color: #666;
+    margin-top: 8px;
+}
+
+.dialog-body {
+    padding: 20px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+}
+
+.detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.detail-item strong {
+    color: #666;
+    font-size: 0.9em;
+}
+
+.dialog-footer {
+    padding: 20px;
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn-details {
+    margin-top: 10px;
+    padding: 8px 16px;
+    background-color: #2c6e49;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-details:hover {
+    background-color: #1e4b32;
+}
+
+.btn-close {
+    padding: 8px 16px;
+    background-color: #eee;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-close:hover {
+    background-color: #ddd;
+}
+
+.flag-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+
+
+
+
+
+
+
+
+
+.country-box {
+    display: flex;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    border: 1px solid #eee;
+}
+
+.card-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.flag-and-details {
+    display: flex;
+    gap: 20px;
+}
+
+.country-flag {
+    width: 96px;
+    height: 72px;
+    object-fit: cover;
+}
+
+.view-details-btn {
+    padding: 6px 12px;
+    font-size: 14px;
+    background-color: #2c6e49;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    height: fit-content;
+}
+
+.view-details-btn:hover {
+    background-color: #1e4b32;
+}
+
+.country-details {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.country-details p {
+    margin: 0;
+}
+
+.no-results {
+    text-align: center;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    margin: 20px 0;
+}
+
+.search-error-message {
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color: #fff3cd;
+    border: 1px solid #ffeeba;
+    border-radius: 4px;
+    color: #856404;
+    text-align: center;
+    font-size: 14px;
+}
