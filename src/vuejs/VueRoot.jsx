@@ -1,11 +1,15 @@
 import { RouterView, createRouter, createWebHashHistory } from 'vue-router';
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../authService"; // Firebase auth object
+import { ref } from "vue";
+import LogInPresenter from './logInPresenter';
 import Welcome from './WelcomePresenter'; 
 import PracticePresenter from './practicePresenter';
 import QuizPresenter from './quizPresenter';
 import NavbarPresenter from './navbarPresenter';
 import ProfilePresenter from './profilePresenter';
 import QuizPagePresenter from './quizPagePresenter';
-import ProfileResultPresenter from './profileResultPresenter'; 
+import firebase from 'firebase/compat/app';
 
 
 function makeRouter() {
@@ -14,33 +18,32 @@ function makeRouter() {
         routes: [
             {
                 path: "/",
-                component: <Welcome />,
+                component: <LogInPresenter/>,
+            },
+            {   path: "/login", 
+                component: <LogInPresenter/>
             },
             {
                 path: "/welcome",
-                component: <Welcome />,
+                component: <Welcome/>,
             },
             {
                 path: "/practice",
-                component: <PracticePresenter />,
+                component: <PracticePresenter/>, // Här ska ni lägga till practise presenter
             },
             {
                 path: "/quiz",
-                component: <QuizPresenter />,
+                component: <QuizPresenter/>, // Här sla ni lägga till quizpresenter
+            }, 
+            {   
+                path: "/quiz/page", 
+                component: <QuizPagePresenter/> 
             },
-            {
-                path: "/quiz/page",
-                component: <QuizPagePresenter />,
-            },
-            {
-                path: "/myProfile",
-                component: <ProfilePresenter />,
-            },
-            {
-                path: "/pr",
-                component: <ProfileResultPresenter />, 
-            },
-        ],
+            {   
+                path:"/myProfile",
+                component: <ProfilePresenter/>
+            }
+        ]
     });
 }
 
@@ -49,11 +52,25 @@ export { makeRouter };
 
 
 function VueRoot() {
+
+    const user = ref(null);
+    onAuthStateChanged( auth, (firebaseUser) => {
+        if (firebaseUser) {
+            console.log("User logged in: ", firebaseUser.uid);
+            user.value = firebaseUser;
+        }
+        if (!firebaseUser) {
+            console.log("User not logged in");
+            user.value = null;
+        }
+
+})
     return (
         <div>
-            <NavbarPresenter/>
-            <div><RouterView/></div>
-
+            {user.value && <NavbarPresenter />}
+            <div>
+                {user.value ? <RouterView /> : <LogInPresenter />}
+            </div>
         </div>
     );
 }
