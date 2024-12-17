@@ -26,12 +26,14 @@ function LoginView() {
                 <input
                     type="email"
                     placeholder="Enter Email"
-                    v-model={email.value}
+                    value={email.value}
+                    onInput={(e) => (e.target.value)}
                 />
                 <input
                     type="password"
                     placeholder="Enter Password"
-                    v-model={password.value}
+                    value={password.value}
+                    onInput={(e) => (e.target.value)}
                 />
                 <button onClick={handleLogIn}>Log In</button>
             </div>
