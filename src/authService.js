@@ -1,10 +1,8 @@
 //authService.js - firebase authentication
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-import { initializeApp } from "firebase/app";
-import { firebaseConfig } from "./firebaseConfig";
+import { app } from "./firebaseApp";
 
 
-const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 
 // Function to create new user

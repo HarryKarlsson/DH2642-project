@@ -1,10 +1,9 @@
 // firebaseModel.js
-import { initializeApp } from "firebase/app";
 import { getDatabase, ref, set, onValue } from "firebase/database";
-import { firebaseConfig } from "./firebaseConfig";
+import {app} from "./firebaseApp";
 
 // "modelToPersistence" ligger i profile presenter just nu men heter ProfilePresenter()
-const app = initializeApp(firebaseConfig);
+//const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
 export async function saveToFirebase(model) {
