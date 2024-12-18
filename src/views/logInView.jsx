@@ -29,7 +29,7 @@ export default defineComponent({
             userName.value = user.displayName || "Unknown User";
             userEmail.value = user.email || "No Email Provided";
             isSignedIn.value = true;
-            router.push('/welcome'); 
+            window.location.hash = "#/welcome"; 
         } catch (error) {
             console.error("Sign-in error:", error.code, error.message);
         } finally {

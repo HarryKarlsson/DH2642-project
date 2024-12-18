@@ -51,24 +51,11 @@ export { makeRouter };
 
 
 function VueRoot() {
-
-    const user = ref(null);
-    onAuthStateChanged( auth, (firebaseUser) => {
-        if (firebaseUser) {
-            console.log("User logged in: ", firebaseUser.uid);
-            user.value = firebaseUser;
-        }
-        if (!firebaseUser) {
-            console.log("User not logged in");
-            user.value = null;
-        }
-
-})
     return (
         <div>
-            {user.value && <NavbarPresenter />}
+            {<NavbarPresenter />}
             <div>
-                {user.value ? <RouterView /> : <LogInPresenter />}
+                {<RouterView />}
             </div>
         </div>
     );
