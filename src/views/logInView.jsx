@@ -43,12 +43,17 @@ export default defineComponent({
             await signOut(auth);
             alert("You have signed out successfully!");
             isSignedIn.value = false;
+            //window.location.hash = "#/";
+            localStorage.clear();
+            sessionStorage.clear();
+            router.push('/#/login');
+            window.location.reload();
         } catch (error) {
             console.error("Sign-out error:", error.message);
         }
     };
 
-    // React to authentication state changes
+    // If authentication state changes
     onMounted(() => {
       onAuthStateChanged(auth, (user) => {
         if (user) {
@@ -73,28 +78,27 @@ export default defineComponent({
   },
   render() {
     return (
-      <div class="login-container">
-        <h1>Login</h1>
-        <div>
-          <button id="signInButton" onClick={this.userSignIn}>
-            Create account / Sign In
-          </button>
-          <button
-            id="signOutButton"
-            onClick={this.userSignOut}
-            style={{ display: this.isSignedIn ? "block" : "none" }}
-          >
-            Sign Out
-          </button>
-          <div id="message" style={{ display: this.isSignedIn ? "block" : "none" }}>
-            <p>You have signed in as:</p>
-            <p id="userName">Name: {this.userName}</p>
-            <p id="userEmail">Email: {this.userEmail}</p>
-          </div>
+      <div className="login-title">
+        <div className="main-title-section">
+            <h1>Login <span className="globe">🌍</span></h1>            
+            </div>
+            <div><button className="btn-signIn" id="signInButton" onClick={this.userSignIn} >
+                Create account / Sign In
+            </button>
+            <button className="btn-signOut" id="signOutButton" onClick={this.userSignOut}
+                style={{ display: this.isSignedIn ? "block" : "none" }}
+            >
+                Sign Out
+            </button>
+            <div id="message" style={{ display: this.isSignedIn ? "block" : "none" }}>
+                <p>You have signed in as:</p>
+                <p id="userName">Name: {this.userName}</p>
+                <p id="userEmail">Email: {this.userEmail}</p>
+            </div>
+            </div>
         </div>
-      </div>
-    );
-  },
+        );
+    },
 });
 
 
