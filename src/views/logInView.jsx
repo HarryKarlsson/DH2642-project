@@ -2,7 +2,9 @@
 import { app } from "../firebaseApp";
 import {getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged} from "firebase/auth";
 import "../css/logIn.css";
+import { useRouter } from 'vue-router';
 import { defineComponent, ref, onMounted } from "vue";
+
 
 export default defineComponent({
   name: "LoginView",
@@ -14,31 +16,36 @@ export default defineComponent({
     const isSignedIn = ref(false);
     const userName = ref("");
     const userEmail = ref("");
+    const isLoading = ref(false);
+    const router = useRouter();
 
     // Sign in function
     const userSignIn = async () => {
-      try {
-        const result = await signInWithPopup(auth, provider);
-        const user = result.user;
-        console.log(user);
-        userName.value = user.displayName || "Unknown User";
-        userEmail.value = user.email || "No Email Provided";
-        isSignedIn.value = true;
-        //window.location.hash = "#/welcome";
-      } catch (error) {
-        console.error("Sign-in error:", error.code, error.message);
-      }
+        isLoading.value = true;
+        try {
+            const result = await signInWithPopup(auth, provider);
+            const user = result.user;
+            console.log(user);
+            userName.value = user.displayName || "Unknown User";
+            userEmail.value = user.email || "No Email Provided";
+            isSignedIn.value = true;
+            router.push('/welcome'); 
+        } catch (error) {
+            console.error("Sign-in error:", error.code, error.message);
+        } finally {
+            isLoading.value = false;
+          }
     };
 
     // Sign out function
     const userSignOut = async () => {
-      try {
-        await signOut(auth);
-        alert("You have signed out successfully!");
-        isSignedIn.value = false;
-      } catch (error) {
-        console.error("Sign-out error:", error.message);
-      }
+        try {
+            await signOut(auth);
+            alert("You have signed out successfully!");
+            isSignedIn.value = false;
+        } catch (error) {
+            console.error("Sign-out error:", error.message);
+        }
     };
 
     // React to authentication state changes

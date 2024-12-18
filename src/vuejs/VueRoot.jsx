@@ -17,7 +17,7 @@ function makeRouter() {
         routes: [
             {
                 path: "/",
-                component: LogInPresenter,
+                component: <LogInPresenter/>,
             },
             {   path: "/login", 
                 component: <LogInPresenter/>
