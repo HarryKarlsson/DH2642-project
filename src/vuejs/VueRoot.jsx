@@ -9,7 +9,6 @@ import QuizPresenter from './quizPresenter';
 import NavbarPresenter from './navbarPresenter';
 import ProfilePresenter from './profilePresenter';
 import QuizPagePresenter from './quizPagePresenter';
-import firebase from 'firebase/compat/app';
 
 
 function makeRouter() {
@@ -18,7 +17,7 @@ function makeRouter() {
         routes: [
             {
                 path: "/",
-                component: <LogInPresenter/>,
+                component: LogInPresenter,
             },
             {   path: "/login", 
                 component: <LogInPresenter/>
