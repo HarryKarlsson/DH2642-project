@@ -17,7 +17,7 @@ import {
     DialogDescription,
     DialogClose
 } from 'radix-vue';
-// UI Components
+
 const CountryCard = ({country, index}) => (
     
     !country || !country.flag || !country.name) ? null : (
