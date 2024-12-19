@@ -65,7 +65,6 @@ export function FetchCountryDataBycapital(capital) {
 }
 
 export function FetchCountryDataBylaguage(language) {
-    // ignore capital letters make it lowercase
     language = language.toLowerCase();
     const url = `${API_URL}/language/${language}`;
     return fetch(url, {
@@ -102,15 +101,13 @@ export function FetchCountryDataByRegion(region) {
             return response.json();
         })
         .then((data) => {
-            console.log("Raw data from API:", data); // Lägg till detta för att se svaret
             const countryArray = Object.values(data).map((country) => ({
                 name: country.name || "Unknown Country",
-                flag: country.flag?.large || "https://via.placeholder.com/150", // Placeholder-flagga
-                capital: country.capital || "Unknown Capital", // Placeholder-huvudstad
+                // Placeholder-flagga kanske inte behövs för då fungerar det ju inte
+                flag: country.flag?.large || "https://via.placeholder.com/150", 
+                capital: country.capital || "Unknown Capital",
             }));
-            
-
-            console.log("Converted country data to array:", countryArray); // Kontrollera om flagga och huvudstad finns
+            console.log("Converted country data to array:", countryArray); 
             return countryArray;
         })
         .catch((error) => {

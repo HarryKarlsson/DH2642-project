@@ -20,14 +20,14 @@ const countryModel = {
         randomCountry: null,
         searchType: 'name',
         searchError: "",
-        maxQuestions: 9,
-        questionType: "flag",
+        maxQuestions: 9, //om vi vill kan vi ändra denna 
+        questionType: "flag", // Här har vi olika typer capital eller flag
     },
 
     toggleQuestionType() {
         this.data.questionType = this.data.questionType === "flag" ? "capital" : "flag";
     },
-    // Sätter vald region och hämtar länder för regionen
+   
     async setRegion(region) {
         try {
             this.data.region = region;
@@ -37,10 +37,9 @@ const countryModel = {
             if (!Array.isArray(countries)) {
                 throw new Error("Countries data is not an array");
             }
-    
-            // Spara hela countryData för quizet
+
             this.data.countryData = countries;
-            this.data.countryNames = countries.map((country) => country.name); // Namn för andra funktioner
+            this.data.countryNames = countries.map((country) => country.name);
             this.data.loading = false;
     
             console.log(`Countries loaded for region '${region}':`, this.data.countryNames);
@@ -48,10 +47,8 @@ const countryModel = {
             console.error(`Error loading countries for region '${region}':`, error);
             this.data.loading = false;
         }
-    }
-    ,
+    },
     
-
     async loadQuizCountries(region) {
         try {
             this.data.loading = true;
@@ -63,6 +60,7 @@ const countryModel = {
                 console.error("No valid countries found. Using placeholder data.");
                 validCountries.push({
                     name: "Test Country",
+                    //behöver vi denna? det ska ju fungera 
                     flag: "https://via.placeholder.com/150",
                     capital: "Test Capital",
                 });
@@ -81,11 +79,7 @@ const countryModel = {
             console.error("Error loading quiz countries:", error);
             this.data.loading = false;
         }
-    }
-    
-    
-    
-    ,
+    },
     
     getCurrentQuizQuestion() {
         const currentCountry = this.getCurrentQuizCountry();
@@ -110,8 +104,7 @@ const countryModel = {
                 answer: currentCountry.capital,
             };
         }
-    }
-    ,
+    },
     
 
      getCurrentQuizCountry() {
@@ -136,9 +129,8 @@ const countryModel = {
             console.log("Quiz completed or max questions reached!");
             return;
         }
-        this.data.currentQuizIndex += 1; // Flytta till nästa fråga
-    }
-    ,
+        this.data.currentQuizIndex += 1;
+    },
 
     isQuizCompleted() {
         return this.data.currentQuizIndex >= this.data.maxQuestions || 
@@ -151,7 +143,7 @@ const countryModel = {
         this.data.userAnswer = '';
     },
 
-    // Metod för att hämta ett slumpmässigt land för quizet
+
     async fetchRandomCountry() {
         try {
             this.data.loading = true;
@@ -178,7 +170,6 @@ const countryModel = {
         }
     },
 
-    // Sökland-funktioner
     async searchCountries(query) {
         if (!query) return;
         try {
@@ -192,7 +183,6 @@ const countryModel = {
         }
     },
 
-    // Ladda all data vid start
     async loadInitialData() {
         try {
             const data = await FetchCountryData();
@@ -202,9 +192,6 @@ const countryModel = {
         }
     },
 
-    
-
-    // Sätt felmeddelande
     setErrorMessage(message) {
         this.data.searchError = message;
     },

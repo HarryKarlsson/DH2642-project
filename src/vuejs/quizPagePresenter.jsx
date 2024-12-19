@@ -10,11 +10,9 @@ export default {
             isCorrect: false,
             showResult: false,
             score: 0,
-            quizCompleted: false, // Nytt fält för att markera att quizet är slut
+            quizCompleted: false,
         });
         
-
-        // Funktion för att starta quizet
         function startQuiz() {
             if (!countryModel.data.region) {
                 console.error("No region selected for the quiz.");
@@ -31,8 +29,6 @@ export default {
             });
         }
         
-        
-        
         function nextQuestion() {
             if (countryModel.isQuizCompleted()) {
                 console.log("Quiz completed!");
@@ -42,19 +38,19 @@ export default {
             }
         
             countryModel.nextQuestion();
-            countryModel.toggleQuestionType(); // Växla mellan frågetyper
+            countryModel.toggleQuestionType(); 
             state.currentQuestion = countryModel.getCurrentQuizQuestion();
             state.showResult = false;
             state.userAnswer = "";
         }
         
 
-        // Sätt användarens svar
+       
         function setUserAnswer(answer) {
             state.userAnswer = answer;
         }
 
-        // Kontrollera om svaret är rätt
+       
         function checkAnswer() {
             if (state.quizCompleted) {
                 console.log("Quiz is already completed. No more answers allowed.");
@@ -67,53 +63,41 @@ export default {
                 return;
             }
         
-            const correctAnswer = state.currentQuestion.answer.trim().toLowerCase(); // Rätt svar
-            const userResponse = state.userAnswer.trim().toLowerCase(); // Användarens svar
+            const correctAnswer = state.currentQuestion.answer.trim().toLowerCase(); 
+            const userResponse = state.userAnswer.trim().toLowerCase(); 
         
-            state.isCorrect = correctAnswer === userResponse; // Jämför svaren
+            state.isCorrect = correctAnswer === userResponse;
             state.showResult = true;
         
             if (state.isCorrect) {
-                state.score += 1; // Öka poängen om svaret är rätt
+                state.score += 1; 
             }
-        
+        //För oss att kolla på ta bort den
             console.log("User Answer:", state.userAnswer);
             console.log("Correct Answer:", state.currentQuestion.answer);
             console.log("Is Correct:", state.isCorrect);
             console.log("Current Score:", state.score);
         }
         
-        
-    
-        
         function resetQuiz() {
-            state.randomCountry = null; // Rensa aktuell fråga
-            state.userAnswer = ""; // Nollställ användarens svar
-            state.isCorrect = false; // Återställ rätt/fel-status
-            state.showResult = false; // Dölj resultatet
-            state.score = 0; // Återställ poängen
-            state.quizCompleted = false; // Markera quizet som inte avslutat
-        
-            // Starta om quizet
+            state.randomCountry = null; 
+            state.userAnswer = ""; 
+            state.isCorrect = false; 
+            state.showResult = false; 
+            state.score = 0; 
+            state.quizCompleted = false; 
+    
             startQuiz();
         }
-        
-        
-        
 
-        // Gå till nästa fråga
-
-        
-
-        // Körs när komponenten mountas
         onMounted(() => {
-            startQuiz(); // Starta quizet när sidan laddas
+            startQuiz(); 
         });
 
         return function () {
             return (
                 <QuizPageView
-                    currentQuestion={state.currentQuestion} // Skicka frågan till vyn
+                    currentQuestion={state.currentQuestion}
                     userAnswer={state.userAnswer}
                     setUserAnswer={setUserAnswer}
                     checkAnswer={checkAnswer}
