@@ -15,27 +15,39 @@ export default {
         
 
         // Funktion för att starta quizet
-        async function startQuiz() {
-            try {
-                // Se till att det finns en region vald
-                if (!countryModel.data.region) {
-                    console.error("No region selected for the quiz.");
-                    return;
-                }
-
-                // Ladda quizdata
-                await countryModel.loadQuizCountries(countryModel.data.region);
-                state.randomCountry = countryModel.getCurrentQuizCountry();
-
-                if (!state.randomCountry) {
-                    console.error("Failed to load quiz countries.");
-                } else {
-                    console.log("Quiz started with the first question:", state.randomCountry);
-                }
-            } catch (error) {
-                console.error("Error starting quiz:", error);
+        function startQuiz() {
+            if (!countryModel.data.region) {
+                console.error("No region selected for the quiz.");
+                return;
             }
+        
+            countryModel.loadQuizCountries(countryModel.data.region).then(() => {
+                state.currentQuestion = countryModel.getCurrentQuizQuestion();
+                if (!state.currentQuestion) {
+                    console.error("Failed to generate the first question.");
+                } else {
+                    console.log("First question generated:", state.currentQuestion);
+                }
+            });
         }
+        
+        
+        
+        function nextQuestion() {
+            if (countryModel.isQuizCompleted()) {
+                console.log("Quiz completed!");
+                state.quizCompleted = true;
+                state.currentQuestion = null;
+                return;
+            }
+        
+            countryModel.nextQuestion();
+            countryModel.toggleQuestionType(); // Växla mellan frågetyper
+            state.currentQuestion = countryModel.getCurrentQuizQuestion();
+            state.showResult = false;
+            state.userAnswer = "";
+        }
+        
 
         // Sätt användarens svar
         function setUserAnswer(answer) {
@@ -55,8 +67,10 @@ export default {
                 return;
             }
         
-            state.isCorrect =
-                state.userAnswer.trim().toLowerCase() === currentCountry.name.trim().toLowerCase();
+            const correctAnswer = state.currentQuestion.answer.trim().toLowerCase(); // Rätt svar
+            const userResponse = state.userAnswer.trim().toLowerCase(); // Användarens svar
+        
+            state.isCorrect = correctAnswer === userResponse; // Jämför svaren
             state.showResult = true;
         
             if (state.isCorrect) {
@@ -64,24 +78,13 @@ export default {
             }
         
             console.log("User Answer:", state.userAnswer);
-            console.log("Correct Answer:", currentCountry.name);
+            console.log("Correct Answer:", state.currentQuestion.answer);
             console.log("Is Correct:", state.isCorrect);
             console.log("Current Score:", state.score);
         }
         
-        function nextQuestion() {
-            if (countryModel.isQuizCompleted()) {
-                console.log("Quiz completed!");
-                state.quizCompleted = true; // Markera quizet som avslutat
-                state.randomCountry = null; // Rensa frågan
-                return;
-            }
         
-            countryModel.nextQuestion(); // Flytta till nästa fråga i modellen
-            state.randomCountry = countryModel.getCurrentQuizCountry(); // Hämta nästa fråga
-            state.showResult = false; // Dölj resultatet
-            state.userAnswer = ""; // Nollställ användarens svar
-        }
+    
         
         function resetQuiz() {
             state.randomCountry = null; // Rensa aktuell fråga
@@ -110,7 +113,7 @@ export default {
         return function () {
             return (
                 <QuizPageView
-                    randomCountry={state.randomCountry}
+                    currentQuestion={state.currentQuestion} // Skicka frågan till vyn
                     userAnswer={state.userAnswer}
                     setUserAnswer={setUserAnswer}
                     checkAnswer={checkAnswer}
@@ -119,10 +122,11 @@ export default {
                     nextQuestion={nextQuestion}
                     score={state.score}
                     quizCompleted={state.quizCompleted}
-                    resetQuiz={resetQuiz} // Skicka funktionen till vyn
+                    resetQuiz={resetQuiz}
                 />
             );
         };
         
+
     },
 };

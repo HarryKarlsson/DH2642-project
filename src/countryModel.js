@@ -20,9 +20,13 @@ const countryModel = {
         randomCountry: null,
         searchType: 'name',
         searchError: "",
-        maxQuestions: 9, // Lägg till max antal frågor
+        maxQuestions: 9,
+        questionType: "flag",
     },
 
+    toggleQuestionType() {
+        this.data.questionType = this.data.questionType === "flag" ? "capital" : "flag";
+    },
     // Sätter vald region och hämtar länder för regionen
     async setRegion(region) {
         try {
@@ -48,24 +52,69 @@ const countryModel = {
     ,
     
 
-    // Quiz-specifika metoder
     async loadQuizCountries(region) {
         try {
             this.data.loading = true;
             const countries = await FetchCountryDataByRegion(region);
-            const randomCountries = countries
-                .sort(() => Math.random() - 0.5) // Blanda länder
-                .slice(0, 10); // Ta de första 10 länderna för quizet
+    
+            const validCountries = countries.filter((country) => country.flag && country.capital);
+    
+            if (validCountries.length === 0) {
+                console.error("No valid countries found. Using placeholder data.");
+                validCountries.push({
+                    name: "Test Country",
+                    flag: "https://via.placeholder.com/150",
+                    capital: "Test Capital",
+                });
+            }
+    
+            const randomCountries = validCountries
+                .sort(() => Math.random() - 0.5)
+                .slice(0, 10);
+    
             this.setQuizCountries(randomCountries);
             this.data.currentQuizIndex = 0;
             this.data.loading = false;
+    
+            console.log("Quiz countries loaded:", randomCountries);
         } catch (error) {
-            console.error('Error loading quiz countries:', error);
+            console.error("Error loading quiz countries:", error);
             this.data.loading = false;
         }
-    },
+    }
+    
+    
+    
+    ,
+    
+    getCurrentQuizQuestion() {
+        const currentCountry = this.getCurrentQuizCountry();
+        if (!currentCountry) {
+            console.error("No current country available for question.");
+            return null;
+        }
+    
+        if (this.data.questionType === "flag") {
+            console.log("Creating a flag question for:", currentCountry.name);
+            return {
+                type: "flag",
+                question: "Guess the country based on its flag!",
+                image: currentCountry.flag,
+                answer: currentCountry.name,
+            };
+        } else if (this.data.questionType === "capital") {
+            console.log("Creating a capital question for:", currentCountry.name);
+            return {
+                type: "capital",
+                question: `What is the capital of ${currentCountry.name}?`,
+                answer: currentCountry.capital,
+            };
+        }
+    }
+    ,
+    
 
-    getCurrentQuizCountry() {
+     getCurrentQuizCountry() {
         if (
             this.data.quizCountries &&
             this.data.currentQuizIndex >= 0 &&

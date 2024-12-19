@@ -1,6 +1,6 @@
 export function QuizPageView(props) {
     const {
-        randomCountry,
+        currentQuestion,
         userAnswer,
         setUserAnswer,
         checkAnswer,
@@ -9,7 +9,7 @@ export function QuizPageView(props) {
         nextQuestion,
         score,
         quizCompleted,
-        resetQuiz, // Lägg till resetQuiz som prop
+        resetQuiz,
     } = props;
 
     function handleInputChange(event) {
@@ -20,35 +20,34 @@ export function QuizPageView(props) {
         <div>
             <h1>Country Quiz</h1>
             {quizCompleted ? (
-                // Visa endast detta när quizet är klart
                 <div>
                     <h2>Quiz Completed!</h2>
                     <p>Your final score is: {score} / 9</p>
-                    <button onClick={resetQuiz}>Play Again</button> {/* "Play Again"-knapp */}
+                    <button onClick={resetQuiz}>Play Again</button>
                 </div>
             ) : (
-                // Visa quizet om det inte är klart
                 <div>
-                    <p>Score: {score}</p> {/* Visa användarens poäng */}
+                    <p>Score: {score}</p>
 
-                    {randomCountry && (
+                    {currentQuestion && (
                         <div>
-                            <h2>Guess the country based on its flag!</h2>
-                            {randomCountry.flag ? (
+                            <h2>{currentQuestion.question}</h2>
+                            {currentQuestion.type === "flag" && currentQuestion.image && (
                                 <img
-                                    src={randomCountry.flag}
-                                    alt={`Flag of ${randomCountry.name}`}
+                                    src={currentQuestion.image}
+                                    alt="Country flag"
                                     style={{ width: "150px", marginTop: "10px" }}
                                 />
-                            ) : (
-                                <p>No flag available</p>
+                            )}
+                            {currentQuestion.type === "capital" && (
+                                <p>{currentQuestion.question}</p>
                             )}
                             <input
                                 type="text"
                                 value={userAnswer}
                                 onChange={handleInputChange}
-                                placeholder="Enter country name"
-                                disabled={showResult} // Inaktivera inputfältet efter svar
+                                placeholder="Enter your answer"
+                                disabled={showResult}
                             />
                             {!showResult && (
                                 <button onClick={checkAnswer}>Submit</button>
@@ -58,7 +57,7 @@ export function QuizPageView(props) {
                                     <p style={{ color: isCorrect ? "green" : "red" }}>
                                         {isCorrect
                                             ? "Correct! 🎉"
-                                            : `Wrong! The correct answer was ${randomCountry.name}.`}
+                                            : `Wrong! The correct answer was ${currentQuestion.answer}.`}
                                     </p>
                                     <button onClick={nextQuestion}>Next Question</button>
                                 </div>

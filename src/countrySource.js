@@ -85,7 +85,6 @@ export function FetchCountryDataBylaguage(language) {
         console.error('Error:', error);
     });
 }   
-
 export function FetchCountryDataByRegion(region) {
     const formattedRegion = region.toLowerCase().replace(/\s+/g, "-");
     const url = `${API_URL}/region/${formattedRegion}`;
@@ -93,27 +92,29 @@ export function FetchCountryDataByRegion(region) {
     return fetch(url, {
         method: "GET",
         headers: {
-            "Authorization": `Bearer ${API_KEY}`
-        }
+            Authorization: `Bearer ${API_KEY}`,
+        },
     })
-    .then((response) => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.json();
-    })
-    .then((data) => {
-        // Map data to extract country name and large flag
-        const countryArray = Object.values(data).map((country) => ({
-            name: country.name,
-            flag: country.flag?.large || null, // Extract the 'large' flag URL
-        }));
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then((data) => {
+            console.log("Raw data from API:", data); // Lägg till detta för att se svaret
+            const countryArray = Object.values(data).map((country) => ({
+                name: country.name || "Unknown Country",
+                flag: country.flag?.large || "https://via.placeholder.com/150", // Placeholder-flagga
+                capital: country.capital || "Unknown Capital", // Placeholder-huvudstad
+            }));
+            
 
-        console.log("Converted country data to array:", countryArray);
-        return countryArray;
-    })
-    .catch((error) => {
-        console.error(`Error fetching data for region '${region}':`, error);
-        throw error;
-    });
+            console.log("Converted country data to array:", countryArray); // Kontrollera om flagga och huvudstad finns
+            return countryArray;
+        })
+        .catch((error) => {
+            console.error(`Error fetching data for region '${region}':`, error);
+            throw error;
+        });
 }
