@@ -15,12 +15,13 @@ const countryModel = {
         quizCountries: [], 
         currentQuizIndex: 0, 
         userAnswer: '', 
-    },
+        searchType: 'name',
+        searchError : ""
+    }, 
 
-    // Setters
-        randomCountry: null,
+    setSearchType(type) {
+        this.data.searchType = type;
     },
-
     setCountryData(data) {
         this.data.countryData = data;
         this.data.loading = false;
@@ -40,6 +41,7 @@ const countryModel = {
         if (!id) this.data.currentCountryId = null;
         this.data.currentCountryId = id;
     },
+
 
     setRegion(region) {
         this.data.region = region;
@@ -105,10 +107,10 @@ const countryModel = {
         this.data.userAnswer = '';
     },
 
-    // Search and sorting methods
-
-        this.data.currentCountryId = id || null;
+    setErrorMessage(message) {
+        this.data.searchError = message;
     },
+
 
     async fetchRandomCountry() {
         try {

@@ -1,29 +1,89 @@
 // practiceView.js
 import countryModel from '/src/countryModel';
-import "../css/home.css";
+import "../css/practice.css";
 import {getPaginatedCountries,getTotalPages,handleNextPage,handlePrevPage,
         handleSearchQuery,handleSearch,sortCountriesAZ,resetData} from '/src/pageController';
 
-// UI Components
-const CountryCard = ({country, index }) => (
-    <div key={index} className="country-box">
-        <div className="flag-section">
-            <img
-                src={country.flag.medium}
-                alt={`${country.name} flag`}
-                className="country-flag"
-            />
-        </div>
-        <div className="country-details">
-            <p><strong>Country:</strong> {country.name}</p>
-            <p><strong>Capital:</strong> {country.capital}</p>
-            <p><strong>Currency:</strong> {
-                Object.values(country.currencies).map(currency => currency.name).join(', ')
-            }</p>
-        </div>
-    </div>
-);
+import { getCountryDetails } from '/src/utilities';
 
+// import dialog components
+import {
+    DialogRoot,
+    DialogTrigger,
+    DialogPortal,
+    DialogOverlay,
+    DialogContent,
+    DialogTitle,
+    DialogDescription,
+    DialogClose
+} from 'radix-vue';
+
+const CountryCard = ({country, index}) => (
+    
+    !country || !country.flag || !country.name) ? null : (
+
+    <div key={index} className="country-box">
+        
+        <DialogRoot>
+                
+            <div className="flag-section">
+                
+                <img
+                    src={country.flag.medium}
+                    alt={`${country.name} flag`}
+                    className="country-flag"
+                />
+            
+                <div className="country-details">
+                <p><strong>Country:</strong> {country.name}</p>
+                <p><strong>Capital:</strong> {country.capital}</p>
+                </div>
+    
+                <DialogTrigger>
+                        <button className="btn-details">View Details</button>
+                </DialogTrigger>
+            
+            </div>
+           
+            <DialogPortal>
+                <DialogOverlay className="dialog-overlay" />
+                <DialogContent className="dialog-content">
+                    <div className="dialog-header">
+                        <img 
+                            src={country.flag.large} 
+                            alt={`${country.name} flag`} 
+                            className="dialog-flag"
+                        />
+                        <div className="dialog-title-section">
+                            <DialogTitle className="dialog-title">{country.name}</DialogTitle>
+                            <DialogDescription className="dialog-description">
+                                Official Name: {country.official_name}
+                            </DialogDescription>
+                        </div>
+                    </div>
+                    
+                    <div className="dialog-body">
+                        <div className="details-grid">
+                            {getCountryDetails(country).map(({ label, value }) => (
+                                <div key={label} className="detail-item">
+                                    <strong>{label}:</strong>
+                                    <span>{value}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                    
+                    <div className="dialog-footer">
+                        <DialogClose>
+                            <button className="btn-close">Close</button>
+                        </DialogClose>
+                    </div>
+                </DialogContent>
+            </DialogPortal>
+        </DialogRoot>
+    </div>
+    
+);
 const PaginationControls = ({ currentPage, totalPages, onPrev, onNext }) => (
     <div className="pagination-controls">
         <button 
@@ -57,6 +117,7 @@ const PracticeView = {
     },
 
     render() {
+
         const paginatedCountries = getPaginatedCountries(
             this.countryData, 
             this.currentPage, 
@@ -77,6 +138,7 @@ const PracticeView = {
                         </button>
                         <button 
                             className="btn-az"
+                            disabled={!this.countryData || Object.values(this.countryData).length <= 1}
                             onClick={() => sortCountriesAZ(this)}
                         >
                             A-Z
@@ -84,9 +146,18 @@ const PracticeView = {
                     </div>
                 </div>
                 <div className="search-section">
+
+                    <div className="search-container">
+                        <select value={this.searchType} onChange={(e) => this.searchType = e.target.value} className="search-type-dropdown">
+                            <option value="name">Name</option>
+                            <option value="capital">Capital</option>
+                            <option value="region">Region</option>
+                            <option value="language">Language</option>
+                        </select>
+                    </div>
                     <input
                         type="text"
-                        placeholder="Search eg. by region, country, capital..."
+                        placeholder={`Search by ${this.searchType}...`}
                         className="search-input"
                         value={this.searchQuery}
                         onInput={(e) => handleSearchQuery(e, this)}
@@ -98,21 +169,39 @@ const PracticeView = {
                     >
                         Search
                     </button>
+
+                    {this.searchError && (
+                    <div className="search-error-message">
+                        {this.searchError}
+                        
+                    </div>
+                    )}
                 </div>
+
+               
 
                 {this.loading ? (
                     <p>Loading...</p>
                 ) : (
                     <>
                         <div className="countries-list">
-                            {paginatedCountries.map((country, index) => (
+                            { paginatedCountries && paginatedCountries.length > 0 ? (
+                            paginatedCountries.map((country, index) => (
                                 <CountryCard 
                                     key={country.name} 
                                     country={country} 
                                     index={index}
                                 />
-                            ))}
+                            ))
+                        ) : (
+                            !this.loading && !this.searchError && (
+                                <div className="no-results">
+                                    Your search for "{this.searchQuery}" may not match "{this.searchType}" or the result was not found! Try again!
+                                    </div>
+                            )
+                        )}
                         </div>
+
                         <PaginationControls 
                             currentPage={this.currentPage}
                             totalPages={totalPages}
