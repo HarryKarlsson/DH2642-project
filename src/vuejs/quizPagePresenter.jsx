@@ -1,48 +1,76 @@
-function QuizPagePresenter(props) {
-    // Callback to handle user's text input
-    function handleTextUpdate(text) {
-        props.countryModel.setUserAnswer(text); // Update the user's answer in the model
-    }
 
-    // Callback to handle "Not Sure" button
-    function handleNotSure() {
-        props.countryModel.nextQuestion(); // Move to the next question
-    }
+import { reactive, onMounted } from "vue";
+import { QuizPageView } from "../views/quizPageView";
+import countryModel from "../countryModel";
 
-    // Callback to handle "Hint" button
-    function handleHint() {
-        const currentCountry = props.countryModel.getCurrentQuizCountry();
-        if (currentCountry) {
-            alert(`Hint: The country's name starts with "${currentCountry.name.charAt(0)}"`);
+export default {
+    setup: function() {
+       
+        const state = reactive({
+            randomCountry: null, 
+            loading: false,      
+            userAnswer: "",      
+            isCorrect: false,
+            showResult: false   
+        });
+
+
+        // Funktion för att generera ett nytt slumpmässigt land
+        function generateRandomCountry() {
+            state.loading = true; 
+
+            countryModel.fetchRandomCountry().then(function() {
+                state.randomCountry = countryModel.data.randomCountry;
+                console.log("Generated country:", state.randomCountry);
+//Här ska man säkert spara sen tills poäng eller liknande
+                state.loading = false;   
+                state.userAnswer = "";   
+                state.showResult = false; 
+            }).catch(function(error) {
+                console.error("Failed to fetch country:", error);
+                state.loading = false;
+            });
         }
-    }
 
-    // Callback to handle "Submit" button
-    function handleSubmit() {
-        const isCorrect = props.countryModel.checkAnswer(props.countryModel.data.userAnswer);
-        if (isCorrect) {
-            alert("Correct!");
-            props.countryModel.nextQuestion(); // Move to the next question
-        } else {
-            alert("Incorrect! Try again.");
+        
+        function setUserAnswer(answer) {
+            state.userAnswer = answer;
         }
+
+        function checkAnswer() {
+            if (!state.randomCountry) {
+                console.error("No country available for checking.");
+                return;
+            }
+
+            state.isCorrect =
+                state.userAnswer.trim().toLowerCase() === state.randomCountry.name.trim().toLowerCase();
+            state.showResult = true; 
+//För mig att se men ta bort sen kanske??
+            console.log("User Answer:", state.userAnswer);
+            console.log("Correct Answer:", state.randomCountry.name);
+            console.log("Is Correct:", state.isCorrect);
+        }
+
+     //Den ska ju köras när man klickar på knappen men jag vill bara testa 
+        onMounted(function() {
+            generateRandomCountry();
+        });
+
+    
+        return function() {
+            return (
+                <QuizPageView
+                    randomCountry={state.randomCountry}
+                    generateRandomCountry={generateRandomCountry}
+                    userAnswer={state.userAnswer}
+                    setUserAnswer={setUserAnswer}
+                    checkAnswer={checkAnswer}
+                    loading={state.loading}
+                    isCorrect={state.isCorrect}
+                    showResult={state.showResult}
+                />
+            );
+        };
     }
-
-    // Get current question data
-    const currentCountry = props.countryModel.getCurrentQuizCountry();
-    const userAnswer = props.countryModel.data.userAnswer;
-
-    return (
-        <QuizPageView
-            quizCountries={props.countryModel.data.quizCountries}
-            currentCountry={currentCountry}
-            text={userAnswer}
-            onTextUpdate={handleTextUpdate}
-            onNotSure={handleNotSure}
-            onHint={handleHint}
-            onSubmit={handleSubmit}
-        />
-    );
-}
-
-export default QuizPagePresenter;
+};

@@ -1,4 +1,6 @@
+
 import { FetchCountryData, FetchCountryDataByName, FetchCountryDataByRegion } from '/src/countrySource.js';
+
 
 const countryModel = {
     data: {
@@ -16,6 +18,9 @@ const countryModel = {
     },
 
     // Setters
+        randomCountry: null,
+    },
+
     setCountryData(data) {
         this.data.countryData = data;
         this.data.loading = false;
@@ -31,6 +36,7 @@ const countryModel = {
 
     setCurrentCountryId(id) {
         if (id === this.data.currentCountryId) return;
+
         if (!id) this.data.currentCountryId = null;
         this.data.currentCountryId = id;
     },
@@ -100,21 +106,51 @@ const countryModel = {
     },
 
     // Search and sorting methods
+
+        this.data.currentCountryId = id || null;
+    },
+
+    async fetchRandomCountry() {
+        try {
+            this.data.loading = true;
+            const allCountries = await FetchCountryData();
+            const countryArray = Object.values(allCountries);
+    
+            if (countryArray.length === 0) {
+                throw new Error("Country data is empty");
+            }
+    
+            const randomIndex = Math.floor(Math.random() * countryArray.length);
+            const randomCountry = countryArray[randomIndex];
+    
+            const countryName = randomCountry?.name || "Unknown Country";
+            const countryFlag = randomCountry?.flag?.medium || randomCountry?.flag?.small || "No Flag Available";
+    
+            this.data.randomCountry = { name: countryName, flag: countryFlag };
+            this.data.loading = false;
+        } catch (error) {
+            console.error("Error fetching random country:", error.message);
+            this.data.loading = false;
+        }
+    }
+,    
     async searchCountries(query) {
         if (!query) return;
         try {
             this.data.loading = true;
             const data = await FetchCountryDataByName(query);
-            console.log("Search results:", data); // Debug log
             this.setCountryData(data);
-            return data; // Return data for the view to use
+            return data;
         } catch (error) {
             console.error('Error searching countries:', error);
             this.data.loading = false;
         }
     },
 
+
     // Data loading
+
+
     async loadInitialData() {
         try {
             const data = await FetchCountryData();
@@ -124,7 +160,7 @@ const countryModel = {
         }
     },
 
-   
+
 };
 
 export default countryModel;

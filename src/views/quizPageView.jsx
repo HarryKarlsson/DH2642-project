@@ -1,62 +1,84 @@
 import "../css/quiz.css";
 
 export function QuizPageView(props) {
-    // Function to update the user's answer
-    function textChange(event) {
-        const userAnswer = event.target.value;
-        props.onTextUpdate(userAnswer); // Pass the answer to the model
+    const {
+        randomCountry,         
+        generateRandomCountry, 
+        userAnswer,            
+        setUserAnswer,       
+        checkAnswer,          
+        loading,          
+        isCorrect,         
+        showResult            
+    } = props;
+
+    // Funktion för att hantera textinmatning
+    function handleInputChange(event) {
+        setUserAnswer(event.target.value);
     }
 
-    // Handle "Not Sure" button click
-    function handleNotSure() {
-        console.log("User clicked 'Not Sure'. Moving to the next question.");
-        props.onNotSure(); // Call the presenter callback to handle the next question
-    }
-
-    // Handle "Hint" button click
-    function handleHint() {
-        props.onHint(); // Call the presenter callback for a hint
-    }
-
-    // Handle the "Submit" button click
-    function handleSubmit() {
-        props.onSubmit(); // Call the presenter callback to submit the answer
-    }
-
-    // Load the current question
-    const currentCountry = props.currentCountry;
-    if (!currentCountry) {
-        return (
-            <main>
-                <h2 className="title">Loading Quiz... <span className="globe">🌍</span></h2>
-                <p>Please wait while the quiz is being set up.</p>
-            </main>
-        );
+    // Funktion för att hantera Enter (fungerar inte ännu )
+    function handleKeyDown(event) {
+        if (event.key === "Enter") {
+            checkAnswer();
+        }
     }
 
     return (
-        <main>
-            <h2 className="title">Quiz Question <span className="globe">🌍</span></h2>
-            <p>Which country has this flag?</p> {/* Render the question */}
-            <img 
-                src={currentCountry.flag.large} 
-                alt={`Flag of ${currentCountry.name}`} 
-                className="quiz-flag" 
-            />
-            <div className="answer-input">
-                <label htmlFor="User answer">Type your answer:</label>
-                <input
-                    type="text"
-                    id="User answer"
-                    value={props.text}
-                    onChange={textChange}
-                />
-            </div>
-            <div className="buttons">
-                <button className="not-sure-btn" onClick={handleNotSure}>Not sure</button>
-                <button className="hint-btn" onClick={handleHint}>Hint?</button>
-                <button className="submit-btn" onClick={handleSubmit}>Submit</button>
-            </div>
-        </main>
+        <div>
+            {/* Titel */}
+            <h1>Random Country Quiz/Next</h1>
+
+            {/* Knapp för att generera ett slumpmässigt land */}
+            <button 
+                onClick={generateRandomCountry} 
+                disabled={loading}
+            >
+                {loading ? "Loading..." : "Generate Random Country"}
+            </button>
+
+            {/* Visa flaggan och inputfältet om ett land har genererats */}
+            {randomCountry && (
+                <div style={{ marginTop: "20px" }}>
+                    {/* Visa flaggan */}
+                    {randomCountry.flag ? (
+                        <img
+                            src={randomCountry.flag}
+                            alt="Country flag"
+                            style={{ width: "150px", marginTop: "10px" }}
+                        />
+                    ) : (
+                        <p>Flag not available</p>
+                    )}
+
+                    {/* Inputfält för att skriva in svar */}
+                    <div style={{ marginTop: "20px" }}>
+                        <input
+                            type="text"
+                            value={userAnswer} 
+                            onChange={handleInputChange}
+                            onKeyDown={handleKeyDown} 
+                            placeholder="Enter country name"
+                        />
+                        <button onClick={checkAnswer}>Submit</button>
+                    </div>
+                </div>
+            )}
+
+            {/* Visa resultatet efter att användaren har svarat */}
+            {showResult && (
+                <p style={{ marginTop: "10px", color: isCorrect ? "green" : "red" }}>
+                    {isCorrect
+                        ? "Correct! 🎉"
+                        : `Wrong! The correct answer was ${randomCountry.name}.`}
+                </p>
+            )}
+
+            {/* Visa meddelande om inget land har valts ännu */}
+            {!randomCountry && !loading && (
+                <p>No country selected yet. Click the button above!</p>
+            )}
+        </div>
+
     );
 }
