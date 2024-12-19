@@ -1,41 +1,84 @@
-// Quiz page - where the quiz has started
+import "../css/quiz.css";
 
-export function QuizPageView(props){
-    function textChange(event) {
-        props.onTextUpdate(event.target.value);
-    };
+export function QuizPageView(props) {
+    const {
+        randomCountry,         
+        generateRandomCountry, 
+        userAnswer,            
+        setUserAnswer,       
+        checkAnswer,          
+        loading,          
+        isCorrect,         
+        showResult            
+    } = props;
 
-    function handleNotSure() {
-        props.onNotSure();
+    // Funktion för att hantera textinmatning
+    function handleInputChange(event) {
+        setUserAnswer(event.target.value);
     }
 
-    function handleHint() {
-        props.onHint();
-    };
-
-    function handleSubmit() {
-        props.onSumbit(props.text);
-    };
+    // Funktion för att hantera Enter (fungerar inte ännu )
+    function handleKeyDown(event) {
+        if (event.key === "Enter") {
+            checkAnswer();
+        }
+    }
 
     return (
-        <main>
-          <h2 className="title">Quiz question 1 <span className="globe">🌍</span></h2>
-                <p>{props.question}</p>  {/* The question, passed from props */}
-                <div className="answer-input">
-                    <label htmlFor="User answer">Type answer:</label>
-                    <input
-                        type="text"
-                        id="User answer"
-                        value={props.text}
-                        onChange={textChange}
-                    />
+        <div>
+            {/* Titel */}
+            <h1>Random Country Quiz/Next</h1>
+
+            {/* Knapp för att generera ett slumpmässigt land */}
+            <button 
+                onClick={generateRandomCountry} 
+                disabled={loading}
+            >
+                {loading ? "Loading..." : "Generate Random Country"}
+            </button>
+
+            {/* Visa flaggan och inputfältet om ett land har genererats */}
+            {randomCountry && (
+                <div style={{ marginTop: "20px" }}>
+                    {/* Visa flaggan */}
+                    {randomCountry.flag ? (
+                        <img
+                            src={randomCountry.flag}
+                            alt="Country flag"
+                            style={{ width: "150px", marginTop: "10px" }}
+                        />
+                    ) : (
+                        <p>Flag not available</p>
+                    )}
+
+                    {/* Inputfält för att skriva in svar */}
+                    <div style={{ marginTop: "20px" }}>
+                        <input
+                            type="text"
+                            value={userAnswer} 
+                            onChange={handleInputChange}
+                            onKeyDown={handleKeyDown} 
+                            placeholder="Enter country name"
+                        />
+                        <button onClick={checkAnswer}>Submit</button>
+                    </div>
                 </div>
-                <div className="buttons">
-                    <button className="not-sure-btn" onClick={handleNotSure}>Not sure</button>
-                    <button className="hint-btn" onClick={handleHint}>Hint?</button>
-                    <button className="submit-btn" onClick={handleSubmit}>Submit</button>
-                </div>
-            {/*TODO implement the progress bar in the bottom to let the user know quiz status */}
-            </main>
-    )
+            )}
+
+            {/* Visa resultatet efter att användaren har svarat */}
+            {showResult && (
+                <p style={{ marginTop: "10px", color: isCorrect ? "green" : "red" }}>
+                    {isCorrect
+                        ? "Correct! 🎉"
+                        : `Wrong! The correct answer was ${randomCountry.name}.`}
+                </p>
+            )}
+
+            {/* Visa meddelande om inget land har valts ännu */}
+            {!randomCountry && !loading && (
+                <p>No country selected yet. Click the button above!</p>
+            )}
+        </div>
+
+    );
 }

@@ -1,3 +1,4 @@
+
 // firebaseModel.js
 import { getDatabase, ref, set, onValue } from "firebase/database";
 import {app} from "./firebaseApp";

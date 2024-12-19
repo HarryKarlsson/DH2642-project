@@ -7,13 +7,19 @@
         "serve": "vite preview"
     },
     "devDependencies": {
-        "@vitejs/plugin-vue": "4.0.0",
-        "@vitejs/plugin-vue-jsx": "3.1.0",
+        "@vitejs/plugin-vue": "^4.6.2",
+        "@vitejs/plugin-vue-jsx": "^3.1.0",
+        "path": "^0.12.7",
         "vite": "^4.5.5"
     },
     "dependencies": {
+        "clsx": "^2.1.1",
         "dotenv": "^16.4.7",
         "firebase": "^9.17.1",
+        "lucide-vue-next": "^0.468.0",
+        "radix-ui": "^1.0.1",
+        "radix-vue": "^1.9.11",
+        "tailwind-merge": "^2.5.5",
         "vue": "^3.2.47",
         "vue-router": "^4.5.0"
     }

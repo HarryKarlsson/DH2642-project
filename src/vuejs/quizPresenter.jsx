@@ -1,9 +1,15 @@
-import { QuizView } from "../views/quizStartView";
-import { QuizPageView } from "../views/quizPageView";
+import { QuizView } from "../views/quizStartView.jsx";;
 
-function QuizPresenter() {
+function QuizPresenter(props) {
+
+    function onRegionChangeACB(selectedRegion){
+        props.countryModel.setRegion(selectedRegion);
+        
+    };
+
+
         return (
-            <QuizView
+            <QuizView onRegionChange={onRegionChangeACB}
                 />
         );
     }
