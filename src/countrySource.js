@@ -87,23 +87,33 @@ export function FetchCountryDataBylaguage(language) {
 }   
 
 export function FetchCountryDataByRegion(region) {
-    // ignore capital letters make it lowercase
-    region = region.toLowerCase();
-    const url = `${API_URL}/region/${region}`;
+    const formattedRegion = region.toLowerCase().replace(/\s+/g, "-");
+    const url = `${API_URL}/region/${formattedRegion}`;
+
     return fetch(url, {
-        method: 'GET',
+        method: "GET",
         headers: {
-            'Authorization': `Bearer ${API_KEY}`
+            "Authorization": `Bearer ${API_KEY}`
         }
     })
     .then((response) => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
         return response.json();
     })
     .then((data) => {
-        console.log('Data received:', data);
-        return data
+        // Map data to extract country name and large flag
+        const countryArray = Object.values(data).map((country) => ({
+            name: country.name,
+            flag: country.flag?.large || null, // Extract the 'large' flag URL
+        }));
+
+        console.log("Converted country data to array:", countryArray);
+        return countryArray;
     })
     .catch((error) => {
-        console.error('Error:', error);
+        console.error(`Error fetching data for region '${region}':`, error);
+        throw error;
     });
-}   
+}
