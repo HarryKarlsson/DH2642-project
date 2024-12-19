@@ -1,4 +1,5 @@
 import "../css/quiz.css";
+
 export function QuizPageView(props) {
     const {
         randomCountry,         
@@ -78,5 +79,6 @@ export function QuizPageView(props) {
                 <p>No country selected yet. Click the button above!</p>
             )}
         </div>
+
     );
 }

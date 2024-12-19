@@ -1,3 +1,4 @@
+
 import { reactive, onMounted } from "vue";
 import { QuizPageView } from "../views/quizPageView";
 import countryModel from "../countryModel";
@@ -12,6 +13,7 @@ export default {
             isCorrect: false,
             showResult: false   
         });
+
 
         // Funktion för att generera ett nytt slumpmässigt land
         function generateRandomCountry() {

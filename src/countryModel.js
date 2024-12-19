@@ -1,6 +1,7 @@
-import { FetchCountryData, FetchCountryDataByName } from '/src/countrySource.js';
-/* HAr kladdat en massor här inne så innan vi mergar till dev eller main måste vi kolla det*/
-//Finns säkert mycket kod man kan ta bort eller förenkla 
+
+import { FetchCountryData, FetchCountryDataByName, FetchCountryDataByRegion } from '/src/countrySource.js';
+
+
 const countryModel = {
     data: {
         countryData: null,
@@ -9,6 +10,14 @@ const countryModel = {
         currentPage: 0,
         itemsPerPage: 5,
         currentCountryId: null,
+        region: '',
+        countryNames: [],
+        quizCountries: [], 
+        currentQuizIndex: 0, 
+        userAnswer: '', 
+    },
+
+    // Setters
         randomCountry: null,
     },
 
@@ -27,6 +36,77 @@ const countryModel = {
 
     setCurrentCountryId(id) {
         if (id === this.data.currentCountryId) return;
+
+        if (!id) this.data.currentCountryId = null;
+        this.data.currentCountryId = id;
+    },
+
+    setRegion(region) {
+        this.data.region = region;
+    },
+
+    setCountryName(names) {
+        this.data.countryNames = names;
+    },
+
+    setQuizCountries(countries) {
+        this.data.quizCountries = countries;
+    },
+
+    setCurrentQuizIndex(index) {
+        this.data.currentQuizIndex = index;
+    },
+
+    setUserAnswer(answer) {
+        this.data.userAnswer = answer;
+    },
+
+    // Quiz-specific methods
+    async loadQuizCountries(region) {
+        try {
+            this.data.loading = true;
+            const countries = await FetchCountryDataByRegion(region); // Fetch all country data
+            const randomCountries = Object.values(countries)
+                .sort(() => Math.random() - 0.5) // Shuffle countries
+                .slice(0, 10); // Pick the first 10 for the quiz
+            this.setQuizCountries(randomCountries); // Update the model with quiz countries
+            this.data.currentQuizIndex = 0; // Reset to the first question
+            this.data.loading = false;
+        } catch (error) {
+            console.error('Error loading quiz countries:', error);
+            this.data.loading = false;
+        }
+    },
+
+    getCurrentQuizCountry() {
+        if (!this.data.quizCountries || this.data.quizCountries.length === 0) {
+            return null;
+        }
+        return this.data.quizCountries[this.data.currentQuizIndex];
+    },
+
+    checkAnswer(answer) {
+        const currentCountry = this.getCurrentQuizCountry();
+        if (!currentCountry) return false;
+        return currentCountry.name.toLowerCase() === answer.trim().toLowerCase();
+    },
+
+    nextQuestion() {
+        if (this.data.currentQuizIndex < this.data.quizCountries.length - 1) {
+            this.data.currentQuizIndex += 1;
+        } else {
+            console.log("Quiz completed!");
+        }
+    },
+
+    resetQuiz() {
+        this.data.quizCountries = [];
+        this.data.currentQuizIndex = 0;
+        this.data.userAnswer = '';
+    },
+
+    // Search and sorting methods
+
         this.data.currentCountryId = id || null;
     },
 
@@ -54,7 +134,6 @@ const countryModel = {
         }
     }
 ,    
-
     async searchCountries(query) {
         if (!query) return;
         try {
@@ -68,6 +147,10 @@ const countryModel = {
         }
     },
 
+
+    // Data loading
+
+
     async loadInitialData() {
         try {
             const data = await FetchCountryData();
@@ -76,6 +159,8 @@ const countryModel = {
             console.error('Error loading initial data:', error);
         }
     },
+
+
 };
 
 export default countryModel;
