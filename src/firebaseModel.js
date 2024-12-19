@@ -1,7 +1,7 @@
 
 // firebaseModel.js
 import { getDatabase, ref, set, onValue } from "firebase/database";
-import {app} from "./firebaseApp";
+import {app} from "./firebaseConfig";
 
 // "modelToPersistence" ligger i profile presenter just nu men heter ProfilePresenter()
 //const app = initializeApp(firebaseConfig);
