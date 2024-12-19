@@ -1,9 +1,9 @@
 // logInPresenter.jsx
 
-import LogInView from "../views/logInView";
+import LoginView from "../views/logInView";
 
 function LogInPresenter(){
-    return <LogInView/>;
+    return <LoginView/>;
 
 }
 export default LogInPresenter;

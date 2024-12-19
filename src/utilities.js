@@ -33,6 +33,7 @@ export const getCountryDetails = (country) => {
                 country.regionalBlocs.map(bloc => `${bloc.name} (${bloc.acronym})`).join(", ") : 
                 "None"
         }
+
     ];
 };
 
