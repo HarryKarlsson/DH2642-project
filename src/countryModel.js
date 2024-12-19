@@ -65,11 +65,16 @@ const countryModel = {
     },
 
     getCurrentQuizCountry() {
-        if (!this.data.quizCountries || this.data.quizCountries.length === 0) {
-            return null;
+        if (
+            this.data.quizCountries &&
+            this.data.currentQuizIndex >= 0 &&
+            this.data.currentQuizIndex < this.data.quizCountries.length
+        ) {
+            return this.data.quizCountries[this.data.currentQuizIndex];
         }
-        return this.data.quizCountries[this.data.currentQuizIndex];
-    },
+        return null; // Inga fler frågor
+    }
+    ,
 
     checkAnswer(answer) {
         const currentCountry = this.getCurrentQuizCountry();
@@ -79,11 +84,15 @@ const countryModel = {
 
     nextQuestion() {
         if (this.data.currentQuizIndex < this.data.quizCountries.length - 1) {
-            this.data.currentQuizIndex += 1;
+            this.data.currentQuizIndex += 1; // Öka indexet för att visa nästa fråga
         } else {
-            console.log("Quiz completed!");
+            console.log("No more questions left in the quiz.");
         }
-    },
+    }
+    
+    
+    
+    ,
 
     resetQuiz() {
         this.data.quizCountries = [];

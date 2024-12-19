@@ -9,6 +9,13 @@ function QuizPresenter(props) {
         console.log(`Region changed to: ${currentRegion}`);
     }
     
+    function nextQuestion() {
+        countryModel.nextQuestion(); // Uppdatera frågan i modellen
+        state.randomCountry = countryModel.getCurrentQuizCountry(); // Uppdatera vyn med den nya frågan
+        state.showResult = false; // Dölj resultatet
+        state.userAnswer = ""; // Nollställ användarens svar
+    }
+    
 
   function handleContinueQuizACB() {
     if (!currentRegion) {

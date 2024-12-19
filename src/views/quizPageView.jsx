@@ -1,5 +1,5 @@
 export function QuizPageView(props) {
-    const { randomCountry, userAnswer, setUserAnswer, checkAnswer, isCorrect, showResult } = props;
+    const { randomCountry, userAnswer, setUserAnswer, checkAnswer, isCorrect, showResult, nextQuestion } = props;
 
     function handleInputChange(event) {
         setUserAnswer(event.target.value);
@@ -31,12 +31,17 @@ export function QuizPageView(props) {
             )}
 
             {showResult && (
-                <p style={{ color: isCorrect ? "green" : "red" }}>
-                    {isCorrect
-                        ? "Correct! 🎉"
-                        : `Wrong! The correct answer was ${randomCountry.name}.`}
-                </p>
+                <div>
+                    <p style={{ color: isCorrect ? "green" : "red" }}>
+                        {isCorrect
+                            ? "Correct! 🎉"
+                            : `Wrong! The correct answer was ${randomCountry.name}.`}
+                    </p>
+                    <button onClick={nextQuestion}>Next Question</button>
+                </div>
             )}
+
+
         </div>
     );
 }
