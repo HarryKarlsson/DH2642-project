@@ -82,19 +82,26 @@ export default defineComponent({
         <div className="main-title-section">
             <h1>Login <span className="globe">🌍</span></h1>            
             </div>
-            <div><button className="btn-signIn" id="signInButton" onClick={this.userSignIn} >
+            <div>
+                {!this.isSignedIn && (
+                <button className="btn-signIn" id="signInButton" onClick={this.userSignIn} >
                 Create account / Sign In
             </button>
+            )}
+            {this.isSignedIn && (
             <button className="btn-signOut" id="signOutButton" onClick={this.userSignOut}
                 style={{ display: this.isSignedIn ? "block" : "none" }}
             >
                 Sign Out
             </button>
+            )}
+            {this.isSignedIn && (
             <div id="message" style={{ display: this.isSignedIn ? "block" : "none" }}>
                 <p>You have signed in as:</p>
                 <p id="userName">Name: {this.userName}</p>
                 <p id="userEmail">Email: {this.userEmail}</p>
-            </div>
+                </div>
+                )}
             </div>
         </div>
         );
