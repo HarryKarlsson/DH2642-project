@@ -83,6 +83,17 @@ export default {
             state.userAnswer = ""; // Nollställ användarens svar
         }
         
+        function resetQuiz() {
+            state.randomCountry = null; // Rensa aktuell fråga
+            state.userAnswer = ""; // Nollställ användarens svar
+            state.isCorrect = false; // Återställ rätt/fel-status
+            state.showResult = false; // Dölj resultatet
+            state.score = 0; // Återställ poängen
+            state.quizCompleted = false; // Markera quizet som inte avslutat
+        
+            // Starta om quizet
+            startQuiz();
+        }
         
         
         
@@ -105,10 +116,13 @@ export default {
                     checkAnswer={checkAnswer}
                     isCorrect={state.isCorrect}
                     showResult={state.showResult}
-                    nextQuestion={nextQuestion} // Skicka funktionen för nästa fråga
-                    score={state.score} // Skicka poängen till vyn
+                    nextQuestion={nextQuestion}
+                    score={state.score}
+                    quizCompleted={state.quizCompleted}
+                    resetQuiz={resetQuiz} // Skicka funktionen till vyn
                 />
             );
         };
+        
     },
 };

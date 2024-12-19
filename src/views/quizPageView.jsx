@@ -9,6 +9,7 @@ export function QuizPageView(props) {
         nextQuestion,
         score,
         quizCompleted,
+        resetQuiz, // Lägg till resetQuiz som prop
     } = props;
 
     function handleInputChange(event) {
@@ -23,6 +24,7 @@ export function QuizPageView(props) {
                 <div>
                     <h2>Quiz Completed!</h2>
                     <p>Your final score is: {score} / 9</p>
+                    <button onClick={resetQuiz}>Play Again</button> {/* "Play Again"-knapp */}
                 </div>
             ) : (
                 // Visa quizet om det inte är klart
