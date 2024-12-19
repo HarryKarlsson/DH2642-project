@@ -14,12 +14,13 @@ const countryModel = {
         currentCountryId: null,
         region: '',
         countryNames: [],
-        quizCountries: [], 
-        currentQuizIndex: 0, 
-        userAnswer: '', 
+        quizCountries: [],
+        currentQuizIndex: 0,
+        userAnswer: '',
         randomCountry: null,
         searchType: 'name',
-        searchError: ""
+        searchError: "",
+        maxQuestions: 9, // Lägg till max antal frågor
     },
 
     // Sätter vald region och hämtar länder för regionen
@@ -72,9 +73,8 @@ const countryModel = {
         ) {
             return this.data.quizCountries[this.data.currentQuizIndex];
         }
-        return null; // Inga fler frågor
-    }
-    ,
+        return null;
+    },
 
     checkAnswer(answer) {
         const currentCountry = this.getCurrentQuizCountry();
@@ -83,17 +83,19 @@ const countryModel = {
     },
 
     nextQuestion() {
-        if (this.data.currentQuizIndex < this.data.quizCountries.length - 1) {
-            this.data.currentQuizIndex += 1; // Öka indexet för att visa nästa fråga
-        } else {
-            console.log("No more questions left in the quiz.");
+        if (this.isQuizCompleted()) {
+            console.log("Quiz completed or max questions reached!");
+            return;
         }
+        this.data.currentQuizIndex += 1; // Flytta till nästa fråga
     }
-    
-    
-    
     ,
 
+    isQuizCompleted() {
+        return this.data.currentQuizIndex >= this.data.maxQuestions || 
+               this.data.currentQuizIndex >= this.data.quizCountries.length;
+    },
+    
     resetQuiz() {
         this.data.quizCountries = [];
         this.data.currentQuizIndex = 0;
@@ -150,6 +152,8 @@ const countryModel = {
             console.error('Error loading initial data:', error);
         }
     },
+
+    
 
     // Sätt felmeddelande
     setErrorMessage(message) {

@@ -9,7 +9,10 @@ export default {
             userAnswer: "",
             isCorrect: false,
             showResult: false,
+            score: 0,
+            quizCompleted: false, // Nytt fält för att markera att quizet är slut
         });
+        
 
         // Funktion för att starta quizet
         async function startQuiz() {
@@ -41,34 +44,52 @@ export default {
 
         // Kontrollera om svaret är rätt
         function checkAnswer() {
+            if (state.quizCompleted) {
+                console.log("Quiz is already completed. No more answers allowed.");
+                return;
+            }
+        
             const currentCountry = countryModel.getCurrentQuizCountry();
             if (!currentCountry) {
                 console.error("No country available for checking.");
                 return;
             }
-
+        
             state.isCorrect =
                 state.userAnswer.trim().toLowerCase() === currentCountry.name.trim().toLowerCase();
             state.showResult = true;
-
+        
+            if (state.isCorrect) {
+                state.score += 1; // Öka poängen om svaret är rätt
+            }
+        
             console.log("User Answer:", state.userAnswer);
             console.log("Correct Answer:", currentCountry.name);
             console.log("Is Correct:", state.isCorrect);
+            console.log("Current Score:", state.score);
         }
-
-        // Gå till nästa fråga
+        
         function nextQuestion() {
+            if (countryModel.isQuizCompleted()) {
+                console.log("Quiz completed!");
+                state.quizCompleted = true; // Markera quizet som avslutat
+                state.randomCountry = null; // Rensa frågan
+                return;
+            }
+        
             countryModel.nextQuestion(); // Flytta till nästa fråga i modellen
             state.randomCountry = countryModel.getCurrentQuizCountry(); // Hämta nästa fråga
-
-            if (state.randomCountry) {
-                state.showResult = false; // Dölj resultatet
-                state.userAnswer = ""; // Nollställ användarens svar
-                console.log("Next question loaded:", state.randomCountry);
-            } else {
-                console.log("No more questions available. Quiz completed!");
-            }
+            state.showResult = false; // Dölj resultatet
+            state.userAnswer = ""; // Nollställ användarens svar
         }
+        
+        
+        
+        
+
+        // Gå till nästa fråga
+
+        
 
         // Körs när komponenten mountas
         onMounted(() => {
@@ -85,6 +106,7 @@ export default {
                     isCorrect={state.isCorrect}
                     showResult={state.showResult}
                     nextQuestion={nextQuestion} // Skicka funktionen för nästa fråga
+                    score={state.score} // Skicka poängen till vyn
                 />
             );
         };
