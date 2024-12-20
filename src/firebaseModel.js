@@ -89,6 +89,8 @@ export function connectToFirebase(model, watchFunction) {
 
 //update just score
 async function fireBaseUpdatescore(email, score) {
+
+if (score < 0) { score = 0; }
   const replacedEmail = email.replaceAll(".", ",");
   set(ref(db, "users/" + replacedEmail + "/userScore"), score);
   console.log("Score updated in Firebase for user:", email + " to " + score);
