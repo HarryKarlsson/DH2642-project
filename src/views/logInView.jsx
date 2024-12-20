@@ -1,5 +1,5 @@
 //logInView.jsx
-import { app } from "../firebaseApp";
+import { app } from "../firebaseConfig";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
 
 import "../css/logIn.css";

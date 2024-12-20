@@ -1,6 +1,6 @@
 // firebaseModel.js
 import { getDatabase, ref, set, onValue, get } from "firebase/database";
-import { app } from "./firebaseApp";
+import { app } from "./firebaseConfig";
 
 
 const db = getDatabase(app);
@@ -12,7 +12,7 @@ export async function saveToFirebase(model) {
     console.log("No user email found in model:", model);
     return;
   }
-  const replacedEmail = model.data.userEmail.replace(".", ",");
+  const replacedEmail = model.data.userEmail.replaceAll(".", ",");
 
   
  
@@ -40,7 +40,7 @@ export async function saveToFirebase(model) {
 export async function checkIfUserExists(email) {
   if (!email) return false;
  
-  const replacedEmail = email.replace(".", ",");
+  const replacedEmail = email.replaceAll(".", ",");
   const userRef = ref(db, "users/" + replacedEmail);
  
   try {
@@ -73,7 +73,7 @@ export function connectToFirebase(model, watchFunction) {
 
   // Watch for remote score changes
   if (model.data.isSignedIn && model.data.userEmail) {
-    const userRef = ref(db, "users/" + model.data.userEmail.replace(".", ","));
+    const userRef = ref(db, "users/" + model.data.userEmail.replaceAll(".", ","));
 
     onValue(userRef, (snapshot) => {
       const remoteScore = snapshot.val().userScore;
@@ -89,7 +89,7 @@ export function connectToFirebase(model, watchFunction) {
 
 //update just score
 async function fireBaseUpdatescore(email, score) {
-  const replacedEmail = email.replace(".", ",");
+  const replacedEmail = email.replaceAll(".", ",");
   set(ref(db, "users/" + replacedEmail + "/userScore"), score);
   console.log("Score updated in Firebase for user:", email + " to " + score);
 }

@@ -13,6 +13,10 @@ export default {
             quizCompleted: false,
         });
         
+        function getScore() {
+            return this.score;
+        }
+
         function startQuiz() {
             if (!countryModel.data.region) {
                 console.error("No region selected for the quiz.");
