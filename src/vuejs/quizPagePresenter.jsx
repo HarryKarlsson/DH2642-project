@@ -1,6 +1,8 @@
 import { reactive, onMounted } from "vue";
 import { QuizPageView } from "../views/quizPageView";
 import countryModel from "../countryModel";
+import userModel from "/src/userModel";
+
 
 export default {
     setup: function () {
@@ -9,15 +11,17 @@ export default {
             userAnswer: "",
             isCorrect: false,
             showResult: false,
-            score: 0,
             quizCompleted: false,
+            highestScore: 3
         });
         
-        function getScore() {
-            return this.score;
+        function setHighestScore(score){
+            this.highestScore = score; 
         }
 
+        
         function startQuiz() {
+            userModel.resetQuizScore();
             if (!countryModel.data.region) {
                 console.error("No region selected for the quiz.");
                 return;
@@ -74,13 +78,13 @@ export default {
             state.showResult = true;
         
             if (state.isCorrect) {
-                state.score += 1; 
+                userModel.setQuizScore(1); 
             }
         //För oss att kolla på ta bort den
             console.log("User Answer:", state.userAnswer);
             console.log("Correct Answer:", state.currentQuestion.answer);
             console.log("Is Correct:", state.isCorrect);
-            console.log("Current Score:", state.score);
+            console.log("Current quizScore:", state.quizScore);
         }
         
         function resetQuiz() {
@@ -88,7 +92,7 @@ export default {
             state.userAnswer = ""; 
             state.isCorrect = false; 
             state.showResult = false; 
-            state.score = 0; 
+            userModel.setQuizScore(0); 
             state.quizCompleted = false; 
     
             startQuiz();
@@ -108,7 +112,7 @@ export default {
                     isCorrect={state.isCorrect}
                     showResult={state.showResult}
                     nextQuestion={nextQuestion}
-                    score={state.score}
+                    quizScore={userModel.getQuizScore()}
                     quizCompleted={state.quizCompleted}
                     resetQuiz={resetQuiz}
                 />

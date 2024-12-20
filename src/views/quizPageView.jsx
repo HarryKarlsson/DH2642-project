@@ -1,3 +1,5 @@
+import userModel from "/src/userModel";
+
 export function QuizPageView(props) {
     const {
         currentQuestion,
@@ -22,12 +24,12 @@ export function QuizPageView(props) {
             {quizCompleted ? (
                 <div>
                     <h2>Quiz Completed!</h2>
-                    <p>Your final score is: {score} / 9</p>
+                    <p>Your final score is: {userModel.getQuizScore()} / 9</p>
                     <button onClick={resetQuiz}>Play Again</button>
                 </div>
             ) : (
                 <div>
-                    <p>Score: {score}</p>
+                    <p>Score: {userModel.getQuizScore()}</p>
 
                     {currentQuestion && (
                         <div>
@@ -50,7 +52,12 @@ export function QuizPageView(props) {
                                 disabled={showResult}
                             />
                             {!showResult && (
-                                <button onClick={checkAnswer}>Submit</button>
+                                <button 
+                                onClick={() => {
+                                    userModel.compareScore(userModel.data.quizScore, userModel.data.userScore);
+                                    checkAnswer();
+                                }}
+                                >Submit</button>
                             )}
                             {showResult && (
                                 <div>

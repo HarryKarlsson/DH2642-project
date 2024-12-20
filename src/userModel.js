@@ -7,6 +7,7 @@ const userModel = {
     userEmail: "",
     isSignedIn: false,
     userScore: 0,
+    quizScore: 0,
     isNewUser: false,
   }),
 
@@ -36,7 +37,29 @@ const userModel = {
 
   decrementScore() {
     this.data.userScore -= 1;
+  },
+  compareScore(quizScore, userScore) {
+    if (quizScore > userScore) {
+      this.setUserScore(quizScore);
+    }
+  },
+
+  setQuizScore(score) {
+    this.data.quizScore += score;
+  },
+
+  getQuizScore() {
+    return this.data.quizScore;
+  },
+
+  resetQuizScore() {
+    this.data.quizScore = 0; 
   }
+
+
+
+  
+
 };
 
 export default userModel;
