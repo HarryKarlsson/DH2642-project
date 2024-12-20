@@ -1,4 +1,5 @@
 import "../css/nav.css"
+import {getHighestScore} from "/src/firebaseModel";
 function NavbarView() { // navbar
 
     function nameThatCountryButtonACB() {
@@ -23,6 +24,14 @@ function NavbarView() { // navbar
         window.location.hash = "#/quiz"; 
     }
 
+    function highScoreButtonACB() {
+        console.log("High Score button was clicked");
+        getHighestScore();
+        window.location.hash = "#/highScore"; 
+    }
+
+
+
     return (
         <nav>
             <h1 onClick={nameThatCountryButtonACB} className="nav-h1"> Name that country!</h1> {/* Man vill nog ha denna text som länk till hem från alla sidor // Fixat*/}
@@ -31,6 +40,7 @@ function NavbarView() { // navbar
                 <a onClick={practiceButtonACB}>Practice</a>
                 <a onClick={myProfileButtonACB}>My profile</a>
                 <a onClick={quizButtonACB}>Quiz</a>
+                <a onClick={highScoreButtonACB}>High score</a>
             </div>
         </nav>
     );

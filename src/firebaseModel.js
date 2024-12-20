@@ -1,6 +1,7 @@
 // firebaseModel.js
 import { getDatabase, ref, set, onValue, get } from "firebase/database";
 import { app } from "./firebaseConfig";
+import userModel from "/src/userModel";
 
 
 const db = getDatabase(app);
@@ -118,14 +119,14 @@ export async function getAllUsersFromFirebase() {
 
 // handel highest score default is 3
 
-export async function setUppDefaultHighScore() {
+export async function setUppDefaultHighScore(score) {
   // if the path is exist then return
   const snapshot = await get(ref(db, "highScore"));
   if (snapshot.exists()) {
     console.log("High score already exists in Firebase");
     return;
   }
-  const highestScore = 3;
+  const highestScore = score;
   const defaultUser = "defaultUser";
   const defaultEmail = "defaultEmail";
   const path = "highScore";
@@ -145,13 +146,41 @@ export async function setUppDefaultHighScore() {
 
 // compare the highest score with the user score
 export async function getHighestScore() {
-  const snapshot = await get(ref(db, "highScore"));
-  return snapshot.val().userScore;
+  const highestScoreProfile = [];
+  const fireBaseHighScore = await get(ref(db, "highScore"));
+  const listOfUsers = await getAllUsersFromFirebase();
+  // sort the list of users by score
+  listOfUsers.sort((a, b) => b.userScore - a.userScore);
+  // get the highest score
+  const highestScore = listOfUsers[0].userScore;
+  const userName = listOfUsers[0].userName;
+  // compare the highest score
+  if (compareHighestScore(highestScore, userName)) {
+     changeTheHighestScore(highestScore, userName);
+    highestScoreProfile.push(userName);
+    highestScoreProfile.push(highestScore);
+  }
+  else {
+    highestScoreProfile.push(fireBaseHighScore.val().userName);
+    highestScoreProfile.push(fireBaseHighScore.val().userScore);
+  }
+  return highestScoreProfile;
+  
 }
 
-export async function changeTheHighestScore(newScore) {
+export async function changeTheHighestScore(newScore, userName) {
   await set(ref(db, "highScore/userScore"), newScore);
-  console.log("High score updated in Firebase to:", newScore);
+  await set(ref(db, "highScore/userName"), userName);
+  console.log("Highest score updated in Firebase to:", newScore + " by " + userName);
+
+}
+
+export async function compareHighestScore(userScore, userName) {
+  const highestScore = await get(ref(db, "highScore/userScore"));
+  if (userScore > highestScore) {
+    return true;
+  }
+  return false;
 }
 
 

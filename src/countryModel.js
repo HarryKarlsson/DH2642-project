@@ -4,6 +4,8 @@ import {
     FetchCountryDataByRegion 
 } from '/src/countrySource.js';
 
+import userModel from '/src/userModel.js';
+
 const countryModel = {
     data: {
         countryData: null,
@@ -20,7 +22,7 @@ const countryModel = {
         randomCountry: null,
         searchType: 'name',
         searchError: "",
-        maxQuestions: 9, //om vi vill kan vi ändra denna 
+        maxQuestions: 10, // 
         questionType: "flag", // Här har vi olika typer capital eller flag
     },
 

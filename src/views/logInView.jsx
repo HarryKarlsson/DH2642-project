@@ -5,7 +5,7 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChang
 import "../css/logIn.css";
 import { defineComponent, onMounted } from "vue";
 import userModel from "/src/userModel";
-import {saveToFirebase, checkIfUserExists, getAllUsersFromFirebase } from "/src/firebaseModel";
+import {saveToFirebase, checkIfUserExists, getAllUsersFromFirebase, setUppDefaultHighScore } from "/src/firebaseModel";
 
 export default defineComponent({
   name: "LoginView",
@@ -30,7 +30,7 @@ export default defineComponent({
         userModel.setUserEmail(user.email);
         userModel.setIsSignedIn(true);
         userModel.setIsNewUser(userExists);
-
+       
         console.log("User exists in Firebase:", userExists);
         console.log("User model before save:", userModel);
 
@@ -43,7 +43,10 @@ export default defineComponent({
       } catch (error) {
         console.error("Sign-in error:", error);
       } 
-      
+
+      //setUppDefaultHighScore(2);
+       // set default high score
+       
       
     },
 
@@ -95,7 +98,7 @@ export default defineComponent({
             <button 
               className="btn-signIn" 
               id="signInButton" 
-              onClick={this.userSignIn}
+              onClick={this.userSignIn }
             > 
               Create account / Sign In
             </button>
@@ -124,6 +127,10 @@ export default defineComponent({
 
                 <button onClick={() => getAllUsersFromFirebase()}>
                 get all users
+                </button>
+
+                <button onClick={() => setUppDefaultHighScore(3)} >
+                set high score
                 </button>
 
             </div>

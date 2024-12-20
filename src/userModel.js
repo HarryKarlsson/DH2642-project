@@ -1,6 +1,5 @@
 import { increment } from 'firebase/database';
 import { reactive } from 'vue';
-
 const userModel = {
   data: reactive({
     userName: "",
@@ -42,6 +41,7 @@ const userModel = {
     if (quizScore > userScore) {
       this.setUserScore(quizScore);
     }
+
   },
 
   setQuizScore(score) {

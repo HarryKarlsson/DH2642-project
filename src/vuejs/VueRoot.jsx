@@ -7,6 +7,7 @@ import QuizPresenter from './quizPresenter';
 import NavbarPresenter from './navbarPresenter';
 import ProfilePresenter from './profilePresenter';
 import QuizPagePresenter from './quizPagePresenter';
+import HighScorePresenter from './highscorePresenter';
 
 
 export function makeRouter() {
@@ -46,6 +47,13 @@ export function makeRouter() {
                 component: <ProfilePresenter/>,
                 meta: { requiresAuth: true },
             },
+            {
+                path: "/highScore",
+                component: <HighScorePresenter/>,
+                meta: { requiresAuth: true },
+            }
+            
+
         ],
     });
 

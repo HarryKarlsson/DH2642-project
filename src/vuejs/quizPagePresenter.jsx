@@ -11,13 +11,10 @@ export default {
             userAnswer: "",
             isCorrect: false,
             showResult: false,
-            quizCompleted: false,
-            highestScore: 3
+            quizCompleted: false
         });
         
-        function setHighestScore(score){
-            this.highestScore = score; 
-        }
+       
 
         
         function startQuiz() {
