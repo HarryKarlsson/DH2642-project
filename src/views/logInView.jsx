@@ -1,6 +1,7 @@
 //logInView.jsx
 import { app } from "../firebaseApp";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
+
 import "../css/logIn.css";
 import { defineComponent, onMounted } from "vue";
 import userModel from "/src/userModel";

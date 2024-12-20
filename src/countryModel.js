@@ -1,6 +1,8 @@
-
-import { FetchCountryData, FetchCountryDataByName, FetchCountryDataByRegion } from '/src/countrySource.js';
-
+import { 
+    FetchCountryData, 
+    FetchCountryDataByName, 
+    FetchCountryDataByRegion 
+} from '/src/countrySource.js';
 
 const countryModel = {
     data: {
@@ -12,16 +14,192 @@ const countryModel = {
         currentCountryId: null,
         region: '',
         countryNames: [],
-        quizCountries: [], 
-        currentQuizIndex: 0, 
-        userAnswer: '', 
+        quizCountries: [],
+        currentQuizIndex: 0,
+        userAnswer: '',
+        randomCountry: null,
         searchType: 'name',
-        searchError : ""
-    }, 
+        searchError: "",
+        maxQuestions: 9, //om vi vill kan vi ändra denna 
+        questionType: "flag", // Här har vi olika typer capital eller flag
+    },
+
+    toggleQuestionType() {
+        this.data.questionType = this.data.questionType === "flag" ? "capital" : "flag";
+    },
+   
+    async setRegion(region) {
+        try {
+            this.data.region = region;
+            this.data.loading = true;
+    
+            const countries = await FetchCountryDataByRegion(region);
+            if (!Array.isArray(countries)) {
+                throw new Error("Countries data is not an array");
+            }
+
+            this.data.countryData = countries;
+            this.data.countryNames = countries.map((country) => country.name);
+            this.data.loading = false;
+    
+            console.log(`Countries loaded for region '${region}':`, this.data.countryNames);
+        } catch (error) {
+            console.error(`Error loading countries for region '${region}':`, error);
+            this.data.loading = false;
+        }
+    },
+    
+    async loadQuizCountries(region) {
+        try {
+            this.data.loading = true;
+            const countries = await FetchCountryDataByRegion(region);
+    
+            const validCountries = countries.filter((country) => country.flag && country.capital);
+    
+            if (validCountries.length === 0) {
+                console.error("No valid countries found. Using placeholder data.");
+                validCountries.push({
+                    name: "Test Country",
+                    //behöver vi denna? det ska ju fungera 
+                    flag: "https://via.placeholder.com/150",
+                    capital: "Test Capital",
+                });
+            }
+    
+            const randomCountries = validCountries
+                .sort(() => Math.random() - 0.5)
+                .slice(0, 10);
+    
+            this.setQuizCountries(randomCountries);
+            this.data.currentQuizIndex = 0;
+            this.data.loading = false;
+    
+            console.log("Quiz countries loaded:", randomCountries);
+        } catch (error) {
+            console.error("Error loading quiz countries:", error);
+            this.data.loading = false;
+        }
+    },
+    
+    getCurrentQuizQuestion() {
+        const currentCountry = this.getCurrentQuizCountry();
+        if (!currentCountry) {
+            console.error("No current country available for question.");
+            return null;
+        }
+    
+        if (this.data.questionType === "flag") {
+            console.log("Creating a flag question for:", currentCountry.name);
+            return {
+                type: "flag",
+                question: "Guess the country based on its flag!",
+                image: currentCountry.flag,
+                answer: currentCountry.name,
+            };
+        } else if (this.data.questionType === "capital") {
+            console.log("Creating a capital question for:", currentCountry.name);
+            return {
+                type: "capital",
+                question: `What is the capital of ${currentCountry.name}?`,
+                answer: currentCountry.capital,
+            };
+        }
+    },
+    
+
+     getCurrentQuizCountry() {
+        if (
+            this.data.quizCountries &&
+            this.data.currentQuizIndex >= 0 &&
+            this.data.currentQuizIndex < this.data.quizCountries.length
+        ) {
+            return this.data.quizCountries[this.data.currentQuizIndex];
+        }
+        return null;
+    },
+
+    checkAnswer(answer) {
+        const currentCountry = this.getCurrentQuizCountry();
+        if (!currentCountry) return false;
+        return currentCountry.name.trim().toLowerCase() === answer.trim().toLowerCase();
+    },
+
+    nextQuestion() {
+        if (this.isQuizCompleted()) {
+            console.log("Quiz completed or max questions reached!");
+            return;
+        }
+        this.data.currentQuizIndex += 1;
+    },
+
+    isQuizCompleted() {
+        return this.data.currentQuizIndex >= this.data.maxQuestions || 
+               this.data.currentQuizIndex >= this.data.quizCountries.length;
+    },
+    
+    resetQuiz() {
+        this.data.quizCountries = [];
+        this.data.currentQuizIndex = 0;
+        this.data.userAnswer = '';
+    },
+
+
+    async fetchRandomCountry() {
+        try {
+            this.data.loading = true;
+            if (!this.data.region) {
+                throw new Error("Region is not set.");
+            }
+
+            const countries = await FetchCountryDataByRegion(this.data.region);
+            const randomIndex = Math.floor(Math.random() * countries.length);
+            const randomCountry = countries[randomIndex];
+
+            if (!randomCountry) {
+                throw new Error("No country found for the selected region.");
+            }
+
+            this.data.randomCountry = {
+                name: randomCountry.name || "Unknown Country",
+                flag: randomCountry.flag || "No Flag Available"
+            };
+            this.data.loading = false;
+        } catch (error) {
+            console.error("Error fetching random country:", error.message);
+            this.data.loading = false;
+        }
+    },
+
+    async searchCountries(query) {
+        if (!query) return;
+        try {
+            this.data.loading = true;
+            const data = await FetchCountryDataByName(query);
+            this.setCountryData(data);
+            return data;
+        } catch (error) {
+            console.error('Error searching countries:', error);
+            this.data.loading = false;
+        }
+    },
+
+    async loadInitialData() {
+        try {
+            const data = await FetchCountryData();
+            this.setCountryData(data);
+        } catch (error) {
+            console.error('Error loading initial data:', error);
+        }
+    },
+
+    setErrorMessage(message) {
+        this.data.searchError = message;
+    },
 
     setSearchType(type) {
         this.data.searchType = type;
     },
+
     setCountryData(data) {
         this.data.countryData = data;
         this.data.loading = false;
@@ -42,11 +220,6 @@ const countryModel = {
         this.data.currentCountryId = id;
     },
 
-
-    setRegion(region) {
-        this.data.region = region;
-    },
-
     setCountryName(names) {
         this.data.countryNames = names;
     },
@@ -61,108 +234,7 @@ const countryModel = {
 
     setUserAnswer(answer) {
         this.data.userAnswer = answer;
-    },
-
-    // Quiz-specific methods
-    async loadQuizCountries(region) {
-        try {
-            this.data.loading = true;
-            const countries = await FetchCountryDataByRegion(region); // Fetch all country data
-            const randomCountries = Object.values(countries)
-                .sort(() => Math.random() - 0.5) // Shuffle countries
-                .slice(0, 10); // Pick the first 10 for the quiz
-            this.setQuizCountries(randomCountries); // Update the model with quiz countries
-            this.data.currentQuizIndex = 0; // Reset to the first question
-            this.data.loading = false;
-        } catch (error) {
-            console.error('Error loading quiz countries:', error);
-            this.data.loading = false;
-        }
-    },
-
-    getCurrentQuizCountry() {
-        if (!this.data.quizCountries || this.data.quizCountries.length === 0) {
-            return null;
-        }
-        return this.data.quizCountries[this.data.currentQuizIndex];
-    },
-
-    checkAnswer(answer) {
-        const currentCountry = this.getCurrentQuizCountry();
-        if (!currentCountry) return false;
-        return currentCountry.name.toLowerCase() === answer.trim().toLowerCase();
-    },
-
-    nextQuestion() {
-        if (this.data.currentQuizIndex < this.data.quizCountries.length - 1) {
-            this.data.currentQuizIndex += 1;
-        } else {
-            console.log("Quiz completed!");
-        }
-    },
-
-    resetQuiz() {
-        this.data.quizCountries = [];
-        this.data.currentQuizIndex = 0;
-        this.data.userAnswer = '';
-    },
-
-    setErrorMessage(message) {
-        this.data.searchError = message;
-    },
-
-
-    async fetchRandomCountry() {
-        try {
-            this.data.loading = true;
-            const allCountries = await FetchCountryData();
-            const countryArray = Object.values(allCountries);
-    
-            if (countryArray.length === 0) {
-                throw new Error("Country data is empty");
-            }
-    
-            const randomIndex = Math.floor(Math.random() * countryArray.length);
-            const randomCountry = countryArray[randomIndex];
-    
-            const countryName = randomCountry?.name || "Unknown Country";
-            const countryFlag = randomCountry?.flag?.medium || randomCountry?.flag?.small || "No Flag Available";
-    
-            this.data.randomCountry = { name: countryName, flag: countryFlag };
-            this.data.loading = false;
-        } catch (error) {
-            console.error("Error fetching random country:", error.message);
-            this.data.loading = false;
-        }
     }
-,    
-    async searchCountries(query) {
-        if (!query) return;
-        try {
-            this.data.loading = true;
-            const data = await FetchCountryDataByName(query);
-            this.setCountryData(data);
-            return data;
-        } catch (error) {
-            console.error('Error searching countries:', error);
-            this.data.loading = false;
-        }
-    },
-
-
-    // Data loading
-
-
-    async loadInitialData() {
-        try {
-            const data = await FetchCountryData();
-            this.setCountryData(data);
-        } catch (error) {
-            console.error('Error loading initial data:', error);
-        }
-    },
-
-
 };
 
 export default countryModel;

@@ -2,6 +2,7 @@
 import { getDatabase, ref, set, onValue, get } from "firebase/database";
 import { app } from "./firebaseApp";
 
+
 const db = getDatabase(app);
 
 export async function saveToFirebase(model) {

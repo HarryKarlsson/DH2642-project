@@ -1,76 +1,116 @@
-
 import { reactive, onMounted } from "vue";
 import { QuizPageView } from "../views/quizPageView";
 import countryModel from "../countryModel";
 
 export default {
-    setup: function() {
-       
+    setup: function () {
         const state = reactive({
-            randomCountry: null, 
-            loading: false,      
-            userAnswer: "",      
+            randomCountry: null,
+            userAnswer: "",
             isCorrect: false,
-            showResult: false   
+            showResult: false,
+            score: 0,
+            quizCompleted: false,
         });
-
-
-        // Funktion för att generera ett nytt slumpmässigt land
-        function generateRandomCountry() {
-            state.loading = true; 
-
-            countryModel.fetchRandomCountry().then(function() {
-                state.randomCountry = countryModel.data.randomCountry;
-                console.log("Generated country:", state.randomCountry);
-//Här ska man säkert spara sen tills poäng eller liknande
-                state.loading = false;   
-                state.userAnswer = "";   
-                state.showResult = false; 
-            }).catch(function(error) {
-                console.error("Failed to fetch country:", error);
-                state.loading = false;
+        
+        function startQuiz() {
+            if (!countryModel.data.region) {
+                console.error("No region selected for the quiz.");
+                return;
+            }
+        
+            countryModel.loadQuizCountries(countryModel.data.region).then(() => {
+                state.currentQuestion = countryModel.getCurrentQuizQuestion();
+                if (!state.currentQuestion) {
+                    console.error("Failed to generate the first question.");
+                } else {
+                    console.log("First question generated:", state.currentQuestion);
+                }
             });
         }
-
         
+        function nextQuestion() {
+            if (countryModel.isQuizCompleted()) {
+                console.log("Quiz completed!");
+                state.quizCompleted = true;
+                state.currentQuestion = null;
+                return;
+            }
+        
+            countryModel.nextQuestion();
+            countryModel.toggleQuestionType(); 
+            state.currentQuestion = countryModel.getCurrentQuizQuestion();
+            state.showResult = false;
+            state.userAnswer = "";
+        }
+        
+
+       
         function setUserAnswer(answer) {
             state.userAnswer = answer;
         }
 
+       
         function checkAnswer() {
-            if (!state.randomCountry) {
+            if (state.quizCompleted) {
+                console.log("Quiz is already completed. No more answers allowed.");
+                return;
+            }
+        
+            const currentCountry = countryModel.getCurrentQuizCountry();
+            if (!currentCountry) {
                 console.error("No country available for checking.");
                 return;
             }
-
-            state.isCorrect =
-                state.userAnswer.trim().toLowerCase() === state.randomCountry.name.trim().toLowerCase();
-            state.showResult = true; 
-//För mig att se men ta bort sen kanske??
+        
+            const correctAnswer = state.currentQuestion.answer.trim().toLowerCase(); 
+            const userResponse = state.userAnswer.trim().toLowerCase(); 
+        
+            state.isCorrect = correctAnswer === userResponse;
+            state.showResult = true;
+        
+            if (state.isCorrect) {
+                state.score += 1; 
+            }
+        //För oss att kolla på ta bort den
             console.log("User Answer:", state.userAnswer);
-            console.log("Correct Answer:", state.randomCountry.name);
+            console.log("Correct Answer:", state.currentQuestion.answer);
             console.log("Is Correct:", state.isCorrect);
+            console.log("Current Score:", state.score);
+        }
+        
+        function resetQuiz() {
+            state.randomCountry = null; 
+            state.userAnswer = ""; 
+            state.isCorrect = false; 
+            state.showResult = false; 
+            state.score = 0; 
+            state.quizCompleted = false; 
+    
+            startQuiz();
         }
 
-     //Den ska ju köras när man klickar på knappen men jag vill bara testa 
-        onMounted(function() {
-            generateRandomCountry();
+        onMounted(() => {
+            startQuiz(); 
         });
 
-    
-        return function() {
+        return function () {
             return (
                 <QuizPageView
-                    randomCountry={state.randomCountry}
-                    generateRandomCountry={generateRandomCountry}
+                    currentQuestion={state.currentQuestion}
                     userAnswer={state.userAnswer}
                     setUserAnswer={setUserAnswer}
                     checkAnswer={checkAnswer}
-                    loading={state.loading}
                     isCorrect={state.isCorrect}
                     showResult={state.showResult}
+                    nextQuestion={nextQuestion}
+                    score={state.score}
+                    quizCompleted={state.quizCompleted}
+                    resetQuiz={resetQuiz}
                 />
             );
         };
-    }
+        
+
+    },
 };

@@ -65,7 +65,6 @@ export function FetchCountryDataBycapital(capital) {
 }
 
 export function FetchCountryDataBylaguage(language) {
-    // ignore capital letters make it lowercase
     language = language.toLowerCase();
     const url = `${API_URL}/language/${language}`;
     return fetch(url, {
@@ -85,25 +84,34 @@ export function FetchCountryDataBylaguage(language) {
         console.error('Error:', error);
     });
 }   
-
 export function FetchCountryDataByRegion(region) {
-    // ignore capital letters make it lowercase
-    region = region.toLowerCase();
-    const url = `${API_URL}/region/${region}`;
+    const formattedRegion = region.toLowerCase().replace(/\s+/g, "-");
+    const url = `${API_URL}/region/${formattedRegion}`;
+
     return fetch(url, {
-        method: 'GET',
+        method: "GET",
         headers: {
-            'Authorization': `Bearer ${API_KEY}`
-        }
+            Authorization: `Bearer ${API_KEY}`,
+        },
     })
-    .then((response) => {
-        return response.json();
-    })
-    .then((data) => {
-        console.log('Data received:', data);
-        return data
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-    });
-}   
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then((data) => {
+            const countryArray = Object.values(data).map((country) => ({
+                name: country.name || "Unknown Country",
+                // Placeholder-flagga kanske inte behövs för då fungerar det ju inte
+                flag: country.flag?.large || "https://via.placeholder.com/150", 
+                capital: country.capital || "Unknown Capital",
+            }));
+            console.log("Converted country data to array:", countryArray); 
+            return countryArray;
+        })
+        .catch((error) => {
+            console.error(`Error fetching data for region '${region}':`, error);
+            throw error;
+        });
+}
