@@ -121,9 +121,7 @@ export default defineComponent({
               <button onClick={() => this.userModel.incrementScore()}>
                 increment score
               </button>
-              <button onClick={() => this.userModel.decrementScore()}>
-                decrement score
-                </button>
+              
 
                 <button onClick={() => getAllUsersFromFirebase()}>
                 get all users

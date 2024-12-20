@@ -79,6 +79,9 @@ export function connectToFirebase(model, watchFunction) {
     onValue(userRef, (snapshot) => {
       const remoteScore = snapshot.val().userScore;
       console.log("Remote score changed to:", remoteScore);
+      if (remoteScore < 0){
+        remoteScore = 0;
+      }
       model.setUserScore(remoteScore);
     }
     );
