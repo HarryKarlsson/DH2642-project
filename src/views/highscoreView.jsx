@@ -1,4 +1,4 @@
-import { changeTheHighestScore, getHighestScore } from "../firebaseModel";
+import { getHighestScore } from "../firebaseModel";
 import "../css/profile.css";
 
 export default {
@@ -12,6 +12,8 @@ export default {
     async mounted() { // 
         try {
             const scoreData = await getHighestScore();
+            console.log("Score data:", scoreData);
+
             this.playerName = scoreData[0];
             this.bestScore = scoreData[1];
         } catch (error) {

@@ -30,7 +30,7 @@ export function makeRouter() {
             {
                 path: "/practice",
                 component: <PracticePresenter/>,
-                meta: { requiresAuth: true },
+               // meta: { requiresAuth: true },
             },
             {
                 path: "/quiz",
@@ -50,7 +50,7 @@ export function makeRouter() {
             {
                 path: "/highScore",
                 component: <HighScorePresenter/>,
-                meta: { requiresAuth: true },
+                //meta: { requiresAuth: true },
             }
             
 

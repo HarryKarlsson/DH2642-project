@@ -1,5 +1,6 @@
 import "../css/nav.css"
 import {getHighestScore} from "/src/firebaseModel";
+import {signOutUser} from "/src/views/loginView";
 function NavbarView() { // navbar
 
     function nameThatCountryButtonACB() {
@@ -29,6 +30,10 @@ function NavbarView() { // navbar
         getHighestScore();
         window.location.hash = "#/highScore"; 
     }
+    function signOutButtonACB() {
+        console.log("Sign out button was clicked");
+        signOutUser();
+    }
 
 
 
@@ -41,6 +46,8 @@ function NavbarView() { // navbar
                 <a onClick={myProfileButtonACB}>My profile</a>
                 <a onClick={quizButtonACB}>Quiz</a>
                 <a onClick={highScoreButtonACB}>High score</a>
+                <a onClick={signOutButtonACB}>Sign out</a>
+                
             </div>
         </nav>
     );

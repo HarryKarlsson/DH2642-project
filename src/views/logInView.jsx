@@ -5,7 +5,29 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChang
 import "../css/logIn.css";
 import { defineComponent, onMounted } from "vue";
 import userModel from "/src/userModel";
-import {saveToFirebase, checkIfUserExists, getAllUsersFromFirebase, setUppDefaultHighScore } from "/src/firebaseModel";
+import {saveToFirebase, checkIfUserExists, getAllUsersFromFirebase, setUppDefaultHighScore, resetScores } from "/src/firebaseModel";
+
+
+
+export async function signOutUser() {
+  // if user is already signed out, do nothing
+  if (!userModel.data.isSignedIn) {
+    return;
+  }
+  const auth = getAuth(app);
+  try {
+    await signOut(auth);
+    userModel.setIsSignedIn(false);
+    userModel.setUserName("");
+    userModel.setUserEmail("");
+    localStorage.clear();
+    sessionStorage.clear();
+    window.location.hash = "#/login";
+    window.location.reload();
+  } catch (error) {
+    console.error("Sign-out error:", error);
+  }
+}
 
 export default defineComponent({
   name: "LoginView",
@@ -35,7 +57,6 @@ export default defineComponent({
         console.log("User model before save:", userModel);
 
         if (!userExists) {
-            userModel.setUserScore(0);
             await saveToFirebase(userModel);
             console.log("New user data saved to Firebase");  
         }
@@ -43,28 +64,7 @@ export default defineComponent({
       } catch (error) {
         console.error("Sign-in error:", error);
       } 
-
-      //setUppDefaultHighScore(2);
-       // set default high score
-       
-      
     },
-
-    async userSignOut() {
-      const auth = getAuth(app);
-      try {
-        await signOut(auth);
-        userModel.setIsSignedIn(false);
-        userModel.setUserName("");
-        userModel.setUserEmail("");
-        localStorage.clear();
-        sessionStorage.clear();
-        window.location.hash = "#/login";
-        window.location.reload();
-      } catch (error) {
-        console.error("Sign-out error:", error);
-      }
-    }
   },
   
   mounted() {
@@ -103,15 +103,7 @@ export default defineComponent({
               Create account / Sign In
             </button>
           )}
-          {this.userModel.data.isSignedIn && (
-            <button 
-              className="btn-signOut" 
-              id="signOutButton" 
-              onClick={this.userSignOut}
-            >
-              Sign Out
-            </button>
-          )} 
+          
           {this.userModel.data.isSignedIn && (
             <div id="message">
               <p>You have signed in as:</p>
@@ -130,6 +122,11 @@ export default defineComponent({
                 <button onClick={() => setUppDefaultHighScore(3)} >
                 set high score
                 </button>
+
+                <button onClick={() => resetScores()} >
+                reset scores
+                </button>
+
 
             </div>
           )}

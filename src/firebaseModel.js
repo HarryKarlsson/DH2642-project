@@ -78,6 +78,10 @@ export function connectToFirebase(model, watchFunction) {
 
     onValue(userRef, (snapshot) => {
       const remoteScore = snapshot.val().userScore;
+      // add null check
+      if (remoteScore === null) {
+        return;
+      }
       console.log("Remote score changed to:", remoteScore);
       if (remoteScore < 0){
         remoteScore = 0;
@@ -94,22 +98,36 @@ export function connectToFirebase(model, watchFunction) {
 //update just score
 async function fireBaseUpdatescore(email, score) {
 
-if (score < 0) { score = 0; }
+// if (score < 0) { score = 0; }
   const replacedEmail = email.replaceAll(".", ",");
   set(ref(db, "users/" + replacedEmail + "/userScore"), score);
   console.log("Score updated in Firebase for user:", email + " to " + score);
 }
 
 
+export async function getDefaultScore() {
+  const defaultList = [];
+  const defaultScore = await get(ref(db, "highScore"));
+  // push all parameters to the list
+  defaultList.push(defaultScore.val().userName);
+  defaultList.push(defaultScore.val().userScore);
+  console.log("Default score is:", defaultList);
+  return defaultList;
+}
 
 export async function getAllUsersFromFirebase() {
-  const usersRef = ref(db, "users");
+  const usersRef = await get(ref(db, "users"));
   const usersList = [];
+  
   try {
-    const snapshot = await get(usersRef);
-    snapshot.forEach((childSnapshot) => {
-      const user = childSnapshot.val();
-      usersList.push(user);
+    // Combine user data with their high scores
+    usersRef.forEach((childSnapshot) => {
+      const childData = childSnapshot.val();
+      usersList.push({
+        userName: childData.userName,
+        userEmail: childData.userEmail,
+        userScore: childData.userScore,
+      });
     });
     console.log("Successfully retrieved all users from Firebase:", usersList);
     return usersList;
@@ -119,16 +137,19 @@ export async function getAllUsersFromFirebase() {
   }
 }
 
-
 // handel highest score default is 3
 
 export async function setUppDefaultHighScore(score) {
+  // delet the existing high score
+  const highScoreRef = ref(db, "highScore");
+  await set(ref(db, "highScore"), null);
+
   // if the path is exist then return
-  const snapshot = await get(ref(db, "highScore"));
-  if (snapshot.exists()) {
-    console.log("High score already exists in Firebase");
-    return;
-  }
+  //const snapshot = await get(ref(db, "highScore"));
+  // if (snapshot.exists()) {
+  //   console.log("High score already exists in Firebase");
+  //   return;
+  // }
   const highestScore = score;
   const defaultUser = "defaultUser";
   const defaultEmail = "defaultEmail";
@@ -149,41 +170,58 @@ export async function setUppDefaultHighScore(score) {
 
 // compare the highest score with the user score
 export async function getHighestScore() {
-  const highestScoreProfile = [];
-  const fireBaseHighScore = await get(ref(db, "highScore"));
-  const listOfUsers = await getAllUsersFromFirebase();
-  // sort the list of users by score
-  listOfUsers.sort((a, b) => b.userScore - a.userScore);
-  // get the highest score
-  const highestScore = listOfUsers[0].userScore;
-  const userName = listOfUsers[0].userName;
-  // compare the highest score
-  if (compareHighestScore(highestScore, userName)) {
-     changeTheHighestScore(highestScore, userName);
-    highestScoreProfile.push(userName);
-    highestScoreProfile.push(highestScore);
+  try {
+    // Get users and default high score
+    const listOfUsers = await getAllUsersFromFirebase();
+    const defaultScore = await getDefaultScore();
+    let highestScoreProfile = [];
+
+    // Check if we have any users
+    if (listOfUsers && listOfUsers.length > 0) {
+      // Sort users by score in descending order
+      listOfUsers.sort((a, b) => b.userScore - a.userScore);
+      const highestUser = listOfUsers[0];
+      
+      // Compare highest user score with default score
+      if (highestUser.userScore > defaultScore[1]) {
+        // User has higher score than default/current high score
+        await changeTheHighestScore(highestUser.userScore, highestUser.userName);
+        highestScoreProfile = [highestUser.userName, highestUser.userScore];
+        console.log(`New highest score: ${highestUser.userScore} by ${highestUser.userName}`);
+      } else {
+        // Default/current score is still higher
+        highestScoreProfile = defaultScore;
+        console.log(`Current highest score remains: ${defaultScore[1]} by ${defaultScore[0]}`);
+      }
+    } else {
+      // No users, return default score
+      highestScoreProfile = defaultScore;
+      console.log(`Using default high score: ${defaultScore[1]} by ${defaultScore[0]}`);
+    }
+
+    console.log("Highest score profile:", highestScoreProfile);
+    return highestScoreProfile;
+  } catch (error) {
+    console.error("Error getting highest score:", error);
+    throw error;
   }
-  else {
-    highestScoreProfile.push(fireBaseHighScore.val().userName);
-    highestScoreProfile.push(fireBaseHighScore.val().userScore);
-  }
-  return highestScoreProfile;
-  
 }
 
-export async function changeTheHighestScore(newScore, userName) {
+async function changeTheHighestScore(newScore, userName) {
   await set(ref(db, "highScore/userScore"), newScore);
   await set(ref(db, "highScore/userName"), userName);
   console.log("Highest score updated in Firebase to:", newScore + " by " + userName);
 
 }
+export async function resetScores() {
+  // reset users scores to 0
+  const usersRef = await get(ref(db, "users"));
+  usersRef.forEach((childSnapshot) => {
+    const childData = childSnapshot.val();
+    set(ref(db, "users/" + childData.userEmail.replaceAll(".", ",") + "/userScore"), 0);
+  });
 
-export async function compareHighestScore(userScore, userName) {
-  const highestScore = await get(ref(db, "highScore/userScore"));
-  if (userScore > highestScore) {
-    return true;
-  }
-  return false;
+
 }
 
 

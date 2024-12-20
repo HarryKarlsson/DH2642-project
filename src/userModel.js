@@ -37,9 +37,9 @@ const userModel = {
     this.data.userScore += 1;
   },
 
-  decrementScore() {
-    this.setUserScore(this.data.userScore -= 1);
-  },
+  // decrementScore() {
+  //   this.setUserScore(this.data.userScore -= 1);
+  // },
   compareScore(quizScore, userScore) {
     if (quizScore > userScore) {
       this.setUserScore(quizScore);
@@ -61,8 +61,7 @@ const userModel = {
 
   resetQuizScore() {
     this.data.quizScore = 0; 
-  }
-
+  },
 
 
   
