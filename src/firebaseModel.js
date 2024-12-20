@@ -12,6 +12,8 @@ export async function saveToFirebase(model) {
     return;
   }
   const replacedEmail = model.data.userEmail.replace(".", ",");
+
+  
  
   try {
     await set(ref(db, "users/" + replacedEmail), {
@@ -58,9 +60,10 @@ export function connectToFirebase(model, watchFunction) {
   };
 
   const sideEffectACB = async (changedValues) => {
-    if (model.data.isSignedIn && model.data.userEmail) {
+    if (changedValues.includes(model.data.userScore)) {
       console.log("Score changed locally, saving to Firebase");
-      await saveToFirebase(model);
+      //await saveToFirebase(model);
+      fireBaseUpdatescore(model.data.userEmail, model.data.userScore);
     }
   };
 
@@ -83,7 +86,12 @@ export function connectToFirebase(model, watchFunction) {
 
 }
 
-// list of all users in firebase and retrun as list
+//update just score
+async function fireBaseUpdatescore(email, score) {
+  const replacedEmail = email.replace(".", ",");
+  set(ref(db, "users/" + replacedEmail + "/userScore"), score);
+  console.log("Score updated in Firebase for user:", email + " to " + score);
+}
 
 
 
@@ -103,6 +111,46 @@ export async function getAllUsersFromFirebase() {
     throw error;
   }
 }
+
+
+// handel highest score default is 3
+
+export async function setUppDefaultHighScore() {
+  // if the path is exist then return
+  const snapshot = await get(ref(db, "highScore"));
+  if (snapshot.exists()) {
+    console.log("High score already exists in Firebase");
+    return;
+  }
+  const highestScore = 3;
+  const defaultUser = "defaultUser";
+  const defaultEmail = "defaultEmail";
+  const path = "highScore";
+  try {
+    await set(ref(db, path), {
+      userName: defaultUser,
+      userEmail: defaultEmail,
+      userScore: highestScore,
+      lastUpdated: new Date().toISOString()
+    });
+    console.log("Successfully saved to Firebase:", { path, data: { userName: defaultUser, userEmail: defaultEmail, userScore: highestScore } });
+  } catch (error) {
+    console.error("Error saving to Firebase:", error);
+    throw error;
+  }
+}
+
+// compare the highest score with the user score
+export async function getHighestScore() {
+  const snapshot = await get(ref(db, "highScore"));
+  return snapshot.val().userScore;
+}
+
+export async function changeTheHighestScore(newScore) {
+  await set(ref(db, "highScore/userScore"), newScore);
+  console.log("High score updated in Firebase to:", newScore);
+}
+
 
 // // remove user from firebase
 // export async function removeUserFromFirebase(email) {

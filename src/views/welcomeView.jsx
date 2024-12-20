@@ -1,4 +1,5 @@
 import "../css/welcome.css"
+import userModel from "/src/userModel";
 
 function WelcomeView(){
 
@@ -16,8 +17,10 @@ function WelcomeView(){
     return(
         <div>
             <h1 className="main-title">
-                Welcome! <span className="globe">🌍</span>
+                Welcome! {userModel.data.userName} <span className="globe">🌍</span>
+
             </h1>
+            <p>Your highscore is: {userModel.data.userScore}</p>
             <div className="button-container">
             <button onClick={practiceButtonACB} className="practise-btn">
                 Practice
@@ -26,6 +29,8 @@ function WelcomeView(){
                 Quiz
             </button>
             </div>
+
+            
         </div>
 
     );

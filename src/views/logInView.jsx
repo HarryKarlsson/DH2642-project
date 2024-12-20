@@ -28,7 +28,7 @@ export default defineComponent({
         userModel.setUserName(user.displayName);
         userModel.setUserEmail(user.email);
         userModel.setIsSignedIn(true);
-        userModel.setIsNewUser(!userExists);
+        userModel.setIsNewUser(userExists);
 
         console.log("User exists in Firebase:", userExists);
         console.log("User model before save:", userModel);
@@ -113,7 +113,7 @@ export default defineComponent({
               <p>You have signed in as:</p>
               <p id="userName">Name: {this.userModel.data.userName}</p>
               <p id="userEmail">Email: {this.userModel.data.userEmail}</p>
-              {this.isNewUser && <p className="welcome-message">Welcome!</p>}
+              <p className="welcome-message">Welcome!</p>
               <button onClick={() => this.userModel.incrementScore()}>
                 increment score
               </button>
