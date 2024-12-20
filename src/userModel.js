@@ -45,7 +45,11 @@ const userModel = {
   },
 
   setQuizScore(score) {
-    this.data.quizScore += score;
+    this.data.quizScore = score;
+  },
+
+  incrementQuizScore() {
+    this.data.quizScore += 1;
   },
 
   getQuizScore() {

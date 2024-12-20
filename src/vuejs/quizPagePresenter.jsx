@@ -75,7 +75,7 @@ export default {
             state.showResult = true;
         
             if (state.isCorrect) {
-                userModel.setQuizScore(1); 
+                userModel.incrementQuizScore(); 
             }
         //För oss att kolla på ta bort den
             console.log("User Answer:", state.userAnswer);
