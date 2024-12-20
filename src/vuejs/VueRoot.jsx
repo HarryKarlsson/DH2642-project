@@ -7,7 +7,10 @@ import QuizPresenter from './quizPresenter';
 import NavbarPresenter from './navbarPresenter';
 import ProfilePresenter from './profilePresenter';
 import QuizPagePresenter from './quizPagePresenter';
+import { ref } from "vue";
+import "../css/testVueRoot.css";
 
+export const isLoading = ref(false);
 
 export function makeRouter() {
     const router = createRouter({
@@ -29,7 +32,7 @@ export function makeRouter() {
             {
                 path: "/practice",
                 component: <PracticePresenter/>,
-                meta: { requiresAuth: true },
+                meta: { requiresAuth: false },
             },
             {
                 path: "/quiz",
@@ -51,6 +54,7 @@ export function makeRouter() {
 
     // Add navigation guard
     router.beforeEach((to, from, next) => {
+        isLoading.value = true;
         const isSignedIn = auth.currentUser !== null; // Firebase auth check
         if (to.meta.requiresAuth && !isSignedIn) {
             // Redirect to login if user is not signed in
@@ -60,6 +64,9 @@ export function makeRouter() {
             next();
         }
     });
+    router.afterEach(() => {
+        isLoading.value = false;
+    });
 
     return router;
 }
@@ -67,9 +74,14 @@ export function makeRouter() {
 function VueRoot() {
     return (
         <div>
-            {<NavbarPresenter />}
+            {isLoading.value && (
+            <div className="loading-overlay">
+                    <img src="https://brfenergi.se/iprog/loading.gif" alt="Loading..." />
+                </div>
+            )}
+            <NavbarPresenter />
             <div>
-                {<RouterView />}
+                <RouterView />
             </div>
         </div>
     );
