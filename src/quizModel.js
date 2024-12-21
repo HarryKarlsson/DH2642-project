@@ -1,6 +1,7 @@
 import { reactive } from 'vue';
 import { FetchCountryDataByRegion } from '/src/countrySource.js';
 import userModel from '/src/userModel.js';
+import { updateStateToFirebase } from '/src/firebaseModel';
   
 const quizModel = {
     data: reactive({
@@ -19,8 +20,12 @@ const quizModel = {
         currentQuestion: null,
         loading: false
     }),
-
     saveQuizState() {
+        // Only save if we have actual quiz data
+        if (!this.data.region || !this.data.quizCountries || this.data.quizCountries.length === 0) {
+            console.log("No quiz data to save");
+            return;
+        }
         const quizState = {
             region: this.data.region,
             quizCountries: this.data.quizCountries,
@@ -28,13 +33,17 @@ const quizModel = {
             questionType: this.data.questionType,
             currentQuestion: this.data.currentQuestion,
             quizCompleted: this.data.quizCompleted,
-            path: window.location.hash,
-            hint: this.data.hint
+            path: "#/quiz/page",
+            hint: this.data.hint,
+            quizScore: userModel.getQuizScore(),
+            userAnswer: this.data.userAnswer,
+            isCorrect: this.data.isCorrect,
+            showResult: this.data.showResult,
+            loading: this.data.loading
         };
-        
+        console.log("Saving quiz state:", quizState);
         userModel.setQuizState(quizState);
     },
-
     setUserAnswer(answer) {
         this.data.userAnswer = answer;
     },
@@ -142,37 +151,36 @@ const quizModel = {
             console.log("Quiz is already completed. No more answers allowed.");
             return false;
         }
-  
+    
         const currentQuestion = this.data.currentQuestion;
         if (!currentQuestion) {
             console.error("No question available for checking.");
             return false;
         }
-  
+    
         const correctAnswer = currentQuestion.answer.trim().toLowerCase();
         const userResponse = userAnswer.trim().toLowerCase();
-  
+    
         this.data.isCorrect = correctAnswer === userResponse;
         this.data.showResult = true;
-  
+    
         if (this.data.isCorrect) {
             userModel.incrementQuizScore();
         }
-  
+    
         this.data.hint = "";
+        this.saveQuizState(); // Save after checking answer
         return this.data.isCorrect;
     },
   
     nextQuestion() {
-        // Check if we've reached the end before incrementing
-        if (this.data.currentQuizIndex >= this.data.maxQuestions - 1 || 
-            this.data.currentQuizIndex >= this.data.quizCountries.length - 1) {
+        if (this.isQuizCompleted()) {
             console.log("Quiz completed!");
             this.data.quizCompleted = true;
+            this.saveQuizState(); // Save when quiz completes
             return;
         }
-  
-        // Increment index and set next question
+    
         this.data.currentQuizIndex += 1;
         this.toggleQuestionType();
         
@@ -181,6 +189,7 @@ const quizModel = {
         this.data.showResult = false;
         this.data.userAnswer = "";
         
+        this.saveQuizState(); // Save after moving to next question
         console.log(`Moving to question ${this.data.currentQuizIndex + 1}`, nextQuestion);
     },
   
@@ -195,10 +204,12 @@ const quizModel = {
             return;
         }
         this.data.hint = `Hint: ${this.data.currentQuestion.answer.charAt(0).toUpperCase()}`;
+        this.saveQuizState(); // Save after showing hint
     },
-  
+    
     handleExit() {
         this.data.showExitPopup = true;
+        this.saveQuizState(); // Save when showing exit popup
     },
   
     yesExit() {

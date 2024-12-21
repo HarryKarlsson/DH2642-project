@@ -18,7 +18,6 @@ export function QuizView(props) {
                     </option>
                     <option value="europe">Europe</option>
                     <option value="asia">Asia</option>
-                    <option value="south-america">South America</option>
                     <option value="africa">Africa</option>
                     <option value="americas">Americas</option>
                 </select>

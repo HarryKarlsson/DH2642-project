@@ -13,10 +13,12 @@ function QuizPresenter() {
     }
 
     async function handleContinueQuizACB() {
+        
         if (!currentRegion) {
             alert("Please select a region before continuing.");
             return;
         }
+        
 
         try {
             // Set the region in quizModel
