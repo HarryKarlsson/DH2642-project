@@ -9,7 +9,18 @@ const userModel = {
     userScore: 0,
     quizScore: 0,
     isNewUser: false,
-  
+    userState: {
+      path: "",
+      region: "",
+      quizCountries: [],
+      currentQuizIndex: 0,
+      questionType: "flag",
+      currentQuestion: null,
+      quizCompleted: false,
+      hint: "",
+      quizScore: 0
+  },
+
   }),
 
     setQuizState(quizState) {

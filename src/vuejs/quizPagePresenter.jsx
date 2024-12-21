@@ -15,6 +15,7 @@ export default {
                 return;
             }
             quizModel.loadQuizCountries(quizModel.data.region);
+            quizModel.saveQuizState();
         }
 
         onMounted(() => {

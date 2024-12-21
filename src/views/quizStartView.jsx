@@ -20,7 +20,7 @@ export function QuizView(props) {
                     <option value="asia">Asia</option>
                     <option value="south-america">South America</option>
                     <option value="africa">Africa</option>
-                    <option value="oceania">Oceania</option>
+                    <option value="americas">Americas</option>
                 </select>
                 <div className="buttons">
                     <button className="continue-btn" onClick={props.onContinueQuiz}>

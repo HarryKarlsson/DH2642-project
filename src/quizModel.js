@@ -28,7 +28,8 @@ const quizModel = {
             questionType: this.data.questionType,
             currentQuestion: this.data.currentQuestion,
             quizCompleted: this.data.quizCompleted,
-            path: window.location.hash
+            path: window.location.hash,
+            hint: this.data.hint
         };
         
         userModel.setQuizState(quizState);

@@ -10,14 +10,17 @@ const db = getDatabase(app);
 
 export async function updateStateToFirebase(state) {
   if (!userModel.data.isSignedIn || !userModel.data.userEmail) return;
-
   const replacedEmail = userModel.data.userEmail.replaceAll(".", ",");
+
+  //if userState not exists in firebase, create it
   try {
-    await set(ref(db, `users/${replacedEmail}/userState`), state);
-    console.log("Quiz state saved to Firebase:", state);
+     const snapshot = await get(ref(db, `users/${replacedEmail}/userState`));
+     if (!snapshot.exists()) {
+        await set(ref(db, `users/${replacedEmail}/userState`), state);
+        console.log("userState created in Firebase");
+     } 
   } catch (error) {
-    console.error("Error saving quiz state to Firebase:", error);
-    throw error;
+    await set(ref(db, `users/${replacedEmail}/userState`), state);
   }
 
 }
