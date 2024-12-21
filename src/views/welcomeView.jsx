@@ -17,7 +17,7 @@ function WelcomeView(){
     return(
         <div>
             <h1 className="main-title">
-                Welcome! {userModel.data.userName} <span className="globe">🌍</span>
+                Welcome, {userModel.data.userName}! <span className="globe">🌍</span>
 
             </h1>
             <p>Your highscore is: {userModel.data.userScore}</p>

@@ -1,3 +1,4 @@
+/*Choose a region text */
 .title {
     justify-content: space-between;
     font-size: 2.5rem;
@@ -21,7 +22,6 @@
 
 .region-qst {
     font-family: Arial;
-
     text-align: center;
     margin: 0 auto; 
     font-size: 24px;
@@ -70,12 +70,11 @@
 
 
 .answer-input {
-    display: block;
-    margin: 0 auto;
-    font-size: 16px;
-    border-radius: 10px;
-    padding: 10px;
-    margin-top: 50px;
+    width: 100%;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    margin: 20px 0;
 }
 
 .not-sure-btn {
@@ -91,11 +90,11 @@
 .submit-btn {
     padding: 8px 20px;
     border-radius: 10px;
+    font-family: Arial;
     font-size: 18px;
     background-color: #D1EEBE;
     color: black;
-    border: none;
-    border-radius: 10px;
+    border: 1px;
     cursor: pointer;
 }
 
@@ -131,4 +130,11 @@
 
 .hint-btn:hover {
     background-color: #d3d3d3;
+}
+
+.question-container {
+    display: grid;
+    place-items: center;
+    height: 50vh;
+    width: 100vw;
 }

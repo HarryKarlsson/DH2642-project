@@ -19,8 +19,8 @@ export function QuizPageView(props) {
     }
 
     return (
-        <div>
-            <h1>Country Quiz</h1>
+        <div className=''>
+            <h1 className="main-title">Country Quiz <span className="globe" >🌍</span>< span className="questionmark">❓</span> </h1>
             {quizCompleted ? (
                 <div>
                     <h2>Quiz Completed!</h2>
@@ -32,7 +32,7 @@ export function QuizPageView(props) {
                     <p>Score: {userModel.getQuizScore()}</p>
 
                     {currentQuestion && (
-                        <div>
+                        <div className="question-container">
                             <h2>{currentQuestion.question}</h2>
                             {currentQuestion.type === "flag" && currentQuestion.image && (
                                 <img
@@ -60,7 +60,7 @@ export function QuizPageView(props) {
                                 >Submit</button>
                             )}
                             {showResult && (
-                                <div>
+                                <div >
                                     <p style={{ color: isCorrect ? "green" : "red" }}>
                                         {isCorrect
                                             ? "Correct! 🎉"
