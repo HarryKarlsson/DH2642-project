@@ -15,6 +15,7 @@ function QuizPresenter(props) {
         state.showResult = false; // Dölj resultatet
         state.userAnswer = ""; // Nollställ användarens svar
     }
+
     
 
   function handleContinueQuizACB() {

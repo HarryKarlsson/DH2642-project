@@ -6,6 +6,8 @@ import userModel from "/src/userModel";
 
 const db = getDatabase(app);
 
+
+
 export async function saveToFirebase(model) {
   console.log("Attempting to save model:", model);
  
@@ -223,6 +225,9 @@ export async function resetScores() {
 
 
 }
+
+
+
 
 
 // // remove user from firebase

@@ -1,4 +1,8 @@
+
 import userModel from "/src/userModel";
+
+import "../css/quiz.css";
+
 
 export function QuizPageView(props) {
     const {
@@ -9,27 +13,44 @@ export function QuizPageView(props) {
         isCorrect,
         showResult,
         nextQuestion,
-        score,
         quizCompleted,
         resetQuiz,
+        handleHint,
+        hint,
+        yesExit,
+        showExitPopup,
+        noExit,
+        handleExit,
     } = props;
+
+
 
     function handleInputChange(event) {
         setUserAnswer(event.target.value);
     }
 
     return (
-        <div>
-            <h1>Country Quiz</h1>
+        <div className="quiz-container">
+            <h1 className="quiz-title">Country Quiz <span className="globe">🌍</span></h1>
+            {showExitPopup && (
+            <div className="overlay">
+                <div className="popup">
+                    <h3>Are you sure you want to exit the quiz?</h3>
+                    <button className="yes-exit" onClick={yesExit}>Yes, Exit</button>
+                    <button className="no-exit" onClick={noExit}>No, Stay</button>
+                </div>
+            </div>)}
             {quizCompleted ? (
-                <div>
+                <div className="quiz-completed">
                     <h2>Quiz Completed!</h2>
+
                     <p>Your final score is: {userModel.getQuizScore()} / 9</p>
                     <button onClick={resetQuiz}>Play Again</button>
                 </div>
             ) : (
                 <div>
                     <p>Score: {userModel.getQuizScore()}</p>
+
 
                     {currentQuestion && (
                         <div>
@@ -51,14 +72,22 @@ export function QuizPageView(props) {
                                 placeholder="Enter your answer"
                                 disabled={showResult}
                             />
+
                             {!showResult && (
+                                <div> 
                                 <button 
                                 onClick={() => {
                                     userModel.compareScore(userModel.data.quizScore, userModel.data.userScore);
                                     checkAnswer();
                                 }}
                                 >Submit</button>
+                                <button onClick={handleHint}>Hints</button>
+                                <button onClick={handleExit}>Exit</button>
+                                </div>
+
                             )}
+                            
+                            {hint && <p style={{ color: "blue", marginTop: "10px" }}>{hint}</p>}
                             {showResult && (
                                 <div>
                                     <p style={{ color: isCorrect ? "green" : "red" }}>
@@ -76,3 +105,4 @@ export function QuizPageView(props) {
         </div>
     );
 }
+

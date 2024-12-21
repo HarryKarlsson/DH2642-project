@@ -3,7 +3,9 @@ import { VueRoot } from './VueRoot';
 import { makeRouter } from './VueRoot';
 //import { connectToFirebase } from '../firebaseModel';
 import userModel from '/src/userModel';
+import countryModel from '/src/countryModel';
 import {connectToFirebase} from "/src/firebaseModel";
+import { connectToFirebaseQuiz } from '/src/firebaseModelQuiz';
 
 
 const router = makeRouter();
@@ -19,6 +21,7 @@ watch(
     (isSignedIn) => {
       if (isSignedIn) {
         connectToFirebase(userModel, watch);
+        connectToFirebaseQuiz(countryModel, watch)
       }
     }
   );
