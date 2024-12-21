@@ -12,6 +12,8 @@ export function QuizPageView() {
         quizModel.checkAnswer(quizModel.data.userAnswer);
     }
 
+    const currentProgress = quizModel.data.currentQuizIndex;
+
     return (
         <div className="quiz-container">
             {quizModel.data.loading ? (
@@ -33,7 +35,7 @@ export function QuizPageView() {
                     {quizModel.data.quizCompleted ? (
                         <div className="quiz-completed">
                             <h2>Quiz Completed!</h2>
-                            <p>Your final score is: {userModel.getQuizScore()} / 9</p>
+                            <p>Your final score is: {userModel.getQuizScore()} / 10</p>
                             <button onClick={() => quizModel.resetQuiz()}>Play Again</button>
                         </div>
                     ) : (
@@ -92,6 +94,15 @@ export function QuizPageView() {
                             )}
                         </div>
                     )}
+
+                    <div className="progress-bar-container">
+                        <progress
+                            className="progress-bar"
+                            value={currentProgress}
+                            max={quizModel.data.maxQuestions}
+                        />
+                        <p>{currentProgress} / {quizModel.data.maxQuestions} completed</p>
+                    </div>
                 </>
             )}
         </div>
