@@ -1,108 +1,99 @@
-
 import userModel from "/src/userModel";
-
 import "../css/quiz.css";
+import quizModel from "/src/quizModel";
 
-
-export function QuizPageView(props) {
-    const {
-        currentQuestion,
-        userAnswer,
-        setUserAnswer,
-        checkAnswer,
-        isCorrect,
-        showResult,
-        nextQuestion,
-        quizCompleted,
-        resetQuiz,
-        handleHint,
-        hint,
-        yesExit,
-        showExitPopup,
-        noExit,
-        handleExit,
-    } = props;
-
-
-
+export function QuizPageView() {
     function handleInputChange(event) {
-        setUserAnswer(event.target.value);
+        quizModel.setUserAnswer(event.target.value);
+    }
+
+    function handleSubmit() {
+        userModel.compareScore(userModel.data.quizScore, userModel.data.userScore);
+        quizModel.checkAnswer(quizModel.data.userAnswer);
     }
 
     return (
         <div className="quiz-container">
-            <h1 className="quiz-title">Country Quiz <span className="globe">🌍</span></h1>
-            {showExitPopup && (
-            <div className="overlay">
-                <div className="popup">
-                    <h3>Are you sure you want to exit the quiz?</h3>
-                    <button className="yes-exit" onClick={yesExit}>Yes, Exit</button>
-                    <button className="no-exit" onClick={noExit}>No, Stay</button>
-                </div>
-            </div>)}
-            {quizCompleted ? (
-                <div className="quiz-completed">
-                    <h2>Quiz Completed!</h2>
-
-                    <p>Your final score is: {userModel.getQuizScore()} / 9</p>
-                    <button onClick={resetQuiz}>Play Again</button>
-                </div>
+            {quizModel.data.loading ? (
+                <div>Loading quiz...</div>
             ) : (
-                <div>
-                    <p>Score: {userModel.getQuizScore()}</p>
-
-
-                    {currentQuestion && (
+                <>
+                    <h1 className="quiz-title">Country Quiz <span className="globe">🌍</span></h1>
+                    
+                    {quizModel.data.showExitPopup && (
+                        <div className="overlay">
+                            <div className="popup">
+                                <h3>Are you sure you want to exit the quiz?</h3>
+                                <button className="yes-exit" onClick={() => quizModel.yesExit()}>Yes, Exit</button>
+                                <button className="no-exit" onClick={() => quizModel.noExit()}>No, Stay</button>
+                            </div>
+                        </div>
+                    )}
+                    
+                    {quizModel.data.quizCompleted ? (
+                        <div className="quiz-completed">
+                            <h2>Quiz Completed!</h2>
+                            <p>Your final score is: {userModel.getQuizScore()} / 9</p>
+                            <button onClick={() => quizModel.resetQuiz()}>Play Again</button>
+                        </div>
+                    ) : (
                         <div>
-                            <h2>{currentQuestion.question}</h2>
-                            {currentQuestion.type === "flag" && currentQuestion.image && (
-                                <img
-                                    src={currentQuestion.image}
-                                    alt="Country flag"
-                                    style={{ width: "150px", marginTop: "10px" }}
-                                />
-                            )}
-                            {currentQuestion.type === "capital" && (
-                                <p>{currentQuestion.question}</p>
-                            )}
-                            <input
-                                type="text"
-                                value={userAnswer}
-                                onChange={handleInputChange}
-                                placeholder="Enter your answer"
-                                disabled={showResult}
-                            />
+                            <p>Score: {userModel.getQuizScore()}</p>
 
-                            {!showResult && (
-                                <div> 
-                                <button 
-                                onClick={() => {
-                                    userModel.compareScore(userModel.data.quizScore, userModel.data.userScore);
-                                    checkAnswer();
-                                }}
-                                >Submit</button>
-                                <button onClick={handleHint}>Hints</button>
-                                <button onClick={handleExit}>Exit</button>
-                                </div>
-
-                            )}
-                            
-                            {hint && <p style={{ color: "blue", marginTop: "10px" }}>{hint}</p>}
-                            {showResult && (
+                            {quizModel.data.currentQuestion && (
                                 <div>
-                                    <p style={{ color: isCorrect ? "green" : "red" }}>
-                                        {isCorrect
-                                            ? "Correct! 🎉"
-                                            : `Wrong! The correct answer was ${currentQuestion.answer}.`}
-                                    </p>
-                                    <button onClick={nextQuestion}>Next Question</button>
+                                    <h2>{quizModel.data.currentQuestion.question}</h2>
+                                    {quizModel.data.currentQuestion.type === "flag" && 
+                                     quizModel.data.currentQuestion.image && (
+                                        <img
+                                            src={quizModel.data.currentQuestion.image}
+                                            alt="Country flag"
+                                            style={{ width: "150px", marginTop: "10px" }}
+                                        />
+                                    )}
+                                    
+                                    {quizModel.data.currentQuestion.type === "capital" && (
+                                        <p>{quizModel.data.currentQuestion.question}</p>
+                                    )}
+                                    
+                                    <input
+                                        type="text"
+                                        value={quizModel.data.userAnswer}
+                                        onChange={handleInputChange}
+                                        placeholder="Enter your answer"
+                                        disabled={quizModel.data.showResult}
+                                    />
+
+                                    {!quizModel.data.showResult && (
+                                        <div> 
+                                            <button onClick={handleSubmit}>Submit</button>
+                                            <button onClick={() => quizModel.handleHint()}>Hints</button>
+                                            <button onClick={() => quizModel.handleExit()}>Exit</button>
+                                        </div>
+                                    )}
+                                    
+                                    {quizModel.data.hint && (
+                                        <p style={{ color: "blue", marginTop: "10px" }}>
+                                            {quizModel.data.hint}
+                                        </p>
+                                    )}
+                                    
+                                    {quizModel.data.showResult && (
+                                        <div>
+                                            <p style={{ color: quizModel.data.isCorrect ? "green" : "red" }}>
+                                                {quizModel.data.isCorrect
+                                                    ? "Correct! 🎉"
+                                                    : `Wrong! The correct answer was ${quizModel.data.currentQuestion.answer}.`}
+                                            </p>
+                                            <button onClick={() => quizModel.nextQuestion()}>Next Question</button>
+                                        </div>
+                                    )}
                                 </div>
                             )}
                         </div>
                     )}
-                </div>
+                </>
             )}
         </div>
     );
 }
-

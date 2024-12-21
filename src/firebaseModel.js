@@ -8,6 +8,41 @@ const db = getDatabase(app);
 
 
 
+export async function updateStateToFirebase(state) {
+  if (!userModel.data.isSignedIn || !userModel.data.userEmail) return;
+
+  const replacedEmail = userModel.data.userEmail.replaceAll(".", ",");
+  try {
+    await set(ref(db, `users/${replacedEmail}/userState`), state);
+    console.log("Quiz state saved to Firebase:", state);
+  } catch (error) {
+    console.error("Error saving quiz state to Firebase:", error);
+    throw error;
+  }
+
+}
+
+export async function loadStateFromFirebase() {
+  if (!userModel.data.isSignedIn || !userModel.data.userEmail) return null;
+
+  try {
+      const replacedEmail = userModel.data.userEmail.replaceAll(".", ",");
+      const snapshot = await get(ref(db, `users/${replacedEmail}/userState`));
+      
+      if (snapshot.exists()) {
+          const savedState = snapshot.val();
+          userModel.data.userState = savedState;
+          userModel.data.quizScore = savedState.quizScore ;
+          console.log("Quiz state loaded from Firebase");
+          return savedState;
+      }
+      return null;
+  } catch (error) {
+      console.error("Error loading quiz state from Firebase:", error);
+      return null;
+  }
+}
+
 export async function saveToFirebase(model) {
   console.log("Attempting to save model:", model);
  
@@ -16,14 +51,13 @@ export async function saveToFirebase(model) {
     return;
   }
   const replacedEmail = model.data.userEmail.replaceAll(".", ",");
-
-  
  
   try {
     await set(ref(db, "users/" + replacedEmail), {
       userName: model.data.userName,
       userEmail: model.data.userEmail,
       userScore: model.data.userScore,
+      userState: model.data.userState,
       lastUpdated: new Date().toISOString()
     });
     console.log("Successfully saved to Firebase:", {
@@ -31,7 +65,8 @@ export async function saveToFirebase(model) {
       data: {
         userName: model.data.userName,
         userEmail: model.data.userEmail,
-        userScore: model.data.userScore
+        userScore: model.data.userScore,
+        userState: model.data.userState
       }
     });
   } catch (error) {
@@ -60,14 +95,14 @@ export async function checkIfUserExists(email) {
 export function connectToFirebase(model, watchFunction) {
 
   const checkACB = () => {
-    return [model.data.userScore];
+    return [model.data.userScore, model.data.userState];
   };
 
   const sideEffectACB = async (changedValues) => {
-    if (changedValues.includes(model.data.userScore)) {
+    if (changedValues.includes(model.data.userScore) || changedValues.includes(model.data.userState)) {
       console.log("Score changed locally, saving to Firebase");
       //await saveToFirebase(model);
-      fireBaseUpdatescore(model.data.userEmail, model.data.userScore);
+      fireBaseUpdatescore(model.data.userEmail, model.data.userScore, model.data.userState);
     }
   };
 
@@ -98,12 +133,13 @@ export function connectToFirebase(model, watchFunction) {
 }
 
 //update just score
-async function fireBaseUpdatescore(email, score) {
+async function fireBaseUpdatescore(email, score, state) {
 
 // if (score < 0) { score = 0; }
   const replacedEmail = email.replaceAll(".", ",");
   set(ref(db, "users/" + replacedEmail + "/userScore"), score);
-  console.log("Score updated in Firebase for user:", email + " to " + score);
+  set(ref(db, "users/" + replacedEmail + "/userState"), state);
+  console.log("Score updated in Firebase for user:", email + " to " + score + " and state: " + state);
 }
 
 
