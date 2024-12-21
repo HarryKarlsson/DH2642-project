@@ -5,6 +5,8 @@ import { app } from "./firebaseConfig";
 
 const db = getDatabase(app);
 
+
+
 export async function saveToFirebase(model) {
   console.log("Attempting to save model:", model);
  
@@ -151,6 +153,9 @@ export async function changeTheHighestScore(newScore) {
   await set(ref(db, "highScore/userScore"), newScore);
   console.log("High score updated in Firebase to:", newScore);
 }
+
+
+
 
 
 // // remove user from firebase

@@ -1,134 +1,171 @@
-.title {
-    justify-content: space-between;
-    font-size: 2.5rem;
-    margin: 0;
+
+.quiz-container {
+    display: grid;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    
 }
 
-
-/* Styling for the buttons container */
-.buttons {
-    display: flex; /* Use flexbox for alignment */
-    justify-content: center; /* Space between the back and continue button */
-    align-items: evenly;
-    gap: 40px;
-    margin-top: 80px; /* Add some spacing from the dropdown */
+.yes-exit{
+    background-color: green;
+    color: white;
 }
 
-.globe {
-    font-size: 1.2em;
-    vertical-align: middle;
+.no-exit{
+background-color: #d3d3d3;
+color: white;
 }
 
-.region-qst {
-    font-family: Arial;
-
+.quiz-title {
     text-align: center;
-    margin: 0 auto; 
-    font-size: 24px;
-    font-weight: bold;
-    margin-top: 50px;
-}
-
-.dropdown {
-    display: block;
-    margin: 0 auto;
-    font-size: 16px;
-    border-radius: 5px;
-    padding: 4px;
-    margin-top: 50px;
-}
-
-/* return to quiz/practice page */
-.back-btn {
-    border: 0px;
-    border-radius: 10px;
-    color: Black;
-    font-size: 18px;
-    text-align: left;
-    padding: 10px 20px;
-}
-
-/* Continue button to start the quiz */
-.continue-btn {
-    border: 0px;
-    border-radius: 10px;
-    color: black;
-    font-size: 18px;
-    text-align: right;
-    padding: 10px 20px;
-    cursor: pointer;
+    font-size: 42px;
+    background-color: #f0f0f0;
+    text-shadow: 2px 2px 5px #c0c0c0;
+    margin-top: 0px;
 }
 
 
-.back-btn:hover {
+.scores {
+    font-size: 20px;
+    text-align: center;
     background-color: #d3d3d3;
+    margin-top: 0px;
+
 }
 
-.continue-btn:hover {
-    background-color: #d3d3d3; 
+.rendering{
+    background-color: grey;
 }
 
 
-.answer-input {
+.quiz-container img {
     display: block;
-    margin: 0 auto;
-    font-size: 16px;
-    border-radius: 10px;
-    padding: 10px;
-    margin-top: 50px;
+    margin: 20px auto;
+    max-width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+   
 }
 
-.not-sure-btn {
-    background-color: EEBEBE;
-    border: 0px;
-    border-radius: 10px;
-    color: Black;
-    font-size: 18px;
-    text-align: left;
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; 
+}
+
+
+.popup {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    z-index: 1001;
+    width: 300px;
+}
+
+
+.popup button {
+    margin: 10px;
     padding: 10px 20px;
-}
-
-.submit-btn {
-    padding: 8px 20px;
-    border-radius: 10px;
-    font-size: 18px;
-    background-color: #D1EEBE;
-    color: black;
+    font-size: 1rem;
     border: none;
-    border-radius: 10px;
+    border-radius: 5px;
     cursor: pointer;
 }
 
-.hint-btn {
-    border: 0px;
-    border-radius: 10px;
-    color: black;
-    font-size: 18px;
-    text-align: right;
+.popup button:hover {
+    opacity: 0.9;
+}
+
+
+input[type="text"] {
+    padding: 10px;
+    width: 100%;
+    max-width: 300px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    justify-content: center;
+   
+}
+
+input[type="text"]:disabled {
+    background-color: #f0f0f0;
+}
+
+button.exit {
+    background-color: lightcoral;  
+    color: white;
     padding: 10px 20px;
+    border-radius: 5px;
     cursor: pointer;
+    margin: 10px;  
+    margin-left: 30px;
 }
 
-.answer-input {
-    border: 0px;
-    margin: 0 auto;
-    margin-left: 500px;
-    border-radius: 10px;
-    color: black;
-    font-size: 18px;
-    font-family: Arial;
+button.exit:hover {
+    background-color: #be1d1d; 
+}
+
+button.submit {
+    background-color:lightgreen;  
+    color: white;
     padding: 10px 20px;
+    border-radius: 5px;
     cursor: pointer;
+    margin: 10px;  
+    
 }
 
-.submit-btn:hover {
-    background-color: #b2cba2;
+button.submit:hover {
+    background-color:darkgreen; 
 }
 
-.not-sure-btn:hover {
-    background-color: #d4a8a8; 
+button.hint {
+    background-color:lightblue; 
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px;  
 }
 
-.hint-btn:hover {
-    background-color: #d3d3d3;
+button.hint:hover {
+    background-color: #0056b3; 
+}
+
+
+.quiz-completed {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.quiz-completed button {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 5px;
+}
+
+.quiz-completed button:hover {
+    background-color: #0056b3;
+}
+
+
+.correct-message {
+    color: green;
+}
+
+.incorrect-message {
+    color: red;
 }

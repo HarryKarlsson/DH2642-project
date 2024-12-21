@@ -11,6 +11,8 @@ export default {
             showResult: false,
             score: 0,
             quizCompleted: false,
+            hint: "",
+            showExitPopup: false,
         });
         
         function getScore() {
@@ -38,6 +40,7 @@ export default {
                 console.log("Quiz completed!");
                 state.quizCompleted = true;
                 state.currentQuestion = null;
+                
                 return;
             }
         
@@ -47,7 +50,34 @@ export default {
             state.showResult = false;
             state.userAnswer = "";
         }
+
+        function handleHint() {
+            if (!state.currentQuestion || !state.currentQuestion.answer) {
+                console.error("No current question to provide a hint.");
+                state.currentQuestion.answer.charAt(0).toUpperCase();
+                return;
+            }
+            state.hint = `Hint: ${state.currentQuestion.answer.charAt(0).toUpperCase()}`;
+            
+        }
         
+        function handleExit(){
+            console.log("Exiting quiz, waiting for answer")
+            state.showExitPopup = true;
+        }
+
+        function yesExit(){
+            console.log("Exiting quiz, heading to welcome page")
+            state.showExitPopup = false;
+
+            window.location.hash = "#/welcome";
+        }
+
+        function noExit(){
+            console.log("continues the quiz")
+            state.showExitPopup =false
+        }
+
 
        
         function setUserAnswer(answer) {
@@ -76,6 +106,8 @@ export default {
             if (state.isCorrect) {
                 state.score += 1; 
             }
+
+            state.hint = "";
         //För oss att kolla på ta bort den
             console.log("User Answer:", state.userAnswer);
             console.log("Correct Answer:", state.currentQuestion.answer);
@@ -111,6 +143,12 @@ export default {
                     score={state.score}
                     quizCompleted={state.quizCompleted}
                     resetQuiz={resetQuiz}
+                    handleHint={handleHint}
+                    hint={state.hint}
+                    handleExit={handleExit}
+                    showExitPopup={state.showExitPopup}
+                    yesExit ={yesExit}
+                    noExit = {noExit}
                 />
             );
         };

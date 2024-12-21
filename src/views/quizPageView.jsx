@@ -1,3 +1,6 @@
+import "../css/quiz.css";
+
+
 export function QuizPageView(props) {
     const {
         currentQuestion,
@@ -10,24 +13,41 @@ export function QuizPageView(props) {
         score,
         quizCompleted,
         resetQuiz,
+        handleHint,
+        hint,
+        yesExit,
+        showExitPopup,
+        noExit,
+        handleExit,
     } = props;
+
+
 
     function handleInputChange(event) {
         setUserAnswer(event.target.value);
     }
 
     return (
-        <div>
-            <h1>Country Quiz</h1>
+        <div className="quiz-container">
+            <h1 className="quiz-title">Country Quiz <span className="globe">🌍</span></h1>
+            {showExitPopup && (
+            <div className="overlay">
+                <div className="popup">
+                    <h3>Are you sure you want to exit the quiz?</h3>
+                    <button className="yes-exit" onClick={yesExit}>Yes, Exit</button>
+                    <button className="no-exit" onClick={noExit}>No, Stay</button>
+                </div>
+            </div>)}
             {quizCompleted ? (
-                <div>
+                <div className="quiz-completed">
                     <h2>Quiz Completed!</h2>
-                    <p>Your final score is: {score} / 9</p>
-                    <button onClick={resetQuiz}>Play Again</button>
+                    <p className="scores">Your final score is: {score} / 9</p>
+                    <button className="playagain" onClick={resetQuiz}>Play Again</button>
+                    <button className="exit" onClick={handleExit}>Exit</button>
                 </div>
             ) : (
-                <div>
-                    <p>Score: {score}</p>
+                <div className="rendering">
+                    <h4 className="scores">Score: {score}</h4>
 
                     {currentQuestion && (
                         <div>
@@ -49,9 +69,13 @@ export function QuizPageView(props) {
                                 placeholder="Enter your answer"
                                 disabled={showResult}
                             />
-                            {!showResult && (
-                                <button onClick={checkAnswer}>Submit</button>
+                            {!showResult && (<div>
+                                <button className="exit" onClick={handleExit}>Exit</button>
+                                <button className="submit" onClick={checkAnswer}>Submit</button>
+                                <button className="hint" onClick={handleHint}>Hints</button>
+                            </div>
                             )}
+                            {hint && <p style={{ color: "blue", marginTop: "10px" }}>{hint}</p>}
                             {showResult && (
                                 <div>
                                     <p style={{ color: isCorrect ? "green" : "red" }}>
@@ -69,3 +93,4 @@ export function QuizPageView(props) {
         </div>
     );
 }
+
