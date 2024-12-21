@@ -1,4 +1,4 @@
-// practiceView.js
+// practiceView.jsx
 import countryModel from '/src/countryModel';
 import "../css/practice.css";
 import {getPaginatedCountries,getTotalPages,handleNextPage,handlePrevPage,
