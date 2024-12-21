@@ -5,6 +5,10 @@
 
 This is an web application designed to provide information and an interactive educational quiz experience. The application combines detailed country research with an interactive learning platform via a quiz game to improve your knowledge.
 
+## Target Group
+
+The target group for this application includes individuals who are interested in learning about world geography and testing their knowledge of countries all around the globe. This includes students, teachers, travelers, and someone interested in geography. The quiz and practice pages are great for users who want to learn in a fun way, while the profile and highscore pages are for those who like to track their progress and compete with others. The application is designed to be accessible and enjoyable for users of all ages, making it suitable for casual learners as well as those seeking a more structured learning experience.
+ 
 ## Key Features
 
 ###  Country Search
