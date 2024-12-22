@@ -6,13 +6,9 @@ nav {
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
-<<<<<<< HEAD
-    background-color: #f8f9fa;
-=======
     background-color: #e9e9e9;
     /* border-bottom: 1px solid #ddd;  Kanske vill ha runt hela?*/
     color: #000000;
->>>>>>> origin/quiz_highScore_copy
 }
 
 /* Name that country - nav bar */
