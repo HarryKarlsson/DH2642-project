@@ -97,8 +97,7 @@ export default defineComponent({
         <div className="main-title-logIn">
           <h1>Login or create an account <span className="globe">🌍</span></h1>
           <div className="under-title">
-            <h2>Welcome to Name That Country!</h2>
-            <h2> Please log in or create an account by clicking the button</h2>
+            <h2 class="heading" >Welcome! Please log in or create an account by clicking the button</h2>
           </div>
         </div>
         <div> {!this.userModel.data.isSignedIn && (
