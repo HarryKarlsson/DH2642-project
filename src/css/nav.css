@@ -1,5 +1,5 @@
 
-/* Ändrar färgen när vi vet vilken som vi ska använda*/
+
 
 nav {
     display: flex;
@@ -7,7 +7,6 @@ nav {
     align-items: center;
     padding: 10px 20px;
     background-color: #f8f9fa;
-    /* border-bottom: 1px solid #ddd;  Kanske vill ha runt hela?*/
 }
 
 .nav-h1 {
@@ -43,3 +42,10 @@ nav {
     background-color: #d3d3d3;
     cursor: pointer;
 }
+
+  
+  .menu a.active {
+    background-color: #c0c0c0;
+    font-weight: bold;
+  }
+  
