@@ -1,8 +1,11 @@
 .quiz-container {
-    display: grid;
-    flex-direction: column;
-    align-items: center;
-    background-color: white;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center;
+    align-items: center !important;
+    background-color: white !important;
+    align-items: center !important;
+    gap: 20px !important;
 }
 
 .yes-exit {
@@ -155,12 +158,13 @@ input[type="text"]:disabled {
     margin: 0 auto; 
     font-size: 24px;
     font-weight: bold;
-    margin-top: 50px;
+    margin-top: 90px;
 }
 
 
 .dropdown {
     display: block;
+    background-color: #eaeaea;
     margin: 0 auto;
     font-size: 16px;
     border-radius: 5px;
@@ -170,13 +174,16 @@ input[type="text"]:disabled {
 
 /* Continue button to start the quiz */
 .continue-btn {
-    border: 0px;
+    display: block;
+    background-color: #28a745;
+    border: 0px !important;
     border-radius: 10px;
-    color: black;
-    font-size: 18px;
-    text-align: right;
-    padding: 10px 20px;
-    cursor: pointer;
+    margin: 70px auto !important;
+    color: rgb(0, 0, 0) !important;
+    font-size: 16px !important;
+    text-align: center !important;
+    padding: 10px 30px !important;
+    cursor: pointer !important;
 }
 
 .continue-btn:hover {
