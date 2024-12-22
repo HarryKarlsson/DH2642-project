@@ -108,7 +108,7 @@ body {
     animation-timing-function: ease-in;
     animation-delay: 0s;
     animation-iteration-count: 1;
-    transform: translateX(170px);
+    transform: translateX(30px);
     color: black !important;
 }
 
