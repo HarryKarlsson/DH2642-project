@@ -182,10 +182,6 @@
     max-width: 600px;
 }
 
-.search-input {
-    flex: 1;
-}
-
 
 .dialog-overlay {
     background-color: rgba(0, 0, 0, 0.5);

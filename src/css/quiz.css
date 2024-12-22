@@ -149,6 +149,40 @@ input[type="text"]:disabled {
     margin-top: 30px;
 }
 
+.region-qst {
+    font-family: Arial;
+    text-align: center;
+    margin: 0 auto; 
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 50px;
+}
+
+
+.dropdown {
+    display: block;
+    margin: 0 auto;
+    font-size: 16px;
+    border-radius: 5px;
+    padding: 4px;
+    margin-top: 50px;
+}
+
+/* Continue button to start the quiz */
+.continue-btn {
+    border: 0px;
+    border-radius: 10px;
+    color: black;
+    font-size: 18px;
+    text-align: right;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.continue-btn:hover {
+    background-color: #d3d3d3; 
+}
+
 .quiz-completed .play-again-btn {
     background-color: #007bff;
     color: white;
