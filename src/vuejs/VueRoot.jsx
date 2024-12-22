@@ -88,7 +88,6 @@ export function makeRouter() {
                        next({ path: "/quiz/page" }); 
                     }
                     
-
                 } else {
                     // No saved data, proceed normally
                     next();
