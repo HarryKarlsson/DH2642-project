@@ -1,12 +1,12 @@
 
 .main-title-section {
     display: flex;
-    justify-content: space-between;     /*If we want the title to be more in the middle write: center */
+    justify-content: space-between;
     align-items: center;
     margin-bottom: 30px;
-    background-color: #f0f0f0;  /* Background color for the bar */
-    padding: 25px 40px;  /* Padding to make it taller */
-    width: 100%;  /* Ensure the section spans the full width */
+    background-color: #f0f0f0;
+    padding: 25px 40px;
+    width: 100%;
     box-sizing: border-box; 
 }
 
