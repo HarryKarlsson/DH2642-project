@@ -8,7 +8,8 @@ import NavbarPresenter from './navbarPresenter';
 import ProfilePresenter from './profilePresenter';
 import QuizPagePresenter from './quizPagePresenter';
 import HighScorePresenter from './highscorePresenter';
-import { ref } from "vue";
+import { loadStateFromFirebase } from '/src/firebaseModelQuiz';  
+import quizModel from '/src/quizModel';
 import "../css/testVueRoot.css";
 
 
@@ -19,7 +20,8 @@ export function makeRouter() {
         routes: [
             {
                 path: "/",
-                component: <LogInPresenter/>,
+                redirect: "/login",
+                //component: <LogInPresenter/>,
             },
             {
                 path: "/login",
@@ -66,6 +68,34 @@ export function makeRouter() {
         if (to.meta.requiresAuth && !isSignedIn) {
             // Redirect to login if user is not signed in
             next({ path: "/login", query: { redirect: to.fullPath } });
+        } else if (to.path === "/quiz" && isSignedIn) { // Check for quiz page specifically
+            try {
+                const savedData = loadStateFromFirebase(); 
+                
+                if (savedData && savedData.currentQuestion !== null) {
+                  
+                    const confirmLoad = window.confirm("You have a saved game. Do you want to load it? OK to load, Cancel to start a new game.");
+                    if (!confirmLoad) {
+                        
+                        next();
+                        quizModel.resetQuiz();
+
+                        return;
+                    } else {
+                        // Load the saved data
+                        quizModel.setQuizData(savedData);
+                    // redirect to the page with the saved data
+                       next({ path: "/quiz/page" }); 
+                    }
+                    
+                } else {
+                    // No saved data, proceed normally
+                    next();
+                }
+            } catch (error) {
+                console.error("Error loading saved quiz state:", error);
+                next(); // Proceed anyway if there's an error
+            }
         } else {
             // Proceed to the requested route
             next();
@@ -73,6 +103,7 @@ export function makeRouter() {
     });
 
     return router;
+
 }
 
 function VueRoot() {

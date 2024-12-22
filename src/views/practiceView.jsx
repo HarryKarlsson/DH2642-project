@@ -20,8 +20,9 @@ import {
 
 const CountryCard = ({country, index}) => (
     
-    !country || !country.flag || !country.name) ? null : (
+    !country || !country.flag || !country.name ) ? null : (
 
+    
     <div key={index} className="country-box">
         
         <DialogRoot>
@@ -29,7 +30,7 @@ const CountryCard = ({country, index}) => (
             <div className="flag-section">
                 
                 <img
-                    src={country.flag.medium}
+                    src={country.flag.medium || country.flag}
                     alt={`${country.name} flag`}
                     className="country-flag"
                 />
@@ -50,7 +51,7 @@ const CountryCard = ({country, index}) => (
                 <DialogContent className="dialog-content">
                     <div className="dialog-header">
                         <img 
-                            src={country.flag.large} 
+                            src={country.flag.large || country.flag} 
                             alt={`${country.name} flag`} 
                             className="dialog-flag"
                         />

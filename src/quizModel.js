@@ -27,6 +27,14 @@ const quizModel = {
     setUserAnswer(answer) {
         this.data.userAnswer = answer;
     },
+    setQuizData(data) {
+       // Use only this method to update all properties
+        Object.keys(this.data).forEach(key => {
+            if (data[key] !== undefined) {
+                this.data[key] = data[key];
+            }
+        });  
+    },
 
 
     async setRegion(region) {
@@ -128,6 +136,7 @@ const quizModel = {
     },
   
     checkAnswer(userAnswer) {
+        this.data.currentQuizIndex += 1;
         if (this.data.quizCompleted) {
             console.log("Quiz is already completed. No more answers allowed.");
             return false;
@@ -155,13 +164,14 @@ const quizModel = {
     },
   
     nextQuestion() {
+        // this.data.currentQuizIndex += 1;
         if (this.isQuizCompleted()) {
             console.log("Quiz completed!");
             this.data.quizCompleted = true;
             return;
         }
     
-        this.data.currentQuizIndex += 1;
+        
         this.toggleQuestionType();
         
         const nextQuestion = this.getCurrentQuizQuestion();
@@ -173,8 +183,8 @@ const quizModel = {
     },
   
     isQuizCompleted() {
-        return this.data.currentQuizIndex >= this.data.maxQuestions - 1 || 
-               this.data.currentQuizIndex >= this.data.quizCountries.length - 1;
+        return this.data.currentQuizIndex > this.data.maxQuestions  || 
+               this.data.currentQuizIndex > this.data.quizCountries.length ;
     },
   
     handleHint() {
