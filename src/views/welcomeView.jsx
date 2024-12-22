@@ -11,7 +11,7 @@ function WelcomeView(){
     }
 
     function quizButtonACB() {
-        console.log("Welcome button was clicked"); 
+        console.log("quiz button was clicked"); 
         window.location.hash = "#/quiz"; 
     }
 
