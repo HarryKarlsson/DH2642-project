@@ -7951,7 +7951,7 @@ function WelcomeView() {
     window.location.hash = "#/practice";
   }
   function quizButtonACB() {
-    console.log("Welcome button was clicked");
+    console.log("Quiz button was clicked");
     window.location.hash = "#/quiz";
   }
   return createVNode("div", null, [createVNode("h1", {

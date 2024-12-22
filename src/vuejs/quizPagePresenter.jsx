@@ -17,7 +17,7 @@ export default {
             }
 
             // Check if we have existing quiz countries (from saved state)
-            if (!quizModel.data.quizCountries || quizModel.data.quizCountries.length === 0) {
+            if (!quizModel.data.quizCountries || quizModel.data.quizCountries.length === 0 ) {
                 await quizModel.loadQuizCountries(quizModel.data.region);
             }
             

@@ -68,17 +68,18 @@ export function makeRouter() {
         if (to.meta.requiresAuth && !isSignedIn) {
             // Redirect to login if user is not signed in
             next({ path: "/login", query: { redirect: to.fullPath } });
-        } else if (to.path === "/quiz" && isSignedIn) { // Check for quiz page specifically
+        } else if (to.path === "/quiz" && isSignedIn ) { // Check for quiz page specifically
             try {
                 const savedData = loadStateFromFirebase(); 
-                
-                if (savedData && savedData.currentQuestion !== null) {
+                console.log("savedData from firebase", savedData);
+                if (savedData && savedData.currentQuestion !== null ) {
                   
                     const confirmLoad = window.confirm("You have a saved game. Do you want to load it? OK to load, Cancel to start a new game.");
                     if (!confirmLoad) {
                         
-                        next();
                         quizModel.resetQuiz();
+                        console.log("Resetting the quiz ");
+                        next();
 
                         return;
                     } else {
@@ -88,8 +89,10 @@ export function makeRouter() {
                        next({ path: "/quiz/page" }); 
                     }
                     
+
                 } else {
                     // No saved data, proceed normally
+
                     next();
                 }
             } catch (error) {

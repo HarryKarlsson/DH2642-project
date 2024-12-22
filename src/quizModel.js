@@ -200,6 +200,7 @@ const quizModel = {
     },
   
     yesExit() {
+        this.resetQuiz();
         this.data.showExitPopup = false;
         window.location.hash = "#/welcome";
     },
@@ -232,7 +233,7 @@ const quizModel = {
         this.data.questionType = "flag";
         userModel.resetQuizScore();
         
-        if (this.data.region) {
+        if (this.data.region ) {
             return this.loadQuizCountries(this.data.region);
         }
     }
