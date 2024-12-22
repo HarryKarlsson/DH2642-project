@@ -8,7 +8,7 @@ const quizModel = {
         countryNames: [],
         quizCountries: [],
         currentQuizIndex: 0,
-        maxQuestions: 10,
+        maxQuestions: 9,
         questionType: "flag",
         userAnswer: "",
         isCorrect: false,
@@ -16,6 +16,7 @@ const quizModel = {
         quizCompleted: false,
         hint: "",
         showExitPopup: false,
+        showSubmitPopup: false,
         currentQuestion: null,
         loading: false
     }),
@@ -205,6 +206,17 @@ const quizModel = {
         this.data.showExitPopup = false;
         window.location.hash = "#/welcome";
     },
+
+    handleSubmitPopup() {
+        this.data.showSubmitPopup = true;
+    },
+
+    closeSubmitPopup() {
+        this.data.showSubmitPopup = false;
+        this.nextQuestion();
+    },
+    
+
   
     noExit() {
         this.data.showExitPopup = false;

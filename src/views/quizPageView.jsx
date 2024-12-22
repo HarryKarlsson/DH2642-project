@@ -10,6 +10,7 @@ export function QuizPageView() {
     function handleSubmit() {
         userModel.compareScore(userModel.data.quizScore, userModel.data.userScore);
         quizModel.checkAnswer(quizModel.data.userAnswer);
+        quizModel.handleSubmitPopup();
     }
 
     const currentProgress = quizModel.data.currentQuizIndex;
@@ -32,6 +33,22 @@ export function QuizPageView() {
                         </div>
                     )}
                     
+                    {quizModel.data.showSubmitPopup && quizModel.data.showResult && (
+                        <div className="overlay">
+                            <div className="popup">
+                                <h2>
+                                    {quizModel.data.isCorrect ? "Correct! 🎉" : "Wrong! 😢"}
+                                </h2>
+                                {!quizModel.data.isCorrect && (
+                                    <p>
+                                        The correct answer was: <strong>{quizModel.data.currentQuestion.answer}</strong>
+                                    </p>
+                                )}
+                                <button className="next-btn" onClick={() => quizModel.closeSubmitPopup()}>Next Question</button>
+                            </div>
+                        </div>
+                    )}
+                    
                     {quizModel.data.quizCompleted ? (
                         <div className="quiz-completed">
                             <h2>Quiz Completed!</h2>
@@ -40,7 +57,7 @@ export function QuizPageView() {
                         </div>
                     ) : (
                         <div>
-                            <p>Score: {userModel.getQuizScore()}</p>
+                            <p className="scores">Score: {userModel.getQuizScore()}</p>
 
                             {quizModel.data.currentQuestion && (
                                 <div>
@@ -54,11 +71,9 @@ export function QuizPageView() {
                                         />
                                     )}
                                     
-                                    {quizModel.data.currentQuestion.type === "capital" && (
-                                        <p>{quizModel.data.currentQuestion.question}</p>
-                                    )}
+                                   
                                     
-                                    <input
+                                    <input 
                                         type="text"
                                         value={quizModel.data.userAnswer}
                                         onChange={handleInputChange}
@@ -67,10 +82,10 @@ export function QuizPageView() {
                                     />
 
                                     {!quizModel.data.showResult && (
-                                        <div> 
-                                            <button onClick={handleSubmit}>Submit</button>
-                                            <button onClick={() => quizModel.handleHint()}>Hints</button>
-                                            <button onClick={() => quizModel.handleExit()}>Exit</button>
+                                        <div className="button-group"> 
+                                            <button className="submit-btn" onClick={handleSubmit}>Submit</button>
+                                            <button className="hint-btn" onClick={() => quizModel.handleHint()}>Hints</button>
+                                            <button className = "exit-btn" onClick={() => quizModel.handleExit()}>Exit</button>
                                         </div>
                                     )}
                                     
@@ -78,17 +93,6 @@ export function QuizPageView() {
                                         <p style={{ color: "blue", marginTop: "10px" }}>
                                             {quizModel.data.hint}
                                         </p>
-                                    )}
-                                    
-                                    {quizModel.data.showResult && (
-                                        <div>
-                                            <p style={{ color: quizModel.data.isCorrect ? "green" : "red" }}>
-                                                {quizModel.data.isCorrect
-                                                    ? "Correct! 🎉"
-                                                    : `Wrong! The correct answer was ${quizModel.data.currentQuestion.answer}.`}
-                                            </p>
-                                            <button onClick={() => quizModel.nextQuestion()}>Next Question</button>
-                                        </div>
                                     )}
                                 </div>
                             )}
@@ -99,9 +103,9 @@ export function QuizPageView() {
                         <progress
                             className="progress-bar"
                             value={currentProgress}
-                            max={quizModel.data.maxQuestions}
+                            max={quizModel.data.maxQuestions + 1}
                         />
-                        <p>{currentProgress} / {quizModel.data.maxQuestions} completed</p>
+                        <p>{currentProgress} / {quizModel.data.maxQuestions + 1} completed</p>
                     </div>
                 </>
             )}
