@@ -59,13 +59,3 @@ nav {
     font-weight: bold;
   }
   
-
-  .menu a.disabled {
-    pointer-events: none !important;
-    opacity: 0.5 !important;
-    cursor: not-allowed !important;
-}
-
-.menu a.disabled:hover {
-    background-color: inherit !important;
-}

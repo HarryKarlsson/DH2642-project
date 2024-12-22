@@ -46,35 +46,28 @@ function NavbarView() {
 
 
 
-    return () => {
-        const isQuizPage = activePage.value === "#/quiz/page";
-
-        return (
-            <nav>
-                <h1 onClick={nameThatCountryButtonACB} class="nav-h1"> Name that country! </h1>
-                <div class="menu">
-                    <a onClick={mainButtonACB} class={activePage.value === "#/welcome" ? "active" : ""}>
-                        Main</a>
-                    <a onClick={practiceButtonACB} class={activePage.value === "#/practice" ? "active" : ""}>
-                        Practice
-                    </a>
-                    <a onClick={myProfileButtonACB} class={activePage.value === "#/myProfile" ? "active" : ""}>
-                        My profile
-                    </a>
-                    <a onClick={isQuizPage ? undefined : quizButtonACB} class={`${activePage.value === "#/quiz" ? "active" : ""} ${isQuizPage ? "disabled" : ""}`}>
-                        Quiz
-                    </a>
-                    <a onClick={highScoreButtonACB} class={activePage.value === "#/highScore" ? "active" : ""}>
-                        High score
-                    </a>
-                    <a onClick={signOutButtonACB}>Sign out</a>
-                </div>
-            </nav>
-        );
-
-    }
-        
-   
+    return () => (
+        <nav>
+            <h1 onClick={nameThatCountryButtonACB} class="nav-h1"> Name that country! </h1>
+            <div class="menu">
+                <a onClick={mainButtonACB} class={activePage.value === "#/welcome" ? "active" : ""}>
+                    Main</a>
+                <a onClick={practiceButtonACB} class={activePage.value === "#/practice" ? "active" : ""}>
+                    Practice
+                </a>
+                <a onClick={myProfileButtonACB} class={activePage.value === "#/myProfile" ? "active" : ""}>
+                    My profile
+                </a>
+                <a onClick={quizButtonACB} class={activePage.value === "#/quiz" ? "active" : ""}>
+                    Quiz
+                </a>
+                <a onClick={highScoreButtonACB} class={activePage.value === "#/highScore" ? "active" : ""}>
+                    High score
+                </a>
+                <a onClick={signOutButtonACB}>Sign out</a>
+            </div>
+        </nav>
+    );
 }
 
 export default defineComponent(NavbarView);
