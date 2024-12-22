@@ -59,9 +59,14 @@ export function QuizPageView() {
                     ) : (
                         <div>
                             <p className="scores">Score: {userModel.getQuizScore()}</p>
+                            {quizModel.data.hint && (
+                                        <p className="hint">
+                                            {quizModel.data.hint}
+                                        </p>
+                                    )}
 
                             {quizModel.data.currentQuestion && (
-                                <div>
+                                <div className="rendering">
                                     <h2>{quizModel.data.currentQuestion.question}</h2>
                                     {quizModel.data.currentQuestion.type === "flag" && 
                                      quizModel.data.currentQuestion.image && (
@@ -90,11 +95,7 @@ export function QuizPageView() {
                                         </div>
                                     )}
                                     
-                                    {quizModel.data.hint && (
-                                        <p style={{ color: "blue", marginTop: "10px" }}>
-                                            {quizModel.data.hint}
-                                        </p>
-                                    )}
+                                   
                                 </div>
                             )}
                         </div>
@@ -104,9 +105,9 @@ export function QuizPageView() {
                         <progress
                             className="progress-bar"
                             value={currentProgress}
-                            max={quizModel.data.maxQuestions + 1}
+                            max={quizModel.data.maxQuestions}
                         />
-                        <p>{currentProgress } / {quizModel.data.maxQuestions + 1} completed</p>
+                        <p>{currentProgress } / {quizModel.data.maxQuestions} completed</p>
                     </div>
                 </>
             )}
