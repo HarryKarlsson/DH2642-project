@@ -3,7 +3,7 @@ import userModel from "/src/userModel";
 import countryModel from "/src/countryModel";
 function WelcomeView(){
 
-    const highScoreData = (userModel.data.userScore / countryModel.data.maxQuestions) * 100;
+    const highScoreData = userModel.data.userScore ;
 
     function practiceButtonACB() {
         console.log("Practice button was clicked");

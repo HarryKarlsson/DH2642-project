@@ -117,7 +117,7 @@ export default defineComponent({
               <p id="userName">Name: {this.userModel.data.userName}</p>
               <p id="userEmail">Email: {this.userModel.data.userEmail}</p>
               <p className="welcome-message">Welcome!</p>
-              <button onClick={() => this.userModel.incrementScore()}>
+              {/* <button onClick={() => this.userModel.incrementScore()}>
                 increment score
               </button>
               
@@ -132,7 +132,7 @@ export default defineComponent({
 
                 <button onClick={() => resetScores()} >
                 reset scores
-                </button>
+                </button> */}
 
 
             </div>
