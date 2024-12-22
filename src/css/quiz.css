@@ -1,20 +1,32 @@
-
 .quiz-container {
     display: grid;
     flex-direction: column;
     align-items: center;
     background-color: white;
-    
 }
 
-.yes-exit{
+.yes-exit {
     background-color: green;
     color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
-.no-exit{
-background-color: #d3d3d3;
-color: white;
+.yes-exit:hover {
+    opacity: 0.9;
+}
+
+.no-exit {
+    background-color: #d3d3d3;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.no-exit:hover {
+    opacity: 0.9;
 }
 
 .quiz-title {
@@ -25,19 +37,17 @@ color: white;
     margin-top: 0px;
 }
 
-
 .scores {
     font-size: 20px;
     text-align: center;
-    background-color: #d3d3d3;
     margin-top: 0px;
-
 }
 
-.rendering{
-    background-color: grey;
+.rendering {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
 }
-
 
 .quiz-container img {
     display: block;
@@ -46,9 +56,7 @@ color: white;
     height: auto;
     display: flex;
     flex-direction: column;
-   
 }
-
 
 .overlay {
     position: fixed;
@@ -56,13 +64,12 @@ color: white;
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5); 
+    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000; 
+    z-index: 1000;
 }
-
 
 .popup {
     background-color: white;
@@ -74,20 +81,10 @@ color: white;
     width: 300px;
 }
 
-
-.popup button {
+.popup .yes-exit,
+.popup .no-exit {
     margin: 10px;
-    padding: 10px 20px;
-    font-size: 1rem;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
 }
-
-.popup button:hover {
-    opacity: 0.9;
-}
-
 
 input[type="text"] {
     padding: 10px;
@@ -95,77 +92,119 @@ input[type="text"] {
     max-width: 300px;
     border-radius: 5px;
     border: 1px solid #ddd;
-    justify-content: center;
-   
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
 }
 
 input[type="text"]:disabled {
     background-color: #f0f0f0;
 }
 
-button.exit {
-    background-color: lightcoral;  
+.exit-btn {
+    background-color: lightcoral;
     color: white;
     padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
-    margin: 10px;  
-    margin-left: 30px;
 }
 
-button.exit:hover {
-    background-color: #be1d1d; 
+.exit-btn:hover {
+    background-color: #be1d1d;
 }
 
-button.submit {
-    background-color:lightgreen;  
+.submit-btn {
+    background-color: lightgreen;
     color: white;
     padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
-    margin: 10px;  
-    
 }
 
-button.submit:hover {
-    background-color:darkgreen; 
+.submit-btn:hover {
+    background-color: darkgreen;
 }
 
-button.hint {
-    background-color:lightblue; 
+.hint-btn {
+    background-color: lightblue;
     color: white;
     padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
-    margin: 10px;  
 }
 
-button.hint:hover {
-    background-color: #0056b3; 
+.hint-btn:hover {
+    background-color: #0056b3;
 }
 
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
 
 .quiz-completed {
     text-align: center;
     margin-top: 30px;
 }
 
-.quiz-completed button {
+.quiz-completed .play-again-btn {
     background-color: #007bff;
     color: white;
     padding: 12px 20px;
     border-radius: 5px;
+    cursor: pointer;
 }
 
-.quiz-completed button:hover {
+.quiz-completed .play-again-btn:hover {
     background-color: #0056b3;
 }
 
-
-.correct-message {
-    color: green;
+.next.btn{
+    background-color: #d3d3d3;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
-.incorrect-message {
-    color: red;
+.next.btn:hover{
+    background-color: grey;
+
+}
+
+.progress-bar-container {
+    position: fixed;
+    bottom: 10px;
+    width: 100%;
+    text-align: center;
+    background-color: #f8f9fa;
+    padding: 10px 0;
+    border-top: 2px solid #dee2e6;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.progress-bar {
+    width: 80%;
+    height: 20px;
+    border-radius: 5px;
+    background-color: #e9ecef;
+}
+
+progress[value]::-webkit-progress-bar {
+    background-color: #e9ecef;
+    border-radius: 5px;
+}
+
+progress[value]::-webkit-progress-value {
+    background-color: #28a745;
+    border-radius: 5px;
+    transition: width 0.3s ease-in-out;
+}
+
+progress[value]::-moz-progress-bar {
+    background-color: #28a745;
+    border-radius: 5px;
+    transition: width 0.3s ease-in-out;
 }
