@@ -48,6 +48,10 @@
     padding: 10px 20px;
 }
 
+.back-btn:hover {
+    background-color: #d3d3d3;
+}
+
 /* Continue button to start the quiz */
 .continue-btn {
     border: 0px;
@@ -59,22 +63,8 @@
     cursor: pointer;
 }
 
-
-.back-btn:hover {
-    background-color: #d3d3d3;
-}
-
 .continue-btn:hover {
     background-color: #d3d3d3; 
-}
-
-
-.answer-input {
-    width: 100%;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 20px;
-    margin: 20px 0;
 }
 
 .not-sure-btn {
@@ -108,17 +98,29 @@
     cursor: pointer;
 }
 
+/*answer input */
 .answer-input {
+    width: 100%;
+    max-width: 400px;
     border: 0px;
     margin: 0 auto;
-    margin-left: 500px;
+    margin-left: 300px;
     border-radius: 10px;
     color: black;
     font-size: 18px;
     font-family: Arial;
-    padding: 10px 20px;
+    padding: 5px 10px;
     cursor: pointer;
 }
+
+.answer-input:focus {
+    border-color: #3e8e77; /* Highlighted border on focus */
+    background-color: #fff;
+    box-shadow: 0 0 8px rgba(62, 142, 119, 0.5);
+    outline: none;
+    place-items: center;
+}
+
 
 .submit-btn:hover {
     background-color: #b2cba2;

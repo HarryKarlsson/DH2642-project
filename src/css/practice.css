@@ -75,6 +75,13 @@
     margin: 20px 0;
 }
 
+.search-input:focus {
+    border-color: #3e8e77; /* Highlighted border on focus */
+    background-color: #fff;
+    box-shadow: 0 0 8px rgba(62, 142, 119, 0.5);
+    outline: none;
+}
+
 .countries-list {
     display: flex;
     flex-direction: column;

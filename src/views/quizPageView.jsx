@@ -50,6 +50,7 @@ export function QuizPageView(props) {
                                 onChange={handleInputChange}
                                 placeholder="Enter your answer"
                                 disabled={showResult}
+                                className="answer-input"
                             />
                             {!showResult && (
                                 <button 
