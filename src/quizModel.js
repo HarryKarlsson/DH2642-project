@@ -2,6 +2,7 @@ import { reactive } from 'vue';
 import { FetchCountryDataByRegion } from '/src/countrySource.js';
 import userModel from '/src/userModel.js';
 import { updateStateToFirebase } from '/src/firebaseModel';
+import { get } from 'firebase/database';
   
 const quizModel = {
     data: reactive({
@@ -20,9 +21,17 @@ const quizModel = {
         showSubmitPopup: false,
         currentQuestion: null,
         loading: false,
-        quizScore: 0
+        quizScore: 0,
+        isEnded: false
     }),
 
+    setIsEnded(isEnded) {
+        this.data.isEnded = isEnded;
+    },
+    
+    getIsEnded() {
+        return this.data.isEnded;
+    },
     
     setUserAnswer(answer) {
         this.data.userAnswer = answer;
@@ -202,6 +211,8 @@ const quizModel = {
     yesExit() {
         this.resetQuiz();
         this.data.showExitPopup = false;
+        this.data.isEnded = true;
+
         window.location.hash = "#/welcome";
     },
 
@@ -232,6 +243,8 @@ const quizModel = {
         this.data.currentQuestion = null;
         this.data.questionType = "flag";
         userModel.resetQuizScore();
+        this.data.quizScore = userModel.getQuizScore();
+        this.data.isEnded = false;
         
         if (this.data.region ) {
             return this.loadQuizCountries(this.data.region);

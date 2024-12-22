@@ -68,7 +68,7 @@ export function makeRouter() {
         if (to.meta.requiresAuth && !isSignedIn) {
             // Redirect to login if user is not signed in
             next({ path: "/login", query: { redirect: to.fullPath } });
-        } else if (to.path === "/quiz" && isSignedIn ) { // Check for quiz page specifically
+        } else if (to.path === "/quiz" && isSignedIn && !quizModel.getIsEnded()) { // Check for quiz page specifically
             try {
                 const savedData = loadStateFromFirebase(); 
                 console.log("savedData from firebase", savedData);
@@ -78,6 +78,7 @@ export function makeRouter() {
                     if (!confirmLoad) {
                         
                         quizModel.resetQuiz();
+                        quizModel.setIsEnded(true);
                         console.log("Resetting the quiz ");
                         next();
 
