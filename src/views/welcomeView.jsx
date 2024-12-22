@@ -22,7 +22,7 @@ function WelcomeView(){
                 Welcome, {userModel.data.userName}! <span className="globe">🌍</span>
 
             </h1>
-            <p>Your highscore is: {highScoreData}</p>
+            <p>Your highest score is: {highScoreData}</p>
             <div className="button-container">
             <button onClick={practiceButtonACB} className="practise-btn">
                 Practice

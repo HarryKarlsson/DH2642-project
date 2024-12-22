@@ -41,6 +41,7 @@ export async function connectToFirebaseQuiz(quizModel, watch) {
       quizModel.data.isCorrect,
       quizModel.data.showResult,
       quizModel.data.hint,
+      quizModel.data.isEnded
     ];
   };
 
@@ -100,7 +101,8 @@ export async function loadStateFromFirebase() {
               quizScore: savedState.quizScore,
               isCorrect: savedState.isCorrect,
               showResult: savedState.showResult,
-              userAnswer: savedState.userAnswer
+              userAnswer: savedState.userAnswer,
+              isEnded: savedState.isEnded
           };
       }
       return null;
