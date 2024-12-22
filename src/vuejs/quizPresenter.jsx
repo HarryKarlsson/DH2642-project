@@ -13,6 +13,9 @@ function QuizPresenter() {
     }
 
     async function handleContinueQuizACB() {
+
+        // reset data first if no data
+        quizModel.resetQuiz();
         
         if (!currentRegion) {
             alert("Please select a region before continuing.");

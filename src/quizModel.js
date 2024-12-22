@@ -18,35 +18,15 @@ const quizModel = {
         hint: "",
         showExitPopup: false,
         currentQuestion: null,
-        loading: false
+        loading: false,
+        quizScore: 0
     }),
-    saveQuizState() {
-        // Only save if we have actual quiz data
-        if (!this.data.region || !this.data.quizCountries || this.data.quizCountries.length === 0) {
-            console.log("No quiz data to save");
-            return;
-        }
-        const quizState = {
-            region: this.data.region,
-            quizCountries: this.data.quizCountries,
-            currentQuizIndex: this.data.currentQuizIndex,
-            questionType: this.data.questionType,
-            currentQuestion: this.data.currentQuestion,
-            quizCompleted: this.data.quizCompleted,
-            path: "#/quiz/page",
-            hint: this.data.hint,
-            quizScore: userModel.getQuizScore(),
-            userAnswer: this.data.userAnswer,
-            isCorrect: this.data.isCorrect,
-            showResult: this.data.showResult,
-            loading: this.data.loading
-        };
-        console.log("Saving quiz state:", quizState);
-        userModel.setQuizState(quizState);
-    },
+
+    
     setUserAnswer(answer) {
         this.data.userAnswer = answer;
     },
+
 
     async setRegion(region) {
         try {
@@ -166,10 +146,10 @@ const quizModel = {
     
         if (this.data.isCorrect) {
             userModel.incrementQuizScore();
+            this.data.quizScore = userModel.getQuizScore();
         }
     
         this.data.hint = "";
-        this.saveQuizState(); // Save after checking answer
         return this.data.isCorrect;
     },
   
@@ -177,7 +157,6 @@ const quizModel = {
         if (this.isQuizCompleted()) {
             console.log("Quiz completed!");
             this.data.quizCompleted = true;
-            this.saveQuizState(); // Save when quiz completes
             return;
         }
     
@@ -189,7 +168,6 @@ const quizModel = {
         this.data.showResult = false;
         this.data.userAnswer = "";
         
-        this.saveQuizState(); // Save after moving to next question
         console.log(`Moving to question ${this.data.currentQuizIndex + 1}`, nextQuestion);
     },
   
@@ -204,12 +182,10 @@ const quizModel = {
             return;
         }
         this.data.hint = `Hint: ${this.data.currentQuestion.answer.charAt(0).toUpperCase()}`;
-        this.saveQuizState(); // Save after showing hint
     },
     
     handleExit() {
         this.data.showExitPopup = true;
-        this.saveQuizState(); // Save when showing exit popup
     },
   
     yesExit() {

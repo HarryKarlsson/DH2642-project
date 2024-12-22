@@ -1,108 +1,112 @@
+
+
 import { getDatabase, ref, set, onValue, get } from "firebase/database";
 import { app } from "./firebaseConfig";
+import userModel from "/src/userModel";
+import quizModel from "/src/quizModel";  // Add this import
 
 const db = getDatabase(app);
 
-// Firebase Path for Quiz Data
-const QUIZ_PATH = "quizStates/";
 
-// Model to Persistence Conversion
-export function modelToPersistenceQuiz(model) {
-  return {
-    userEmail: model.data.userEmail,
-    userScore: model.data.userScore,
-    currentQuestion: model.data.currentQuestion,
-    userAnswer: model.data.userAnswer,
-    isCorrect: model.data.isCorrect,
-    quizCompleted: model.data.quizCompleted,
-    showResult: model.data.showResult,
-    hint: model.data.hint,
+export async function saveStateToFirebase(state) {
+  if (!userModel.data.isSignedIn || !userModel.data.userEmail) return;
+  const replacedEmail = userModel.data.userEmail.replaceAll(".", ",");
+  await set(ref(db, `users/${replacedEmail}/quizState`), state);
+  console.log("userState updated in Firebase for user:", userModel.data.userEmail);
+}
+export async function firBaseUpdateData(quizeModel) {
+
+  const replacedEmail = userModel.data.userEmail.replaceAll(".", ",");
+  set(ref(db, "users/" + replacedEmail + "/quizState"), quizeModel.data);
+  console.log("Quiz state updated in Firebase for user:", userModel.data.userEmail);
+}
+
+// firebaseModelQuiz.js
+export async function connectToFirebaseQuiz(quizModel, watch) {
+  // Use userModel for auth checks instead
+  if (!userModel.data.isSignedIn || !userModel.data.userEmail) return;
+  
+  const replacedEmail = userModel.data.userEmail.replaceAll(".", ",");
+  
+  // Setup watch to track specific properties
+  const checkACB = () => {
+    return [
+      quizModel.data.region,
+      quizModel.data.quizCountries,
+      quizModel.data.currentQuizIndex,
+      quizModel.data.questionType,
+      quizModel.data.currentQuestion,
+      quizModel.data.quizCompleted,
+      quizModel.data.userAnswer,
+      quizModel.data.isCorrect,
+      quizModel.data.showResult,
+      quizModel.data.hint,
+    ];
   };
-}
 
-// Persistence to Model Conversion
-export function persistenceToModelQuiz(dataFromPersistence, model) {
-  model.data.userEmail = dataFromPersistence?.userEmail || null;
-  model.data.userScore = dataFromPersistence?.userScore || 0;
-  model.data.currentQuestion = dataFromPersistence?.currentQuestion || null;
-  model.data.userAnswer = dataFromPersistence?.userAnswer || "";
-  model.data.isCorrect = dataFromPersistence?.isCorrect || false;
-  model.data.quizCompleted = dataFromPersistence?.quizCompleted || false;
-  model.data.showResult = dataFromPersistence?.showResult || false;
-  model.data.hint = dataFromPersistence?.hint || null;
-}
+  const sideEffectACB = async (changedValues, oldValues) => {
+    console.log("Quiz state changed, saving to Firebase");
+    await firBaseUpdateData(quizModel);
+  };
 
-// Save Quiz State to Firebase
-export async function saveToFirebaseQuiz(model) {
-  if (!model.data.userEmail) {
-    console.error("Cannot save quiz state: userEmail is missing");
-    return;
-  }
-  const replacedEmail = model.data.userEmail.replaceAll(".", ",");
-  const path = QUIZ_PATH + replacedEmail;
+  watch(checkACB, sideEffectACB);
 
-  try {
-    const dataToSave = modelToPersistenceQuiz(model);
-    await set(ref(db, path), dataToSave);
-    console.log("Quiz state saved to Firebase:", dataToSave);
-  } catch (error) {
-    console.error("Error saving quiz state to Firebase:", error);
-  }
-}
-
-// Load Quiz State from Firebase
-export async function readFromFirebaseQuiz(model) {
-  if (!model.data.userEmail) {
-    console.error("Cannot read quiz state: userEmail is missing");
-    return;
-  }
-  const replacedEmail = model.data.userEmail.replaceAll(".", ",");
-  const path = QUIZ_PATH + replacedEmail;
-
-  try {
-    const snapshot = await get(ref(db, path));
-    if (snapshot.exists()) {
-      const quizData = snapshot.val();
-      console.log("Quiz state read from Firebase:", quizData);
-      persistenceToModelQuiz(quizData, model);
-    } else {
-      console.log("No quiz state found for this user in Firebase.");
+  // Watch for remote changes
+  const userRef = ref(db, `users/${replacedEmail}/quizState`);
+  onValue(userRef, (snapshot) => {
+    const data = snapshot.val();
+    if (data) {
+      // Carefully update each property
+      Object.keys(data).forEach(key => {
+        if (key in quizModel.data) {
+          quizModel.data[key] = data[key];
+        }
+      });
+      console.log("Updated quiz state from Firebase:", data);
     }
+  });
+}
+
+
+export async function loadStateFromFirebase() {
+  if (!userModel.data.isSignedIn || !userModel.data.userEmail) return null;
+  
+  try {
+      const replacedEmail = userModel.data.userEmail.replaceAll(".", ",");
+      const snapshot = await get(ref(db, `users/${replacedEmail}/quizState`));
+      
+      if (snapshot.exists()) {
+          const savedState = snapshot.val();
+          
+          // Don't assign directly to quizModel.data
+          // Instead, update each property individually to maintain reactivity
+          Object.keys(savedState).forEach(key => {
+              if (key in quizModel.data) {
+                  quizModel.data[key] = savedState[key];
+              }
+          });
+          
+          console.log("Quiz state loaded from Firebase:", savedState);
+          return {
+              // Return the specific properties the restore function expects
+              path: "#/quiz/page",
+              region: savedState.region,
+              quizCountries: savedState.quizCountries,
+              currentQuizIndex: savedState.currentQuizIndex,
+              questionType: savedState.questionType,
+              currentQuestion: savedState.currentQuestion,
+              quizCompleted: savedState.quizCompleted,
+              hint: savedState.hint,
+              quizScore: savedState.quizScore,
+              isCorrect: savedState.isCorrect,
+              showResult: savedState.showResult,
+              userAnswer: savedState.userAnswer
+          };
+      }
+      return null;
   } catch (error) {
-    console.error("Error reading quiz state from Firebase:", error);
+      console.error("Error loading quiz state from Firebase:", error);
+      return null;
   }
 }
 
-// Synchronize Model with Firebase
-export function connectToFirebaseQuiz(model, watchFunction) {
-  // Watch for local changes in model
-  const modelProperties = () => [
-    model.data.userScore,
-    model.data.currentQuestion,
-    model.data.userAnswer,
-    model.data.isCorrect,
-    model.data.quizCompleted,
-    model.data.showResult,
-    model.data.hint,
-  ];
-
-  const saveModelChangesQuiz = () => {
-    saveToFirebaseQuiz(model);
-  };
-
-  // Watch function for local changes
-  watchFunction(modelProperties, saveModelChangesQuiz);
-
-  // Sync Firebase data to model
-  if (model.data.userEmail) {
-    const replacedEmail = model.data.userEmail.replaceAll(".", ",");
-    const path = QUIZ_PATH + replacedEmail;
-
-    const quizRef = ref(db, path);
-    onValue(quizRef, (snapshot) => {
-      const quizData = snapshot.val();
-      console.log("Quiz state updated from Firebase:", quizData);
-      persistenceToModelQuiz(quizData, model);
-    });
-  }
-}

@@ -1,6 +1,6 @@
 import { increment } from 'firebase/database';
 import { reactive } from 'vue';
-import { updateStateToFirebase, loadStateFromFirebase } from '/src/firebaseModel';
+// import { updateStateToFirebase, loadStateFromFirebase } from '/src/firebaseModel';
 const userModel = {
   data: reactive({
     userName: "",
@@ -9,28 +9,9 @@ const userModel = {
     userScore: 0,
     quizScore: 0,
     isNewUser: false,
-    userState: {
-      path: "",
-      region: "",
-      quizCountries: [],
-      currentQuizIndex: 0,
-      questionType: "flag",
-      currentQuestion: null,
-      quizCompleted: false,
-      hint: "",
-      quizScore: 0
-  },
 
   }),
 
-    setQuizState(quizState) {
-      this.data.userState = {
-        ...this.data.userState,
-        ...quizState
-      }
-  
-      updateStateToFirebase(this.data.userState);
-  },
 
   getQuizState() {
       return this.data.userState;

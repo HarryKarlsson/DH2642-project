@@ -5,9 +5,11 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChang
 import "../css/logIn.css";
 import { defineComponent, onMounted } from "vue";
 import userModel from "/src/userModel";
+import quizModel from "/src/quizModel";
 import {saveToFirebase, checkIfUserExists, getAllUsersFromFirebase, setUppDefaultHighScore, resetScores } from "/src/firebaseModel";
+import {loadStateFromFirebase} from "/src/firebaseModelQuiz";
 
-
+import {saveStateToFirebase} from "/src/firebaseModelQuiz";
 
 export async function signOutUser() {
   // if user is already signed out, do nothing
@@ -56,10 +58,11 @@ export default defineComponent({
         console.log("User exists in Firebase:", userExists);
         console.log("User model before save:", userModel);
 
-        if (!userExists) {
-            await saveToFirebase(userModel);
+       
+            await saveToFirebase(userModel);  
+            await saveStateToFirebase(quizModel.data);
             console.log("New user data saved to Firebase");  
-        }
+        
         window.location.hash = "#/welcome"; 
       } catch (error) {
         console.error("Sign-in error:", error);
@@ -119,7 +122,7 @@ export default defineComponent({
                 get all users
                 </button>
 
-                <button onClick={() => setUppDefaultHighScore(3)} >
+                <button onClick={() => loadStateFromFirebase()} >
                 set high score
                 </button>
 
