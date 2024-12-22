@@ -102,10 +102,10 @@ export function QuizPageView() {
                     <div className="progress-bar-container">
                         <progress
                             className="progress-bar"
-                            value={currentProgress}
-                            max={quizModel.data.maxQuestions + 1}
+                            value={currentProgress +1}
+                            max={quizModel.data.maxQuestions}
                         />
-                        <p>{currentProgress} / {quizModel.data.maxQuestions + 1} completed</p>
+                        <p>{currentProgress} / {quizModel.data.maxQuestions} completed</p>
                     </div>
                 </>
             )}
