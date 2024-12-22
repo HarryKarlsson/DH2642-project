@@ -8,6 +8,9 @@ import NavbarPresenter from './navbarPresenter';
 import ProfilePresenter from './profilePresenter';
 import QuizPagePresenter from './quizPagePresenter';
 import HighScorePresenter from './highscorePresenter';
+import { ref } from "vue";
+import "../css/testVueRoot.css";
+
 
 
 export function makeRouter() {
@@ -30,7 +33,7 @@ export function makeRouter() {
             {
                 path: "/practice",
                 component: <PracticePresenter/>,
-               // meta: { requiresAuth: true },
+                meta: { requiresAuth: false },
             },
             {
                 path: "/quiz",
@@ -75,12 +78,13 @@ export function makeRouter() {
 function VueRoot() {
     return (
         <div>
-            {<NavbarPresenter />}
+            <NavbarPresenter />
             <div>
-                {<RouterView />}
+                <RouterView />
             </div>
         </div>
     );
 }
 
 export {VueRoot};
+

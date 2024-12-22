@@ -42,6 +42,7 @@ export function QuizPageView() {
                                 {!quizModel.data.isCorrect && (
                                     <p>
                                         The correct answer was: <strong>{quizModel.data.currentQuestion.answer}</strong>
+
                                     </p>
                                 )}
                                 <button className="next-btn" onClick={() => quizModel.closeSubmitPopup()}>Next Question</button>

@@ -1,4 +1,5 @@
 import "../css/quiz.css";
+import "../css/practice.css"
 
 export function QuizView(props) {
     function dropdown(event) {
@@ -10,7 +11,7 @@ export function QuizView(props) {
     return (
         <div>
             <main>
-                <h2 className="title">Choose region <span className="globe">🌍</span></h2>
+                <h1 className="main-title">Choose region <span className="globe">🌍</span></h1>
                 <p className="region-qst">Which region do you want to choose?</p>
                 <select className="dropdown" onChange={dropdown}>
                     <option value="" disabled selected>

@@ -1,4 +1,4 @@
-// practiceView.js
+// practiceView.jsx
 import countryModel from '/src/countryModel';
 import "../css/practice.css";
 import {getPaginatedCountries,getTotalPages,handleNextPage,handlePrevPage,
@@ -129,20 +129,20 @@ const PracticeView = {
             <div className="app-container">
                 <div className="main-title-section">
                     <h1 className="main-title">Practice makes perfect <span className="globe">🌍</span></h1>
-                    <div className="control-buttons">
-                        <button 
-                            className="btn-default"
-                            onClick={() => resetData(this)}
-                        >
-                            Default
-                        </button>
-                        <button 
-                            className="btn-az"
-                            disabled={!this.countryData || Object.values(this.countryData).length <= 1}
-                            onClick={() => sortCountriesAZ(this)}
-                        >
-                            A-Z
-                        </button>
+                        <div className="control-buttons">
+                            <button 
+                                className="btn-default"
+                                onClick={() => resetData(this)}
+                            >
+                                Default
+                            </button>
+                            <button 
+                                className="btn-az"
+                                disabled={!this.countryData || Object.values(this.countryData).length <= 1}
+                                onClick={() => sortCountriesAZ(this)}
+                            >
+                                A-Z
+                            </button>
                     </div>
                 </div>
                 <div className="search-section">
