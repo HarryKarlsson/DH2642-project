@@ -5,6 +5,10 @@
 
 This is an web application designed to provide information and an interactive educational quiz experience. The application combines detailed country research with an interactive learning platform via a quiz game to improve your knowledge.
 
+## Target Group
+
+The target group for this application includes individuals who are interested in learning about world geography and testing their knowledge of countries all around the globe. This includes students, teachers, travelers, and someone interested in geography. The quiz and practice pages are great for users who want to learn in a fun way, while the profile and highscore pages are for those who like to track their progress and compete with others. The application is designed to be accessible and enjoyable for users of all ages, making it suitable for casual learners as well as those seeking a more structured learning experience.
+ 
 ## Key Features
 
 ###  Country Search
@@ -36,7 +40,7 @@ This is an web application designed to provide information and an interactive ed
 
 ## Prerequisites
 
-- Node.js ??
+- Node.js
 - npm 
 - Firebase Account
 
@@ -78,6 +82,10 @@ This is an web application designed to provide information and an interactive ed
 npm run dev
 ```
 
+
+
+### Mid project plan
+
 ## What We Still Plan to Do
  While the foundation of the application is complete, there are several features we still plan to implement and improve:
 
@@ -88,7 +96,9 @@ npm run dev
 - **Responsiveness**: Optimize the application for different screen sizes to ensure a seamless experience on both desktop and mobile devices.  
 
 
-## File Descriptions
+
+
+### File Descriptions
 
 ### highscoreView + Presenter
 Displays the high score view, showing either the user's personal best scores or a leaderboard of top players. Useful for tracking quiz results and competition.
@@ -111,5 +121,11 @@ The starting view for quizzes, allowing users to set up their preferences, such 
 ### welcomeView + Presenter
 The welcome screen of the application is the first page the user sees. It will include an introduction to the app and a button to get started.
 
-### homeView + Presenter
+### welcomeView + Presenter
 Represents the main homepage of the application. Acts as the main point for users, providing navigation to other sections like quizzes, profiles, or high scores.
+
+### logInView + presenter
+The login view provides users with the option to sign in using a Google account. If the user is not logged in, the interface will emphasize the importance of logging in so that the web app can track their state and save their scores. 
+
+### 3rd part component 
+The third-party component used is https://www.radix-vue.com/components/dialog.html. In the practice view, the dialog component is utilized to display country cards with information about each searched country.
