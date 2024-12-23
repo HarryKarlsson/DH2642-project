@@ -65,44 +65,49 @@ export function makeRouter() {
     // Add navigation guard
     router.beforeEach((to, from, next) => {
         const isSignedIn = auth.currentUser !== null; // Firebase auth check
+    
         if (to.meta.requiresAuth && !isSignedIn) {
+            // Redirect to login if not signed in
             next({ path: "/login", query: { redirect: to.fullPath } });
-        } if (to.path === '/login' && isSignedIn) {
-            next({ path: '/welcome' });
-        }else if (to.path === "/quiz" && isSignedIn && !quizModel.getIsEnded()) { // Check for quiz page specifically
-            try {
-                const savedData = loadStateFromFirebase(); 
-                console.log("savedData.currentQuestion from firebase", savedData);
-                if (savedData && savedData.currentQuestion !== null ) {
-                  
-                    const confirmLoad = window.confirm("You have a saved game. Do you want to load it? OK to load, Cancel to start a new game.");
-                    if (!confirmLoad) {
-                        
-                        quizModel.resetQuiz();
-                        quizModel.setIsEnded(true);
-                        console.log("Resetting the quiz ");
-                        next();
-
-                        return;
+        } else if (to.path === "/login" && isSignedIn) {
+            // Redirect signed-in users away from login
+            next({ path: "/welcome" });
+        } else if (to.path === "/quiz" && isSignedIn && !quizModel.getIsEnded()) {
+            // Load saved quiz state using .then()
+            loadStateFromFirebase()
+                .then((savedData) => {
+                    console.log("Saved data from Firebase:", savedData);
+    
+                    if (savedData && savedData.currentQuestion) {
+                        // Ask the user if they want to load the saved game
+                        const confirmLoad = window.confirm(
+                            "You have a saved game. Do you want to load it? OK to load, Cancel to start a new game."
+                        );
+    
+                        if (confirmLoad) {
+                            // Load the saved data and proceed
+                            quizModel.setQuizData(savedData);
+                            next({ path: "/quiz/page" });
+                        } else {
+                            // Reset quiz and proceed
+                            quizModel.resetQuiz();
+                            quizModel.setIsEnded(true);
+                            console.log("Quiz reset. Starting a new game.");
+                            next();
+                        }
                     } else {
-                        // Load the saved data
-                        quizModel.setQuizData(savedData);
-                    // redirect to the page with the saved data
-                       next({ path: "/quiz/page" }); 
+                        // No saved data, proceed normally
+                        console.log("No saved quiz data found.");
+                        next();
                     }
-                    
-
-                } else {
-                    // No saved data, proceed normally
-
-                    next();
-                }
-            } catch (error) {
-                console.error("Error loading saved quiz state:", error);
-                next(); // Proceed anyway if there's an error
-            }
+                })
+                .catch((error) => {
+                    // Handle errors in loading saved state
+                    console.error("Error loading saved quiz state:", error);
+                    next(); // Proceed to the requested route anyway
+                });
         } else {
-            // Proceed to the requested route
+            // Default case: Proceed to the requested route
             next();
         }
     });
