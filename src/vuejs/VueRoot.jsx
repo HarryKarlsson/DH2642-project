@@ -72,8 +72,8 @@ export function makeRouter() {
         }else if (to.path === "/quiz" && isSignedIn && !quizModel.getIsEnded()) { // Check for quiz page specifically
             try {
                 const savedData = loadStateFromFirebase(); 
-                console.log("savedData from firebase", savedData);
-                if (savedData && savedData.currentQuestion && savedData.region) {
+                console.log("savedData.currentQuestion from firebase", savedData);
+                if (savedData && savedData.currentQuestion !== null ) {
                   
                     const confirmLoad = window.confirm("You have a saved game. Do you want to load it? OK to load, Cancel to start a new game.");
                     if (!confirmLoad) {
@@ -94,7 +94,7 @@ export function makeRouter() {
 
                 } else {
                     // No saved data, proceed normally
-                    quizModel.resetQuiz();
+
                     next();
                 }
             } catch (error) {
