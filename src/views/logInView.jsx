@@ -11,6 +11,7 @@ import {loadStateFromFirebase} from "/src/firebaseModelQuiz";
 
 import {saveStateToFirebase} from "/src/firebaseModelQuiz";
 
+
 export async function signOutUser() {
   // if user is already signed out, do nothing
   if (!userModel.data.isSignedIn) {

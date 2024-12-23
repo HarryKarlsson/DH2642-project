@@ -1,5 +1,5 @@
 import { RouterView, createRouter, createWebHashHistory } from 'vue-router';
-import { auth } from "../authService"; // Firebase auth object
+import { auth } from "../firebaseConfig"
 import LogInPresenter from './logInPresenter';
 import Welcome from './WelcomePresenter'; 
 import PracticePresenter from './practicePresenter';
@@ -66,9 +66,10 @@ export function makeRouter() {
     router.beforeEach((to, from, next) => {
         const isSignedIn = auth.currentUser !== null; // Firebase auth check
         if (to.meta.requiresAuth && !isSignedIn) {
-            // Redirect to login if user is not signed in
             next({ path: "/login", query: { redirect: to.fullPath } });
-        } else if (to.path === "/quiz" && isSignedIn && !quizModel.getIsEnded()) { // Check for quiz page specifically
+        } if (to.path === '/login' && isSignedIn) {
+            next({ path: '/welcome' });
+        }else if (to.path === "/quiz" && isSignedIn && !quizModel.getIsEnded()) { // Check for quiz page specifically
             try {
                 const savedData = loadStateFromFirebase(); 
                 console.log("savedData from firebase", savedData);
