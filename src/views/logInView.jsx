@@ -94,14 +94,22 @@ export default defineComponent({
 
   render() {
     return (
+      
       <div className="login-title">
         <div className="main-title-logIn">
+        {!this.userModel.data.isSignedIn && (
           <h1>Login or create an account <span className="globe">🌍</span></h1>
+        )}
           <div className="under-title">
-            <h2 class="heading" >Welcome! Please log in or create an account by clicking the button</h2>
+        {!this.userModel.data.isSignedIn && (
+            <h2 className="heading"  >Welcome! Please log in or create an account by clicking the button</h2>
+        )}
           </div>
-        </div>
-        <div> {!this.userModel.data.isSignedIn && (
+        
+        </div> 
+        <div> 
+          
+        {!this.userModel.data.isSignedIn && (
             <button 
               className="btn-signIn" 
               id="signInButton" 
@@ -117,23 +125,6 @@ export default defineComponent({
               <p id="userName">Name: {this.userModel.data.userName}</p>
               <p id="userEmail">Email: {this.userModel.data.userEmail}</p>
               <p className="welcome-message">Welcome!</p>
-              {/* <button onClick={() => this.userModel.incrementScore()}>
-                increment score
-              </button>
-              
-
-                <button onClick={() => getAllUsersFromFirebase()}>
-                get all users
-                </button>
-
-                <button onClick={() => loadStateFromFirebase()} >
-                set high score
-                </button>
-
-                <button onClick={() => resetScores()} >
-                reset scores
-                </button> */}
-
 
             </div>
           )}
