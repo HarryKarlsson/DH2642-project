@@ -73,7 +73,7 @@ export function makeRouter() {
             try {
                 const savedData = loadStateFromFirebase(); 
                 console.log("savedData from firebase", savedData);
-                if (savedData && savedData.currentQuestion !== null ) {
+                if (savedData && savedData.currentQuestion && savedData.region) {
                   
                     const confirmLoad = window.confirm("You have a saved game. Do you want to load it? OK to load, Cancel to start a new game.");
                     if (!confirmLoad) {
@@ -94,7 +94,7 @@ export function makeRouter() {
 
                 } else {
                     // No saved data, proceed normally
-
+                    quizModel.resetQuiz();
                     next();
                 }
             } catch (error) {
