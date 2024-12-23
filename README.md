@@ -130,3 +130,20 @@ The login view provides users with the option to sign in using a Google account.
 
 ### 3rd part component 
 The third-party component used is https://www.radix-vue.com/components/dialog.html. In the practice view, the dialog component is utilized to display country cards with information about each searched country.
+
+
+The practiceView.jsx uses the following components from the `Radix Vue` library:
+
+- `DialogRoot`: Root component for the dialog.
+- `DialogTrigger`: Element that opens the dialog.
+- `DialogPortal`: Handles rendering the dialog outside the main DOM hierarchy.
+- `DialogOverlay`: Background overlay for the dialog.
+- `DialogContent`: Container for the dialog content.
+- `DialogTitle`: Title of the dialog.
+- `DialogDescription`: Description within the dialog.
+- `DialogClose`: Button or element to close the dialog.
+
+These components are used in the `CountryCard` sub-component to display country details in a modal.
+
+---
+
