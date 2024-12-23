@@ -36,7 +36,7 @@ The target group for this application includes individuals who are interested in
 - Node.js
 
 ### External API
-- Country Information: https://dev.me/products/country 
+- Country Information: https://countryapi.io
 
 ## Prerequisites
 
@@ -81,7 +81,8 @@ The target group for this application includes individuals who are interested in
 ```bash
 npm run dev
 ```
-
+### OBS
+If no countries or questions are shown, the API key with requests has probably ran out of requests. Please get a new api key from https://countryapi.io 
 
 
 ### Mid project plan
