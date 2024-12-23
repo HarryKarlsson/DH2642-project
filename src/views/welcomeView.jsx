@@ -23,6 +23,9 @@ function WelcomeView(){
 
             </h1>
             <p>Your highest score is: {highScoreData}</p>
+            <p className="welcome-message">
+                Ready to test your knowledge or practice your skills? Choose an option below!
+            </p>
             <div className="button-container">
             <button onClick={practiceButtonACB} className="practise-btn">
                 Practice

@@ -22,4 +22,5 @@ h1, h2, h3 {
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 8px;
+    text-align: center;
 }

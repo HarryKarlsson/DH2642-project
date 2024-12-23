@@ -5,7 +5,7 @@
     align-items: center;
     margin-bottom: 30px;
     background-color: #f0f0f0;
-    padding: 25px 40px;
+    padding: 0px 30px;
     width: 100%;
     box-sizing: border-box; 
 }
@@ -19,7 +19,7 @@
     text-shadow: 2px 2px 5px #c0c0c0; 
 }
 
-.app-container {
+.app-container, body {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
