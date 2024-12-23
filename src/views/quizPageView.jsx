@@ -54,7 +54,7 @@ export function QuizPageView() {
                         <div className="quiz-completed">
                             <h2>Quiz Completed!</h2>
                             <p>Your final score is: {userModel.getQuizScore()} / 10</p>
-                            <button onClick={() => quizModel.resetQuiz()}>Play Again</button>
+                            <button className="play-again-btn" onClick={() => quizModel.resetQuiz()}>Play Again</button>
                         </div>
                     ) : (
                         <div>
